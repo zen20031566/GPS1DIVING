@@ -4,6 +4,6 @@ public class CollectTrashQuestStep : QuestStep
 {
     private void Start()
     {
-        Debug.Log("Heltlo");
+        Debug.Log("Hello");
     }
 }
