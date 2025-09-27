@@ -1,4 +1,3 @@
-using UnityEditor.U2D.Sprites;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "QuestInfoSO", menuName = "Scriptable Objects/QuestInfoSO")]

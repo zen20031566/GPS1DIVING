@@ -2,8 +2,29 @@ using UnityEngine;
 
 public class CollectTrashQuestStep : QuestStep
 {
-    private void Start()
+    private int trashCollected = 0;
+    private int amountToComplete = 5;
+
+    private void OnEnable()
     {
-        Debug.Log("Hello");
+        GameEventsManager.Instance.TrashEvents.OnTrashCollected += TrashCollected;
+    }
+
+    private void OnDisable()
+    {
+        GameEventsManager.Instance.TrashEvents.OnTrashCollected -= TrashCollected;
+    }
+
+    private void TrashCollected(TrashSO trashData)
+    {
+        if (trashCollected < amountToComplete)
+        {
+            trashCollected++;
+        }
+
+        if (trashCollected >= amountToComplete)
+        {
+            FinishQuestStep();
+        }
     }
 }

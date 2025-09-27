@@ -15,5 +15,6 @@ MonoBehaviour:
   <id>k__BackingField: CollectTrashQuest
   displayName: 'Collect all the trash '
   questPrerequisites: []
-  questStepPrefabs: []
-  goldReward: 0
+  questStepPrefabs:
+  - {fileID: 1280569040684609729, guid: 7a4fd59146e09b24785e30ef306aca14, type: 3}
+  goldReward: 5
