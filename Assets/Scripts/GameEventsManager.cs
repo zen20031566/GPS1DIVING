@@ -7,9 +7,11 @@ public class GameEventsManager : MonoBehaviour
     //Events
     public TrashEvents TrashEvents { get; set; }
     public WeightEvents WeightEvents { get; set; }
+    public QuestEvents QuestEvents { get; set; }
 
     private void Awake()
     {
+        //Singleton
         if (Instance != null)
         {
             Debug.LogError("More than 1 instance of GameEventManager found");
@@ -20,6 +22,7 @@ public class GameEventsManager : MonoBehaviour
         //Initialize events
         TrashEvents = new TrashEvents();
         WeightEvents = new WeightEvents();
+        QuestEvents = new QuestEvents();
     }
 
 

@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 
 public class TrashEvents 
 {
@@ -8,4 +9,5 @@ public class TrashEvents
     {
         OnTrashCollected?.Invoke(trashData);
     }
+
 }

@@ -25,6 +25,19 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    private void Update()
+    {
+        if (InputManager.InteractPressed)
+        {
+            Debug.Log("Interact");
+        }
+
+        if (!InputManager.InteractPressed)
+        {
+            Debug.Log("Interact Release");
+        }
+    }
+
     void FixedUpdate()
     {
         isInWater = transform.position.y <= waterLevel;
