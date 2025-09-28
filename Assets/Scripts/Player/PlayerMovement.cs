@@ -31,11 +31,6 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("Interact");
         }
-
-        if (!InputManager.InteractPressed)
-        {
-            Debug.Log("Interact Release");
-        }
     }
 
     void FixedUpdate()
