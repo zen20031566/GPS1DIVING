@@ -22,33 +22,54 @@ public class Quest
 
     public bool CurrentStepExists()
     {
-        return (currentQuestStepIndex < info.questStepPrefabs.Length);
+        return (currentQuestStepIndex < info.questStepConfigs.Length);
 
     }
 
     public void InstantiateCurrentQuestStep(Transform parentTransform)
     {
-        GameObject questStepPrefab = GetCurrentQuestStepPrefab();
-        if(questStepPrefab != null)
-        {
-            QuestStep questStep = Object.Instantiate<GameObject>(questStepPrefab, parentTransform).GetComponent<QuestStep>();
+        //GameObject questStepPrefab = GetCurrentQuestStepPrefab();
+        //if(questStepPrefab != null)
+        //{
+        //    QuestStep questStep = Object.Instantiate<GameObject>(questStepPrefab, parentTransform).GetComponent<QuestStep>();
 
-            //Tells the queststep what quest it belongs to
-            questStep.InitializeQuestStep(info.id);
+        //    //Tells the queststep what quest it belongs to
+        //    questStep.InitializeQuestStep(info.id);
+        //}
+
+        QuestStepConfig config = GetCurrentQuestStepConfig();
+        if (config != null)
+        {
+            // Use factory to create the appropriate quest step
+            QuestStep questStep = QuestStepFactory.CreateQuestStep(config, info.id, parentTransform);
         }
     }
 
-    private GameObject GetCurrentQuestStepPrefab()
+    private QuestStepConfig GetCurrentQuestStepConfig()
     {
-        GameObject questStepPrefab = null;
         if (CurrentStepExists())
         {
-            questStepPrefab = info.questStepPrefabs[currentQuestStepIndex]; 
+            return info.questStepConfigs[currentQuestStepIndex];
         }
         else
         {
-            Debug.LogWarning("Tried to get quest step prefab but stepIndex was out of range indicating that there is no current step: QuestID=" + info.id);
+            Debug.LogWarning("Tried to get quest step but stepIndex was out of range indicating that there is no current step: QuestID=" + info.id);
         }
-        return questStepPrefab;
+        return null;
     }
+
+    //private GameObject GetCurrentQuestStepPrefab()
+    //{
+    //    GameObject questStepPrefab = null;
+    //    if (CurrentStepExists())
+    //    {
+    //        questStepPrefab = info.questStepPrefabs[currentQuestStepIndex];
+    //    }
+    //    else
+    //    {
+    //        Debug.LogWarning("Tried to get quest step prefab but stepIndex was out of range indicating that there is no current step: QuestID=" + info.id);
+    //    }
+    //    return questStepPrefab;
+    //}
 }
+

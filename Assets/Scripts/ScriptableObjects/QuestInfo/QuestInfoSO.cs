@@ -12,7 +12,8 @@ public class QuestInfoSO : ScriptableObject
     public QuestInfoSO[] questPrerequisites;
 
     //Quest Steps
-    public GameObject[] questStepPrefabs;
+    //public GameObject[] questStepPrefabs;
+    public QuestStepConfig[] questStepConfigs;
 
     //Rewards
     public int goldReward;

@@ -8,6 +8,9 @@ public abstract class QuestStep : MonoBehaviour
     //Properties
     public string QuestId => questId;
 
+    //Configure atributes of queststep if any
+    public abstract void Configure(QuestStepConfig config);
+
     //Get what quest this queststep belongs to
     public void InitializeQuestStep(string questId)
     {
