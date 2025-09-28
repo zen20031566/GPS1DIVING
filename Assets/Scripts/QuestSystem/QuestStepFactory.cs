@@ -26,6 +26,8 @@ public static class QuestStepFactory
 
     private static void ConfigureQuestStep(QuestStep questStep, QuestStepConfig config)
     {
+        questStep.Configure(config);
+
         switch (questStep)
         {
             case CollectTrashQuestStep collectionStep:

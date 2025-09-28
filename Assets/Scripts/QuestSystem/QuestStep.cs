@@ -3,13 +3,20 @@ using UnityEngine;
 public abstract class QuestStep : MonoBehaviour
 {
     private bool isFinished = false;
-    private string questId;
+    protected string questId;
+    protected string description;
+
+    //Properties
+    public string Description => description;
 
     //Properties
     public string QuestId => questId;
 
     //Configure atributes of queststep if any
-    public abstract void Configure(QuestStepConfig config);
+    public virtual void Configure(QuestStepConfig config)
+    {
+        description = config.description;
+    }
 
     //Get what quest this queststep belongs to
     public void InitializeQuestStep(string questId)

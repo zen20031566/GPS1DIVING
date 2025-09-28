@@ -1,9 +1,13 @@
 using UnityEngine;
+using static UnityEngine.Rendering.STP;
 
 public class CollectTrashQuestStep : QuestStep
 {
     private int trashCollected = 0;
     private int amountToComplete = 5;
+
+    private string baseDescription;
+    private string progressDescription;
 
     private void OnEnable()
     {
@@ -18,6 +22,18 @@ public class CollectTrashQuestStep : QuestStep
     public override void Configure(QuestStepConfig config)
     {
         amountToComplete = config.amountToComplete;
+        progressDescription = " (" + trashCollected + "/" + amountToComplete + ")";
+
+        if (config.description != string.Empty)
+        {
+            baseDescription = config.description;
+        }
+        else
+        {
+            baseDescription = "Collect trash ";
+        }
+
+        description = baseDescription + progressDescription;
     }
 
     private void TrashCollected(TrashSO trashData)
@@ -25,6 +41,9 @@ public class CollectTrashQuestStep : QuestStep
         if (trashCollected < amountToComplete)
         {
             trashCollected++;
+            progressDescription = " (" + trashCollected + "/" + amountToComplete + ")";
+            description = baseDescription + progressDescription;
+            GameEventsManager.Instance.QuestStepEvents.QuestStepProgressChanged(questId);
         }
 
         if (trashCollected >= amountToComplete)

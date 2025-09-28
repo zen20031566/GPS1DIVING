@@ -29,4 +29,5 @@ public class QuestEvents
     {
         OnQuestStateChange?.Invoke(quest);
     }
+
 }

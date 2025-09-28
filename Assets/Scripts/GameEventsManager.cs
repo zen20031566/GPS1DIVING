@@ -8,6 +8,7 @@ public class GameEventsManager : MonoBehaviour
     public TrashEvents TrashEvents { get; set; }
     public WeightEvents WeightEvents { get; set; }
     public QuestEvents QuestEvents { get; set; }
+    public QuestStepEvents QuestStepEvents { get; set; }
 
     private void Awake()
     {
@@ -23,6 +24,7 @@ public class GameEventsManager : MonoBehaviour
         TrashEvents = new TrashEvents();
         WeightEvents = new WeightEvents();
         QuestEvents = new QuestEvents();
+        QuestStepEvents = new QuestStepEvents();
     }
 
 
