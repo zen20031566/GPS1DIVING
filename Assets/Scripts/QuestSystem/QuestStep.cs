@@ -3,15 +3,23 @@ using UnityEngine;
 public abstract class QuestStep : MonoBehaviour
 {
     private bool isFinished = false;
+    private string questId;
+
+    //Properties
+    public string QuestId => questId;
+
+    //Get what quest this queststep belongs to
+    public void InitializeQuestStep(string questId)
+    {
+        this.questId = questId;
+    }
 
     protected void FinishQuestStep()
     {
         if (!isFinished)
         {
             isFinished = true;
-
-            //Advance the quest 
-
+            GameEventsManager.Instance.QuestEvents.AdvanceQuest(questId);
             Destroy(gameObject);
         }
     }

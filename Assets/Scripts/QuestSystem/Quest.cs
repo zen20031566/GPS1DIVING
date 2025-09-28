@@ -22,7 +22,8 @@ public class Quest
 
     public bool CurrentStepExists()
     {
-        return (currentQuestStepIndex < info.questStepPrefabs.Length);  
+        return (currentQuestStepIndex < info.questStepPrefabs.Length);
+
     }
 
     public void InstantiateCurrentQuestStep(Transform parentTransform)
@@ -30,7 +31,10 @@ public class Quest
         GameObject questStepPrefab = GetCurrentQuestStepPrefab();
         if(questStepPrefab != null)
         {
-            Object.Instantiate<GameObject>(questStepPrefab, parentTransform);
+            QuestStep questStep = Object.Instantiate<GameObject>(questStepPrefab, parentTransform).GetComponent<QuestStep>();
+
+            //Tells the queststep what quest it belongs to
+            questStep.InitializeQuestStep(info.id);
         }
     }
 

@@ -33,19 +33,83 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        foreach (Quest quest in questMap.Values)
+        {
+            if (quest.state == QuestState.REQUIREMENTS_NOT_MET && CheckRequirementsMet(quest))
+            {
+                ChangeQuestState(quest.info.id, QuestState.CAN_START);
+            }
+        }
+    }
+
+    private void ChangeQuestState(string id, QuestState state)
+    {
+        Quest quest = GetQuestById(id);
+        quest.state = state;
+        GameEventsManager.Instance.QuestEvents.QuestStateChange(quest);
+    }
+
+    private bool CheckRequirementsMet(Quest quest)
+    {
+        bool meetsRequirements = true;
+
+        //Check if prerequisite quests are done
+        foreach (QuestInfoSO prerequisiteQuestInfo in quest.info.questPrerequisites)
+        {
+            if (GetQuestById(prerequisiteQuestInfo.id).state != QuestState.FINISHED)
+            {
+                meetsRequirements = false;
+            }
+        }
+
+        return meetsRequirements;
+    }
+
     private void StartQuest(string id)
     {
         Debug.Log("Start Quest: " + id);
+
+        Quest quest = GetQuestById(id);
+
+        quest.InstantiateCurrentQuestStep(this.transform);
+        ChangeQuestState(quest.info.id, QuestState.IN_PROGRESS);
     }
 
     private void AdvanceQuest(string id)
     {
         Debug.Log("Advance Quest: " + id);
+
+        Quest quest = GetQuestById(id);
+
+        quest.MoveToNextStep();
+
+        //If there are more quest steps
+        if (quest.CurrentStepExists())
+        {
+            quest.InstantiateCurrentQuestStep(this.transform);
+        }
+        //No more steps
+        else
+        {
+            ChangeQuestState(quest.info.id, QuestState.CAN_FINISH);
+        }
     }
 
     private void FinishQuest(string id)
     {
         Debug.Log("Finish Quest: " + id);
+
+        Quest quest = GetQuestById(id);
+        ClaimRewards(quest);
+        ChangeQuestState(quest.info.id, QuestState.FINISHED);
+
+    }
+
+    private void ClaimRewards(Quest quest)
+    {
+        //rewards
     }
 
     private Dictionary<string, Quest> CreateQuestMap()

@@ -17,6 +17,7 @@ public class QuestPoint : MonoBehaviour
         questId = questInfoForPoint.id;
     }
 
+
     private void OnEnable()
     {
         GameEventsManager.Instance.QuestEvents.OnQuestStateChange += QuestStateChange;
@@ -25,6 +26,33 @@ public class QuestPoint : MonoBehaviour
     private void OnDisable()
     {
         GameEventsManager.Instance.QuestEvents.OnQuestStateChange -= QuestStateChange;
+    }
+
+    private void Update()
+    {
+        if (playerIsNear)
+        {
+            if (InputManager.InteractPressed)
+            {
+                if (currentQuestState.Equals(QuestState.CAN_START))
+                {
+                    GameEventsManager.Instance.QuestEvents.StartQuest(questId);
+                }
+                else if (currentQuestState.Equals(QuestState.CAN_FINISH))
+                {
+                    GameEventsManager.Instance.QuestEvents.FinishQuest(questId);
+                }
+            }
+        }
+    }
+
+    private void QuestStateChange(Quest quest)
+    {
+        if (quest.info.id.Equals(questId))
+        {
+            currentQuestState = quest.state;
+            Debug.Log("Quest with id: " + questId + " updated to state: " + currentQuestState);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -43,8 +71,5 @@ public class QuestPoint : MonoBehaviour
         }
     }
 
-    private void QuestStateChange(Quest quest)
-    {
-
-    }
+   
 }
