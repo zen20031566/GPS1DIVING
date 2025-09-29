@@ -18,7 +18,7 @@ public class InputManager : MonoBehaviour
     {
         PlayerInput = GetComponent<PlayerInput>();
 
-        moveAction = PlayerInput.actions.FindAction("Move");
+        moveAction = PlayerInput.actions.FindAction("Movement");
         interactAction = PlayerInput.actions.FindAction("Interact");
     }
 
