@@ -5,6 +5,7 @@ using UnityEngine;
 public class QuestPoint : MonoBehaviour
 {
     [SerializeField] private QuestInfoSO questInfoForPoint;
+    [SerializeField] private QuestIcon questIcon;
 
     private bool playerIsNear = false;
 
@@ -52,7 +53,10 @@ public class QuestPoint : MonoBehaviour
         {
             currentQuestState = quest.state;
             Debug.Log("Quest with id: " + questId + " updated to state: " + currentQuestState);
+
+            questIcon.SetState(currentQuestState);
         }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
