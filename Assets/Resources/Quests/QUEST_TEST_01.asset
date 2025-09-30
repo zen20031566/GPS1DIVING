@@ -21,9 +21,9 @@ MonoBehaviour:
     amountToComplete: 3
     targetPosition: {x: 0, y: 0}
     triggerRadius: 0
-  - stepType: 0
-    description: 
+  - stepType: 1
+    description: Go deeper
     amountToComplete: 4
-    targetPosition: {x: 0, y: 0}
-    triggerRadius: 0
+    targetPosition: {x: 1.6, y: -43.3}
+    triggerRadius: 24.85
   goldReward: 2

@@ -8,8 +8,6 @@ public abstract class QuestStep : MonoBehaviour
 
     //Properties
     public string Description => description;
-
-    //Properties
     public string QuestId => questId;
 
     //Configure atributes of queststep if any

@@ -26,6 +26,4 @@ public class GameEventsManager : MonoBehaviour
         QuestEvents = new QuestEvents();
         QuestStepEvents = new QuestStepEvents();
     }
-
-
 }
