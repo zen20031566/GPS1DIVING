@@ -5,7 +5,7 @@ public class EquipmentManager : MonoBehaviour
 {
     private Dictionary<string, EquipmentSO> allEquipmentsMap;
 
-    private List<EquipmentSO> playerEquipment;
+    private List<EquipmentSO> playerEquipment = new List<EquipmentSO>();
 
     //Properties
     public List<EquipmentSO> PlayerEquipment => playerEquipment;
@@ -13,6 +13,16 @@ public class EquipmentManager : MonoBehaviour
     private void Awake()
     {
         allEquipmentsMap = CreateEquipmentMap();
+    }
+
+    private void Start()
+    {
+        GiveEquipment("EQUIPMENT_01");
+
+        foreach (EquipmentSO equipment in playerEquipment)
+        {
+            Debug.Log(equipment.Id);
+        }
     }
 
     private void GiveEquipment(string id)

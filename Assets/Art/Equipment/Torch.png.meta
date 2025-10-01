@@ -138,86 +138,20 @@ TextureImporter:
       name: Torch_0
       rect:
         serializedVersion: 2
-        x: 100
-        y: 158
-        width: 11
-        height: 34
+        x: 0
+        y: 0
+        width: 200
+        height: 200
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2ca216337358b4980800000000000000
-      internalID: -8553596595128423742
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Torch_1
-      rect:
-        serializedVersion: 2
-        x: 117
-        y: 155
-        width: 16
-        height: 28
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1826ec48eb1d59400800000000000000
-      internalID: 330400763883709057
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Torch_2
-      rect:
-        serializedVersion: 2
-        x: 129
-        y: 146
-        width: 26
-        height: 28
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0da9a7d25b1e57060800000000000000
-      internalID: 6950709768184568528
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Torch_3
-      rect:
-        serializedVersion: 2
-        x: 29
-        y: 5
-        width: 110
-        height: 152
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b59a47b6abead9b00800000000000000
-      internalID: 837017221450738011
+      spriteID: 401dfa2c316ed634c874deff760e9abd
+      internalID: 1025692012
       vertices: []
       indices: 
       edges: []
@@ -226,7 +160,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 30f983b5c1c15ea49859ff9a07040db1
     internalID: 0
     vertices: []
     indices: 
@@ -235,7 +169,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Torch_0: 1025692012
+      Torch_3: 837017221450738011
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

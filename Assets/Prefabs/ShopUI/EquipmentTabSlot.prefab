@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -89,9 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b62780527072b4795b05c6201a7e7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  upgradeTab: {fileID: 1755423905583320060, guid: 73e82c4fc3c94554dab7a3aa5ff7e124, type: 3}
-  upgradeTabSlotPrefab: {fileID: 3631773722132459445, guid: 73e82c4fc3c94554dab7a3aa5ff7e124, type: 3}
+  icon: {fileID: 5811128344531804598}
 --- !u!1 &9038473137091178640
 GameObject:
   m_ObjectHideFlags: 0

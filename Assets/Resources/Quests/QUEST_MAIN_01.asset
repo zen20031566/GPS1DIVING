@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb56f15c0a66c1d4b84b47a2dc04a3d9, type: 3}
   m_Name: QUEST_MAIN_01
   m_EditorClassIdentifier: 
-  <id>k__BackingField: QUEST_MAIN_01
-  displayName: 
-  questPrerequisites: []
-  questStepConfigs: []
-  goldReward: 0
+  <Id>k__BackingField: QUEST_MAIN_01
+  DisplayName: 
+  QuestPrerequisites: []
+  QuestStepConfigs: []
+  GoldReward: 0

@@ -12,18 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb56f15c0a66c1d4b84b47a2dc04a3d9, type: 3}
   m_Name: QUEST_TEST_01
   m_EditorClassIdentifier: 
-  <id>k__BackingField: QUEST_TEST_01
-  displayName: Cleaning up the ocean
-  questPrerequisites: []
-  questStepConfigs:
-  - stepType: 0
-    description: 
-    amountToComplete: 3
-    targetPosition: {x: 0, y: 0}
-    triggerRadius: 0
-  - stepType: 1
-    description: Go deeper
-    amountToComplete: 4
-    targetPosition: {x: 1.6, y: -43.3}
-    triggerRadius: 24.85
-  goldReward: 2
+  <Id>k__BackingField: QUEST_TEST_01
+  DisplayName: 
+  QuestPrerequisites: []
+  QuestStepConfigs: []
+  GoldReward: 0

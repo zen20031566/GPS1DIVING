@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8fc4a0d57a9a91f478ece5d7e7e29039, type: 3}
-  m_Name: TorchSO
+  m_Name: EQUIPMENT_01
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 
-  Prefab: {fileID: 0}
-  DisplayName: 
-  Sprite: {fileID: 0}
-  Icon: {fileID: 0}
-  BaseCost: 0
-  Description: 
+  <Id>k__BackingField: EQUIPMENT_01
+  Prefab: {fileID: 2522712718670770833, guid: 196c72f698ebf2445b35cbd170fd44c2, type: 3}
+  DisplayName: Torch
+  Sprite: {fileID: 1025692012, guid: 5b3b96dec2ed5a24abaa2e479e4161a1, type: 3}
+  Icon: {fileID: 1025692012, guid: 5b3b96dec2ed5a24abaa2e479e4161a1, type: 3}
+  BaseCost: 100
+  Description: Brings light
   EquipmentUpgrades: []

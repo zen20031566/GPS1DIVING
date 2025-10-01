@@ -21,6 +21,11 @@ public class ShopUI : MonoBehaviour
         ClearEquipmentTab();
     }
 
+    private void Start()
+    {
+        FillEquipmentTab();
+    }
+
     //Equipment Tab
     private void FillEquipmentTab()
     {
@@ -40,9 +45,9 @@ public class ShopUI : MonoBehaviour
 
     private void InstantiateEquipmentSlot(EquipmentSO equipmentData)
     {
-        EquipmentTabSlot equipmentTabSlot;
-        equipmentTabSlot = Instantiate(equipmentTabSlotPrefab, equipmentTab);
+        EquipmentTabSlot equipmentTabSlot = Instantiate(equipmentTabSlotPrefab, equipmentTab);
         equipmentTabSlot.InitializeEquipmentSlot(equipmentData);
+        Debug.Log("SPawn");
     }
 
     //Upgrades Tab
