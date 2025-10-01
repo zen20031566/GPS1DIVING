@@ -3,13 +3,13 @@ using System;
 public class QuestEvents 
 {
     public event Action<string> OnStartQuest;
+    public event Action<string> OnAdvanceQuest;
+    public event Action<Quest> OnQuestStateChange;
 
     public void StartQuest(string id)
     {
         OnStartQuest?.Invoke(id);
     }
-
-    public event Action<string> OnAdvanceQuest;
 
     public void AdvanceQuest(string id)
     {
@@ -22,8 +22,6 @@ public class QuestEvents
     {
         OnFinishQuest?.Invoke(id);
     }
-
-    public event Action<Quest> OnQuestStateChange;
 
     public void QuestStateChange(Quest quest)
     {

@@ -1,8 +1,16 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
+
+    //Collision checks
+    [SerializeField] private float groundDetectionRayLength = 0.02f;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private BoxCollider2D feetCol;
+    private RaycastHit2D groundHit;
+    private bool isGrounded = false;
 
     //Movement variables
     [SerializeField] private float moveAcceleration = 5f;
@@ -35,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        CheckGrounded();
         isInWater = transform.position.y <= waterLevel;
 
         Float(InputManager.MoveDirection);
@@ -51,15 +60,15 @@ public class PlayerMovement : MonoBehaviour
         {
             Turn(moveDirection);
 
-            //Prevent upwards movement when above water
-            if (moveDirection.y >= 0 && !isInWater)
-            {
-                return;
-            }
-
             Vector2 targetVelocity = Vector2.zero;
             if (InputManager.MoveHeld)
             {
+                //Prevent upwards movement when above water
+                if (moveDirection.y >= 0 && !isInWater)
+                {
+                    moveDirection.y = 0;
+                }
+
                 targetVelocity = new Vector2(moveDirection.x, moveDirection.y) * moveSpeed;
             }
 
@@ -117,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
     private void Gravity()
     {
         //When not in water
-        if (!isInWater)
+        if (!isInWater && !isGrounded)
         {
             moveVelocity.y -= gravity * Time.fixedDeltaTime;
         }
@@ -125,7 +134,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Float(Vector2 moveDirection)
     {
-        if(isInWater)
+        if(isInWater && !isGrounded)
         {
             float depth = Mathf.Abs(transform.position.y);
             float depthMultiplier = Mathf.Clamp(depth, waterLevel, maxBuoyancyDepth); //Cap at max depth
@@ -134,6 +143,20 @@ public class PlayerMovement : MonoBehaviour
             {
                 moveVelocity.y += buoyancyForce * depthMultiplier * Time.fixedDeltaTime;
             }
+        }
+    }
+
+    private void CheckGrounded()
+    {
+        groundHit = Physics2D.BoxCast(feetCol.bounds.center, feetCol.bounds.size, 0f, Vector2.down, groundDetectionRayLength, groundLayer);
+
+        if (!isGrounded && groundHit)
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
         }
     }
 }
