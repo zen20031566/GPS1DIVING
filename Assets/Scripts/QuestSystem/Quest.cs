@@ -2,29 +2,29 @@ using UnityEngine;
 
 public class Quest
 {
-    public QuestInfoSO info;
+    public QuestInfoSO Info;
 
-    public QuestState state;
+    public QuestState State;
 
-    public QuestStep currentQuestStep = null;
+    public QuestStep CurrentQuestStep = null;
 
-    private int currentQuestStepIndex;
+    private int CurrentQuestStepIndex;
 
     public Quest(QuestInfoSO questInfo)
     {
-        this.info = questInfo;
-        this.state = QuestState.REQUIREMENTS_NOT_MET;
-        this.currentQuestStepIndex = 0;
+        this.Info = questInfo;
+        this.State = QuestState.REQUIREMENTS_NOT_MET;
+        this.CurrentQuestStepIndex = 0;
     }
 
     public void MoveToNextStep()
     {
-        currentQuestStepIndex++;
+        CurrentQuestStepIndex++;
     }
 
     public bool CurrentStepExists()
     {
-        return (currentQuestStepIndex < info.questStepConfigs.Length);
+        return (CurrentQuestStepIndex < Info.QuestStepConfigs.Length);
 
     }
 
@@ -34,8 +34,8 @@ public class Quest
         if (config != null)
         {
             // Use factory to create the appropriate quest step
-            currentQuestStep = QuestStepFactory.CreateQuestStep(config, info.id, parentTransform);
-            GameEventsManager.Instance.QuestStepEvents.QuestStepCreated(info.id);
+            CurrentQuestStep = QuestStepFactory.CreateQuestStep(config, Info.Id, parentTransform);
+            GameEventsManager.Instance.QuestStepEvents.QuestStepCreated(Info.Id);
         }
     }
 
@@ -43,11 +43,11 @@ public class Quest
     {
         if (CurrentStepExists())
         {
-            return info.questStepConfigs[currentQuestStepIndex];
+            return Info.QuestStepConfigs[CurrentQuestStepIndex];
         }
         else
         {
-            Debug.LogWarning("Tried to get quest step but stepIndex was out of range indicating that there is no current step: QuestID=" + info.id);
+            Debug.LogWarning("Tried to get quest step but stepIndex was out of range indicating that there is no current step: QuestID=" + Info.Id);
         }
         return null;
     }

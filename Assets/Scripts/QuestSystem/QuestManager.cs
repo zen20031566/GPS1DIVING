@@ -37,9 +37,9 @@ public class QuestManager : MonoBehaviour
     {
         foreach (Quest quest in questMap.Values)
         {
-            if (quest.state == QuestState.REQUIREMENTS_NOT_MET && CheckRequirementsMet(quest))
+            if (quest.State == QuestState.REQUIREMENTS_NOT_MET && CheckRequirementsMet(quest))
             {
-                ChangeQuestState(quest.info.id, QuestState.CAN_START);
+                ChangeQuestState(quest.Info.Id, QuestState.CAN_START);
             }
         }
     }
@@ -47,7 +47,7 @@ public class QuestManager : MonoBehaviour
     private void ChangeQuestState(string id, QuestState state)
     {
         Quest quest = GetQuestById(id);
-        quest.state = state;
+        quest.State = state;
         GameEventsManager.Instance.QuestEvents.QuestStateChange(quest);
     }
 
@@ -56,9 +56,9 @@ public class QuestManager : MonoBehaviour
         bool meetsRequirements = true;
 
         //Check if prerequisite quests are done
-        foreach (QuestInfoSO prerequisiteQuestInfo in quest.info.questPrerequisites)
+        foreach (QuestInfoSO prerequisiteQuestInfo in quest.Info.QuestPrerequisites)
         {
-            if (GetQuestById(prerequisiteQuestInfo.id).state != QuestState.FINISHED)
+            if (GetQuestById(prerequisiteQuestInfo.Id).State != QuestState.FINISHED)
             {
                 meetsRequirements = false;
                 break;
@@ -75,7 +75,7 @@ public class QuestManager : MonoBehaviour
         Quest quest = GetQuestById(id);
 
         quest.InstantiateCurrentQuestStep(this.transform);
-        ChangeQuestState(quest.info.id, QuestState.IN_PROGRESS);
+        ChangeQuestState(quest.Info.Id, QuestState.IN_PROGRESS);
     }
 
     private void AdvanceQuest(string id)
@@ -94,7 +94,7 @@ public class QuestManager : MonoBehaviour
         //No more steps
         else
         {
-            ChangeQuestState(quest.info.id, QuestState.CAN_FINISH);
+            ChangeQuestState(quest.Info.Id, QuestState.CAN_FINISH);
         }
     }
 
@@ -104,7 +104,7 @@ public class QuestManager : MonoBehaviour
 
         Quest quest = GetQuestById(id);
         ClaimRewards(quest);
-        ChangeQuestState(quest.info.id, QuestState.FINISHED);
+        ChangeQuestState(quest.Info.Id, QuestState.FINISHED);
 
     }
 
@@ -121,12 +121,13 @@ public class QuestManager : MonoBehaviour
 
         foreach (QuestInfoSO questInfo in allQuest)
         {
-            if (idToQuestMap.ContainsKey(questInfo.id))
+            if (idToQuestMap.ContainsKey(questInfo.Id))
             {
-                Debug.LogWarning("Duplicate id found when creating quest map: " + questInfo.id);
+                Debug.LogWarning("Duplicate id found when creating quest map: " + questInfo.Id);
+                continue; //Skip this quest to avoid duplicates
             }
 
-            idToQuestMap.Add(questInfo.id, new Quest(questInfo));
+            idToQuestMap.Add(questInfo.Id, new Quest(questInfo));
         }
 
         return idToQuestMap;

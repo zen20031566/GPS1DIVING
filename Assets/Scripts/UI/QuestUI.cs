@@ -36,11 +36,11 @@ public class QuestUI : MonoBehaviour
 
     private void QuestStateChange(Quest quest)
     {
-        if (quest.state.Equals(QuestState.IN_PROGRESS))
+        if (quest.State.Equals(QuestState.IN_PROGRESS))
         {
-            UpdateQuestDisplay(quest.info.id);
+            UpdateQuestDisplay(quest.Info.Id);
         }
-        else if (quest.state.Equals(QuestState.CAN_FINISH))
+        else if (quest.State.Equals(QuestState.CAN_FINISH))
         {
             questStepText.text = "Quest complete turn in quest";
         }
@@ -75,9 +75,9 @@ public class QuestUI : MonoBehaviour
     private void UpdateQuestDisplay(string questId)
     {
         Quest quest = questManager.GetQuestById(questId);
-        questDisplayNameText.text = quest.info.displayName;
+        questDisplayNameText.text = quest.Info.DisplayName;
 
-        QuestStep questStep = quest.currentQuestStep;
+        QuestStep questStep = quest.CurrentQuestStep;
         if (questStep != null)
         {
             questStepText.text = questStep.Description;

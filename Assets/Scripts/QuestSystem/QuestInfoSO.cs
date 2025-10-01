@@ -3,25 +3,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "QuestInfoSO", menuName = "Scriptable Objects/QuestInfoSO")]
 public class QuestInfoSO : ScriptableObject
 {
-    [field: SerializeField] public string id { get; private set; }
+    [field: SerializeField] public string Id { get; private set; }
 
     //General 
-    public string displayName;
+    public string DisplayName;
 
     //Quest Requirements
-    public QuestInfoSO[] questPrerequisites;
+    public QuestInfoSO[] QuestPrerequisites;
 
     //Quest Steps
     //public GameObject[] questStepPrefabs;
-    public QuestStepConfig[] questStepConfigs;
+    public QuestStepConfig[] QuestStepConfigs;
 
     //Rewards
-    public int goldReward;
+    public int GoldReward;
 
     private void OnValidate()
     {
         #if UNITY_EDITOR
-        id = this.name;
+        Id = this.name;
         UnityEditor.EditorUtility.SetDirty(this);
         #endif
 

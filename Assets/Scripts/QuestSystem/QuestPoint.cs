@@ -15,7 +15,7 @@ public class QuestPoint : MonoBehaviour
 
     private void Awake()
     {
-        questId = questInfoForPoint.id;
+        questId = questInfoForPoint.Id;
     }
 
 
@@ -49,9 +49,9 @@ public class QuestPoint : MonoBehaviour
 
     private void QuestStateChange(Quest quest)
     {
-        if (quest.info.id.Equals(questId))
+        if (quest.Info.Id.Equals(questId))
         {
-            currentQuestState = quest.state;
+            currentQuestState = quest.State;
             Debug.Log("Quest with id: " + questId + " updated to state: " + currentQuestState);
 
             questIcon.SetState(currentQuestState);
