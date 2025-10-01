@@ -12,7 +12,7 @@ public class ShopPoint : MonoBehaviour
         {
             if (InputManager.InteractPressed)
             {
-
+                GameEventsManager.Instance.GameUIEvents.OpenMenu("UI_SHOP");
             }
         }
     }

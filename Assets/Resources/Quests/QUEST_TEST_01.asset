@@ -13,7 +13,17 @@ MonoBehaviour:
   m_Name: QUEST_TEST_01
   m_EditorClassIdentifier: 
   <Id>k__BackingField: QUEST_TEST_01
-  DisplayName: 
+  DisplayName: The Deep Ocean
   QuestPrerequisites: []
-  QuestStepConfigs: []
-  GoldReward: 0
+  QuestStepConfigs:
+  - stepType: 0
+    description: 
+    amountToComplete: 3
+    targetPosition: {x: 0, y: 0}
+    triggerRadius: 0
+  - stepType: 1
+    description: Go deeper
+    amountToComplete: 0
+    targetPosition: {x: -1, y: -38}
+    triggerRadius: 10
+  GoldReward: 1223

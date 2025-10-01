@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,33 +24,51 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float buoyancyForce = 30f;
     [SerializeField] private float maxBuoyancyDepth = 2f;
 
+    [SerializeField] private TMP_Text ddetext;
+
     private Vector2 moveVelocity;
     private bool isFacingRight;
     private bool isInWater;
+
+    private float oriMoveAcceleration = 5f;
+    private float oriMoveDeceleration = 20f;
 
     void Start()
     {
         isFacingRight = true;
         rb = GetComponent<Rigidbody2D>();
+
+        oriMoveAcceleration = moveAcceleration;
+        oriMoveDeceleration = moveDeceleration;
     }
 
     private void Update()
     {
+        ddetext.text = moveVelocity.y.ToString("F2"); 
+
         if (InputManager.InteractPressed)
         {
             Debug.Log("Interact");
+        }
+
+        if (!isGrounded)
+        {
+            isInWater = transform.position.y <= waterLevel;
+        }
+        else
+        {
+            isInWater = false;
         }
     }
 
     void FixedUpdate()
     {
+        Debug.Log(isGrounded);
         CheckGrounded();
-        isInWater = transform.position.y <= waterLevel;
-
         Float(InputManager.MoveDirection);
         Gravity();
         Move(InputManager.MoveDirection);
-        
+
         //Apply move velocity
         rb.linearVelocity = moveVelocity;
     }
@@ -63,13 +82,18 @@ public class PlayerMovement : MonoBehaviour
             Vector2 targetVelocity = Vector2.zero;
             if (InputManager.MoveHeld)
             {
-                //Prevent upwards movement when above water
-                if (moveDirection.y >= 0 && !isInWater)
-                {
-                    moveDirection.y = 0;
-                }
-
                 targetVelocity = new Vector2(moveDirection.x, moveDirection.y) * moveSpeed;
+            }
+
+            if (isGrounded)
+            {
+                moveAcceleration *= 2;
+                moveDeceleration *= 2;
+            }
+            else
+            {
+                moveAcceleration = oriMoveAcceleration;
+                moveDeceleration = oriMoveDeceleration; 
             }
 
             if (isInWater)
@@ -87,6 +111,11 @@ public class PlayerMovement : MonoBehaviour
                 moveVelocity = targetVelocity;
             }
 
+            //Prevent upwards movement when above water
+            if (moveDirection.y >= 0 && !isInWater &&isGrounded)
+            {
+                targetVelocity.y = 0;
+            }
         }
 
         //If no movement input
@@ -106,7 +135,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 moveVelocity = Vector2.zero;
             }
-        }
+        }  
     }
 
     private void Turn(Vector2 moveDirection)
@@ -130,6 +159,10 @@ public class PlayerMovement : MonoBehaviour
         {
             moveVelocity.y -= gravity * Time.fixedDeltaTime;
         }
+        else if (isGrounded && moveVelocity.y < 0)
+        {
+            moveVelocity.y = 0f;
+        }
     }
 
     private void Float(Vector2 moveDirection)
@@ -150,7 +183,7 @@ public class PlayerMovement : MonoBehaviour
     {
         groundHit = Physics2D.BoxCast(feetCol.bounds.center, feetCol.bounds.size, 0f, Vector2.down, groundDetectionRayLength, groundLayer);
 
-        if (!isGrounded && groundHit)
+        if (groundHit)
         {
             isGrounded = true;
         }

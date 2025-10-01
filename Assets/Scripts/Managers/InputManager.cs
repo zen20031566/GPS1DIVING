@@ -9,10 +9,12 @@ public class InputManager : MonoBehaviour
     public static Vector2 MoveDirection;
 
     public static bool InteractPressed;
+    public static bool EscPressed;
 
     //Input Actions
     private InputAction moveAction;
     private InputAction interactAction;
+    private InputAction escAction;
 
     private void Awake()
     {
@@ -20,6 +22,7 @@ public class InputManager : MonoBehaviour
 
         moveAction = PlayerInput.actions.FindAction("Movement");
         interactAction = PlayerInput.actions.FindAction("Interact");
+        escAction = PlayerInput.actions.FindAction("Esc");
     }
 
     private void Update()
@@ -28,5 +31,7 @@ public class InputManager : MonoBehaviour
         MoveHeld = moveAction.IsPressed();
 
         InteractPressed = interactAction.WasPressedThisFrame();
+
+        EscPressed = escAction.WasPressedThisFrame();
     }
 }
