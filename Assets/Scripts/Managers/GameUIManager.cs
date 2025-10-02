@@ -12,11 +12,13 @@ public class GameUIManager : MonoBehaviour
     private void OnEnable()
     {
         GameEventsManager.Instance.GameUIEvents.OnOpenMenu += OpenMenu;
+        GameEventsManager.Instance.GameUIEvents.OnCloseMenu += CloseMenu;
     }
 
     private void OnDisable()
     {
         GameEventsManager.Instance.GameUIEvents.OnOpenMenu -= OpenMenu;
+        GameEventsManager.Instance.GameUIEvents.OnCloseMenu -= CloseMenu;
     }
 
     private void Update()

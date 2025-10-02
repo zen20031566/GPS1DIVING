@@ -24,8 +24,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float buoyancyForce = 30f;
     [SerializeField] private float maxBuoyancyDepth = 2f;
 
-    [SerializeField] private TMP_Text ddetext;
-
     private Vector2 moveVelocity;
     private bool isFacingRight;
     private bool isInWater;
@@ -44,8 +42,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        ddetext.text = moveVelocity.y.ToString("F2"); 
-
         if (InputManager.InteractPressed)
         {
             Debug.Log("Interact");
