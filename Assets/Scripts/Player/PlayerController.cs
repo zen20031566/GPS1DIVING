@@ -1,40 +1,100 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody2D rb;
+    public Rigidbody2D Rb;
+    private bool isFacingRight;
 
     private float rideHeight;
     private float rideSpringStrength;
     private float rideSpringDamper;
 
-    public float WaterLevel;
-
     //Movement variables
+    private float defaultGravity = 9.8f;
+    public float DefaultGravity => defaultGravity;
+    private Vector2 moveVelocity;
     public float MaxSpeed;
     public float Acceleration; //How fast to reach max speed
     public float MaxAccelerationForce; //Limits maximum force that can be applied when accelerating
-    public  Vector2 ForceScale = Vector2.one;
 
-    private Vector2 moveVelocity;
+    //Swim variables
+    public float WaterLevel;
+    public float moveRotationSmoothing = 0.2f;
+    public float headRotationOffset = 75f;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        Rb = GetComponent<Rigidbody2D>();
+        defaultGravity = 9.8f;
     }
 
     public void Move(Vector2 moveDir)
     {
         Vector2 targetVelocity = moveDir * MaxSpeed;
 
-        moveVelocity = Vector2.MoveTowards(moveVelocity, targetVelocity, Acceleration * Time.fixedDeltaTime);
+        moveVelocity = Vector2.Lerp(moveVelocity, targetVelocity, Acceleration * Time.fixedDeltaTime);
 
         //Actual force
-        Vector2 neededAccel = (targetVelocity - rb.linearVelocity) / Time.fixedDeltaTime;
+        Vector2 neededAccel = (targetVelocity - Rb.linearVelocity) / Time.fixedDeltaTime;
 
         neededAccel = Vector2.ClampMagnitude(neededAccel, MaxAccelerationForce);
 
-        rb.AddForce(Vector2.Scale(neededAccel * rb.mass, ForceScale));
+        Rb.AddForce(neededAccel * Rb.mass);
+    }
+
+    public void SwimTurn(Vector2 moveDir)
+    {
+        if (moveDir.magnitude > 0)
+        {
+            float targetAngle = Mathf.Atan2(moveDir.y, moveDir.x) * Mathf.Rad2Deg;
+            targetAngle -= headRotationOffset; //Add the head offset to have the head facing forward
+
+            //Smoothly rotate 
+            float currentAngle = transform.eulerAngles.z;
+            float newAngle = Mathf.LerpAngle(currentAngle, targetAngle, moveRotationSmoothing);
+
+            transform.rotation = Quaternion.Euler(0, 0, newAngle);
+        }
+        else
+        {
+            ResetOrientation();
+        }
+
+        Turn(moveDir);
+    }
+
+    public void ResetOrientation()
+    {
+        float currentAngle = transform.eulerAngles.z;
+        float newAngle = Mathf.LerpAngle(currentAngle, 0, moveRotationSmoothing);
+        transform.rotation = Quaternion.Euler(0, 0, newAngle);
+    }
+
+    private void FlipSprite()
+    {
+        isFacingRight = !isFacingRight;
+        Vector3 newScale = transform.localScale;
+        newScale.x = Mathf.Abs(newScale.x) * (isFacingRight ? 1 : -1);
+        transform.localScale = newScale;
+    }
+
+    public void Turn(Vector2 moveDir)
+    {
+
+        bool isMovingRight = moveDir.x > 0.1f;
+        bool isMovingLeft = moveDir.x < -0.1f;
+
+        //Only flip when changing horizontal direction significantly
+        if ((isMovingRight && !isFacingRight) || (isMovingLeft && isFacingRight))
+        {
+            //Only flip during substantial horizontal movement
+            if (Mathf.Abs(moveDir.x) > 0.7f)
+            {
+                FlipSprite();
+            }
+        }
     }
 
     public void GroundCollision()
@@ -42,7 +102,7 @@ public class PlayerController : MonoBehaviour
         Vector2 rayDir = Vector2.zero;
         RaycastHit2D rayHit = Physics2D.Raycast(transform.position, rayDir);
 
-        Vector2 currentVelocity = rb.linearVelocity;
+        Vector2 currentVelocity = Rb.linearVelocity;
         Vector2 otherVel = Vector2.zero;
 
         Rigidbody2D hitBody = rayHit.rigidbody;
@@ -63,7 +123,7 @@ public class PlayerController : MonoBehaviour
 
         Debug.DrawLine(transform.position, new Vector2(transform.position.x, transform.position.y) + (rayDir * springForce), Color.yellow);
 
-        rb.AddForce(rayDir * springForce);
+        Rb.AddForce(rayDir * springForce);
 
         if (hitBody != null)
         {

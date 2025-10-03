@@ -16,15 +16,23 @@ public class OnLandState : PlayerState
 
     public override void FrameUpdate()
     {
-        //if (player.transform.position.y < player.PlayerController.WaterLevel)
-        //{
-        //    playerStateMachine.ChangeState(player.OnLandState);
-        //}
     }
 
     public override void PhysicsUpdate()
     {
+        if (player.transform.position.y <= player.PlayerController.WaterLevel)
+        {
+            playerStateMachine.ChangeState(player.InWaterState);
+        }
+
+        if (player.transform.rotation != Quaternion.identity)
+        {
+            player.PlayerController.ResetOrientation();
+        }
+
+        player.PlayerController.Rb.gravityScale = player.PlayerController.DefaultGravity;
         player.PlayerController.Move(InputManager.MoveDirection);
+        player.PlayerController.Turn(InputManager.MoveDirection);
         player.PlayerController.GroundCollision();
     }
 }

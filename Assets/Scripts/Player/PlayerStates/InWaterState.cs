@@ -22,12 +22,14 @@ public class InWaterState : PlayerState
 
     public override void PhysicsUpdate()
     {
-        if (player.transform.position.y > player.PlayerController.WaterLevel)
+        if (player.transform.position.y >= player.PlayerController.WaterLevel)
         {
             playerStateMachine.ChangeState(player.OnLandState);
         }
 
+        player.PlayerController.Rb.gravityScale = 0;
         player.PlayerController.Move(InputManager.MoveDirection);
+        player.PlayerController.SwimTurn(InputManager.MoveDirection);
         player.PlayerController.GroundCollision();
     }
 }
