@@ -8,12 +8,41 @@ public class PlayerController : MonoBehaviour
     private float rideSpringStrength;
     private float rideSpringDamper;
 
-    private void GroundCollision()
+    public float WaterLevel;
+
+    //Movement variables
+    public float MaxSpeed;
+    public float Acceleration; //How fast to reach max speed
+    public float MaxAccelerationForce; //Limits maximum force that can be applied when accelerating
+    public  Vector2 ForceScale = Vector2.one;
+
+    private Vector2 moveVelocity;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    public void Move(Vector2 moveDir)
+    {
+        Vector2 targetVelocity = moveDir * MaxSpeed;
+
+        moveVelocity = Vector2.MoveTowards(moveVelocity, targetVelocity, Acceleration * Time.fixedDeltaTime);
+
+        //Actual force
+        Vector2 neededAccel = (targetVelocity - rb.linearVelocity) / Time.fixedDeltaTime;
+
+        neededAccel = Vector2.ClampMagnitude(neededAccel, MaxAccelerationForce);
+
+        rb.AddForce(Vector2.Scale(neededAccel * rb.mass, ForceScale));
+    }
+
+    public void GroundCollision()
     {
         Vector2 rayDir = Vector2.zero;
         RaycastHit2D rayHit = Physics2D.Raycast(transform.position, rayDir);
 
-        Vector2 currentVel = rb.linearVelocity;
+        Vector2 currentVelocity = rb.linearVelocity;
         Vector2 otherVel = Vector2.zero;
 
         Rigidbody2D hitBody = rayHit.rigidbody;
@@ -22,16 +51,15 @@ public class PlayerController : MonoBehaviour
             otherVel = hitBody.linearVelocity;
         }
 
-        float rayDirVel = Vector2.Dot(rayDir, currentVel);
-        float otherDirVel = Vector2.Dot(rayDir, currentVel);
+        float rayDirVelocity = Vector2.Dot(rayDir, currentVelocity);
+        float otherDirVelocity = Vector2.Dot(rayDir, currentVelocity);
 
-        float relativeVel = rayDirVel - otherDirVel;    
+        float relativeVelocity = rayDirVelocity - otherDirVelocity;    
 
         //F=kx
-
         float x = rayHit.distance - rideHeight;
 
-        float springForce = (x * rideSpringStrength) - (relativeVel * rideSpringDamper);
+        float springForce = (x * rideSpringStrength) - (relativeVelocity * rideSpringDamper);
 
         Debug.DrawLine(transform.position, new Vector2(transform.position.x, transform.position.y) + (rayDir * springForce), Color.yellow);
 

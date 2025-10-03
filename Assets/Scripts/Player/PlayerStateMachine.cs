@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStateMachine 
@@ -10,7 +11,7 @@ public class PlayerStateMachine
         CurrentState.EnterState();
     }
 
-    private void ChangeState(PlayerState newState)
+    public void ChangeState(PlayerState newState)
     {
         CurrentState.ExitState();
         CurrentState = newState;

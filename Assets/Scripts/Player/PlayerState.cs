@@ -4,12 +4,12 @@ public abstract class PlayerState
 {
     //Player components
     protected PlayerStateMachine playerStateMachine;
-    protected PlayerController playerController;
+    protected Player player;
 
-    public PlayerState(PlayerStateMachine playerStateMachine ,PlayerController playerController)
+    public PlayerState(PlayerStateMachine playerStateMachine ,Player player)
     {
         this.playerStateMachine = playerStateMachine;
-        this.playerController = playerController;
+        this.player = player;
     }
 
     public virtual void EnterState()
