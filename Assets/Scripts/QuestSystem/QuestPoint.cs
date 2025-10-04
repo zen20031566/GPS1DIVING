@@ -2,12 +2,11 @@ using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
 
-public class QuestPoint : MonoBehaviour
+public class QuestPoint : MonoBehaviour, IInteractable
 {
     [SerializeField] private QuestInfoSO questInfoForPoint;
     [SerializeField] private QuestIcon questIcon;
-
-    private bool playerIsNear = false;
+    public bool canInteract { get; set; } = true;
 
     private string questId;
 
@@ -17,7 +16,6 @@ public class QuestPoint : MonoBehaviour
     {
         questId = questInfoForPoint.Id;
     }
-
 
     private void OnEnable()
     {
@@ -29,21 +27,15 @@ public class QuestPoint : MonoBehaviour
         GameEventsManager.Instance.QuestEvents.OnQuestStateChange -= QuestStateChange;
     }
 
-    private void Update()
+    public void Interact()
     {
-        if (playerIsNear)
+        if (currentQuestState.Equals(QuestState.CAN_START))
         {
-            if (InputManager.InteractPressed)
-            {
-                if (currentQuestState.Equals(QuestState.CAN_START))
-                {
-                    GameEventsManager.Instance.QuestEvents.StartQuest(questId);
-                }
-                else if (currentQuestState.Equals(QuestState.CAN_FINISH))
-                {
-                    GameEventsManager.Instance.QuestEvents.FinishQuest(questId);
-                }
-            }
+            GameEventsManager.Instance.QuestEvents.StartQuest(questId);
+        }
+        else if (currentQuestState.Equals(QuestState.CAN_FINISH))
+        {
+            GameEventsManager.Instance.QuestEvents.FinishQuest(questId);
         }
     }
 
@@ -56,24 +48,5 @@ public class QuestPoint : MonoBehaviour
 
             questIcon.SetState(currentQuestState);
         }
-
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            playerIsNear = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            playerIsNear = false;
-        }
-    }
-
-   
 }

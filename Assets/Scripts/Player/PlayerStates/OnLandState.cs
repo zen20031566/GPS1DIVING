@@ -20,7 +20,7 @@ public class OnLandState : PlayerState
 
     public override void PhysicsUpdate()
     {
-        if (player.transform.position.y <= player.PlayerController.WaterLevel)
+        if (player.transform.position.y <= player.PlayerController.WaterLevel && !player.PlayerController.IsGrounded)
         {
             playerStateMachine.ChangeState(player.InWaterState);
         }
@@ -33,6 +33,6 @@ public class OnLandState : PlayerState
         player.PlayerController.Rb.gravityScale = player.PlayerController.DefaultGravity;
         player.PlayerController.Move(InputManager.MoveDirection);
         player.PlayerController.Turn(InputManager.MoveDirection);
-        player.PlayerController.GroundCollision();
+        player.PlayerController.CheckGrounded();
     }
 }

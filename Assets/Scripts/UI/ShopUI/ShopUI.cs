@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShopUI : MonoBehaviour
@@ -19,11 +18,6 @@ public class ShopUI : MonoBehaviour
     private void OnDisable()
     {
         ClearEquipmentTab();
-    }
-
-    private void Start()
-    {
-        FillEquipmentTab();
     }
 
     //Equipment Tab

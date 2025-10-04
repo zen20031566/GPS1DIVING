@@ -28,8 +28,7 @@ public class InWaterState : PlayerState
         }
 
         player.PlayerController.Rb.gravityScale = 0;
-        player.PlayerController.Move(InputManager.MoveDirection);
+        player.PlayerController.Swim(InputManager.MoveDirection);
         player.PlayerController.SwimTurn(InputManager.MoveDirection);
-        player.PlayerController.GroundCollision();
     }
 }

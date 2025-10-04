@@ -1,45 +1,65 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
-    public Rigidbody2D Rb;
+    public Rigidbody2D Rb { get; private set; }
     private bool isFacingRight;
 
-    private float rideHeight;
-    private float rideSpringStrength;
-    private float rideSpringDamper;
+    //Collision checks
+    [SerializeField] private float groundDetectionRayLength = 0.02f;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private BoxCollider2D feetCol;
+    private RaycastHit2D groundHit;
+    private bool isGrounded = false;
 
     //Movement variables
     private float defaultGravity = 9.8f;
-    public float DefaultGravity => defaultGravity;
     private Vector2 moveVelocity;
-    public float MaxSpeed;
-    public float Acceleration; //How fast to reach max speed
-    public float MaxAccelerationForce; //Limits maximum force that can be applied when accelerating
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float climbSpeed;
 
     //Swim variables
-    public float WaterLevel;
-    public float moveRotationSmoothing = 0.2f;
-    public float headRotationOffset = 75f;
+    [SerializeField] private float maxSwimSpeed = 8;
+    [SerializeField] private float swimAcceleration = 0.1f; //How fast to reach max speed
+    [SerializeField] private float maxSwimAccelerationForce = 20f; //Limits maximum force that can be applied when accelerating
+    [SerializeField] private float moveRotationSmoothing = 0.1f;
+    [SerializeField] private float headRotationOffset = 90f;
+    public float WaterLevel = 0f;
+
+    //Properties
+    public bool IsGrounded => isGrounded;
+    public float DefaultGravity => defaultGravity;
 
     private void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
         defaultGravity = 9.8f;
+        Rb.gravityScale = defaultGravity;
     }
 
     public void Move(Vector2 moveDir)
     {
-        Vector2 targetVelocity = moveDir * MaxSpeed;
+        float targetXVelocity = moveDir.x * moveSpeed;
+        Rb.linearVelocity = new Vector3(targetXVelocity, Rb.linearVelocity.y, 0);
+    }
 
-        moveVelocity = Vector2.Lerp(moveVelocity, targetVelocity, Acceleration * Time.fixedDeltaTime);
+    public void LadderMove(Vector2 moveDir)
+    {
+        float targetYVelocity = moveDir.y * climbSpeed;
+
+        Rb.linearVelocity = new Vector3 (0, targetYVelocity, 0);
+    }
+
+    public void Swim(Vector2 moveDir)
+    {
+        Vector2 targetVelocity = moveDir * maxSwimSpeed;
+
+        moveVelocity = Vector2.MoveTowards(moveVelocity, targetVelocity, swimAcceleration * Time.fixedDeltaTime);
 
         //Actual force
         Vector2 neededAccel = (targetVelocity - Rb.linearVelocity) / Time.fixedDeltaTime;
 
-        neededAccel = Vector2.ClampMagnitude(neededAccel, MaxAccelerationForce);
+        neededAccel = Vector2.ClampMagnitude(neededAccel, maxSwimAccelerationForce);
 
         Rb.AddForce(neededAccel * Rb.mass);
     }
@@ -97,37 +117,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void GroundCollision()
+    public void CheckGrounded()
     {
-        Vector2 rayDir = Vector2.zero;
-        RaycastHit2D rayHit = Physics2D.Raycast(transform.position, rayDir);
+        groundHit = Physics2D.BoxCast(feetCol.bounds.center, feetCol.bounds.size, 0f, Vector2.down, groundDetectionRayLength, groundLayer);
 
-        Vector2 currentVelocity = Rb.linearVelocity;
-        Vector2 otherVel = Vector2.zero;
-
-        Rigidbody2D hitBody = rayHit.rigidbody;
-        if (hitBody != null )
+        if (groundHit)
         {
-            otherVel = hitBody.linearVelocity;
+            isGrounded = true;
         }
-
-        float rayDirVelocity = Vector2.Dot(rayDir, currentVelocity);
-        float otherDirVelocity = Vector2.Dot(rayDir, currentVelocity);
-
-        float relativeVelocity = rayDirVelocity - otherDirVelocity;    
-
-        //F=kx
-        float x = rayHit.distance - rideHeight;
-
-        float springForce = (x * rideSpringStrength) - (relativeVelocity * rideSpringDamper);
-
-        Debug.DrawLine(transform.position, new Vector2(transform.position.x, transform.position.y) + (rayDir * springForce), Color.yellow);
-
-        Rb.AddForce(rayDir * springForce);
-
-        if (hitBody != null)
+        else
         {
-            hitBody.AddForceAtPosition(rayDir * -springForce, rayHit.point);
+            isGrounded = false;
         }
     }
 }

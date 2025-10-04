@@ -2,34 +2,12 @@ using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
 
-public class ShopPoint : MonoBehaviour
+public class ShopPoint : MonoBehaviour, IInteractable
 {
-    private bool playerIsNear = false;
+    public bool canInteract { get; set; } = true;
 
-    private void Update()
+    public void Interact()
     {
-        if (playerIsNear)
-        {
-            if (InputManager.InteractPressed)
-            {
-                GameEventsManager.Instance.GameUIEvents.OpenMenu("UI_SHOP");
-            }
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            playerIsNear = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            playerIsNear = false;
-        }
+        GameEventsManager.Instance.GameUIEvents.OpenMenu("UI_SHOP");
     }
 }
