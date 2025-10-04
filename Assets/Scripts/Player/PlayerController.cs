@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     //Collision checks
     [SerializeField] private float groundDetectionRayLength = 0.02f;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private BoxCollider2D feetCol;
+    [SerializeField] private BoxCollider2D col;
     private RaycastHit2D groundHit;
     private bool isGrounded = false;
 
@@ -119,7 +119,8 @@ public class PlayerController : MonoBehaviour
 
     public void CheckGrounded()
     {
-        groundHit = Physics2D.BoxCast(feetCol.bounds.center, feetCol.bounds.size, 0f, Vector2.down, groundDetectionRayLength, groundLayer);
+        Vector2 bottomCenter = new Vector2(col.bounds.center.x, col.bounds.min.y);
+        groundHit = Physics2D.BoxCast(bottomCenter, col.bounds.size, 0f, Vector2.down, groundDetectionRayLength, groundLayer);
 
         if (groundHit)
         {

@@ -29,15 +29,13 @@ public class Ladder : MonoBehaviour, IInteractable
             float platformTop = GetComponent<Collider2D>().bounds.max.y;
             float platformBottom = GetComponent<Collider2D>().bounds.min.y;
 
-            //Small threshold to account for physics
-
             if (playerBottom >= platformTop - 0.1f)
             {
                 player.PlayerStateMachine.ChangeState(player.OnLandState);
             }
             else if (playerMiddle <= platformBottom - 0.5)
             {
-                player.PlayerStateMachine.ChangeState(player.OnLandState);
+                player.PlayerStateMachine.ChangeState(player.InWaterState);
             }
         }
     }
