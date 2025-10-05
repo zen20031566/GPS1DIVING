@@ -11,10 +11,13 @@ public class InputManager : MonoBehaviour
     public static bool InteractPressed;
     public static bool EscPressed;
 
+    public static bool LeftClickPressed;
+
     //Input Actions
     private InputAction moveAction;
     private InputAction interactAction;
     private InputAction escAction;
+    private InputAction leftClickAction;
 
     private void Awake()
     {
@@ -23,6 +26,7 @@ public class InputManager : MonoBehaviour
         moveAction = PlayerInput.actions.FindAction("Movement");
         interactAction = PlayerInput.actions.FindAction("Interact");
         escAction = PlayerInput.actions.FindAction("Esc");
+        leftClickAction = PlayerInput.actions.FindAction("LeftClick");
     }
 
     private void Update()
@@ -33,5 +37,7 @@ public class InputManager : MonoBehaviour
         InteractPressed = interactAction.WasPressedThisFrame();
 
         EscPressed = escAction.WasPressedThisFrame();
+
+        LeftClickPressed = leftClickAction.WasPressedThisFrame();
     }
 }

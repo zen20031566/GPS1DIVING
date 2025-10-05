@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9630a014f69f6f247893d59dc80de648
+guid: 4ef952f054da4684db9c066435d91b14
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2174827668884051896
-    second: bottle_0
+      213: -4360640626391904315
+    second: haarpoon_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,12 +126,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bottle_0
+      name: haarpoon_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 76
+        width: 228
         height: 152
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 848a97402c571d1e0800000000000000
-      internalID: -2174827668884051896
+      spriteID: 5cf06c63474eb73c0800000000000000
+      internalID: -4360640626391904315
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 4f3d37287bfc71344ba4705b6f24c1b0
+    spriteID: 213a6b5399a5e7846aee811c1d2b10fd
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      bottle_0: -2174827668884051896
+      haarpoon_0: -4360640626391904315
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

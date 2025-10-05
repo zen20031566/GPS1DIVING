@@ -5,26 +5,26 @@ using UnityEngine.EventSystems;
 
 public class GridInteract : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    InventoryControlller inventoryControlller;
+    InventoryManager inventoryManager;
     ItemGrid itemGrid;
 
     private void Awake()
     {
-        inventoryControlller = FindObjectOfType(typeof(InventoryControlller)) as InventoryControlller;
+        inventoryManager = Object.FindFirstObjectByType(typeof(InventoryManager)) as InventoryManager;
         itemGrid = GetComponent<ItemGrid>();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Pointed enter");
-        inventoryControlller.selectedItemGrid = itemGrid;
+        inventoryManager.SelectedItemGrid = itemGrid;
         
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         Debug.Log("Pointed exit");
-        inventoryControlller.selectedItemGrid = null;
+        inventoryManager.SelectedItemGrid = null;
     }
 
     public void OnPointerClick(PointerEventData eventData)

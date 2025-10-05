@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class ItemGrid : MonoBehaviour
 {
-
     const float tileWidth = 76;
     const float tileHeight = 76;
 
@@ -16,8 +15,6 @@ public class ItemGrid : MonoBehaviour
     private Vector2 positionOnGrid = new Vector2();
     private Vector2Int tileGridPosition = new Vector2Int();
 
-    [SerializeField] private InventoryItem inventoryItemPrefab;
-
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -29,9 +26,6 @@ public class ItemGrid : MonoBehaviour
        inventoryItemSlot = new InventoryItem[width, height];
         Vector2 size = new Vector2(width * tileWidth, height * tileHeight);
         rectTransform.sizeDelta = size;
-
-        InventoryItem inventoryItem = Instantiate(inventoryItemPrefab);
-        PlaceItem(inventoryItem, 2, 2);
     }
 
     public Vector2Int GetTileGridPosition(Vector2 mousePosition)
@@ -53,8 +47,8 @@ public class ItemGrid : MonoBehaviour
         inventoryItemSlot[posX, posY] = item;
 
         Vector2 position = new Vector2();
-        position.x = posX * tileWidth + tileWidth / 2;
-        position.y = -(posY * tileHeight + tileHeight / 2);
+        position.x = posX * tileWidth + tileWidth * item.ItemData.Width / 2;
+        position.y = -(posY * tileHeight + tileHeight * item.ItemData.Height / 2);
 
         itemRectTransform.localPosition = position;
     }
