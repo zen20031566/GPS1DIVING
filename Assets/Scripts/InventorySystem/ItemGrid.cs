@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class ItemGrid : MonoBehaviour
 {
-    const float tileWidth = 76;
-    const float tileHeight = 76;
+    public const float TileWidth = 76;
+    public const float TileHeight = 76;
 
     [SerializeField] private int gridWidth = 10;
     [SerializeField] private int gridHeight = 10;
@@ -24,7 +24,7 @@ public class ItemGrid : MonoBehaviour
     public void InitializeGrid(int width, int height)
     {
        inventoryItemSlot = new InventoryItem[width, height];
-        Vector2 size = new Vector2(width * tileWidth, height * tileHeight);
+        Vector2 size = new Vector2(width * TileWidth, height * TileHeight);
         rectTransform.sizeDelta = size;
     }
 
@@ -33,16 +33,17 @@ public class ItemGrid : MonoBehaviour
         positionOnGrid.x = mousePosition.x - rectTransform.position.x;
         positionOnGrid.y = rectTransform.position.y - mousePosition.y;
 
-        tileGridPosition.x = (int)(positionOnGrid.x / tileWidth);
-        tileGridPosition.y = (int)(positionOnGrid.y / tileHeight);
+        tileGridPosition.x = (int)(positionOnGrid.x / TileWidth);
+        tileGridPosition.y = (int)(positionOnGrid.y / TileHeight);
 
         return tileGridPosition;    
     }
 
     public bool PlaceItem(InventoryItem item, int posX, int posY)
     {
+        if (OverlapCheck(posX, posY, item.ItemData.Width, item.ItemData.Height) == false) return false;
         if (BoundaryCheck(posX, posY, item.ItemData.Width, item.ItemData.Height) == false) return false;
-
+        
         RectTransform itemRectTransform = item.GetComponent<RectTransform>();
         itemRectTransform.SetParent(this.rectTransform);
 
@@ -59,8 +60,8 @@ public class ItemGrid : MonoBehaviour
         item.PositionOnGridY = posY;
 
         Vector2 position = new Vector2();
-        position.x = posX * tileWidth + tileWidth * item.ItemData.Width / 2;
-        position.y = -(posY * tileHeight + tileHeight * item.ItemData.Height / 2);
+        position.x = posX * TileWidth + TileWidth * item.ItemData.Width / 2;
+        position.y = -(posY * TileHeight + TileHeight * item.ItemData.Height / 2);
 
         itemRectTransform.localPosition = position;
 
@@ -83,6 +84,22 @@ public class ItemGrid : MonoBehaviour
         }
        
         return item;    
+    }
+
+    bool OverlapCheck(int posX, int posY, int itemWidth, int itemHeight)
+    {
+        for (int x = 0; x < itemWidth; x++)
+        {
+            for (int y = 0; y < itemHeight; y++)
+            {
+                if (inventoryItemSlot[posX + x, posY + y] != null)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     bool PositionCheck(int posX, int posY)

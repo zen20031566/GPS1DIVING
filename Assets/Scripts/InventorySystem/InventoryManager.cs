@@ -61,7 +61,16 @@ public class InventoryManager : MonoBehaviour
 
     private void HandleLeftClick()
     {
-        Vector2Int tileGridPosition = SelectedItemGrid.GetTileGridPosition(Input.mousePosition);
+        Vector2 position = Input.mousePosition;
+
+        //Offset mouse position by item size so drag and drop feels better
+        if (selectedItem != null)
+        {
+            position.x -= (selectedItem.ItemData.Width - 1) * ItemGrid.TileWidth / 2;
+            position.y += (selectedItem.ItemData.Height - 1) * ItemGrid.TileHeight / 2;
+        }
+
+        Vector2Int tileGridPosition = SelectedItemGrid.GetTileGridPosition(position);
 
         if (selectedItem == null)
         {
