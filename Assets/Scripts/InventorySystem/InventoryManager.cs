@@ -53,8 +53,10 @@ public class InventoryManager : MonoBehaviour
 
     private void PlaceItem(Vector2Int tileGridPosition)
     {
-        SelectedItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y);
-        selectedItem = null;
+        if (SelectedItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y))
+        {
+            selectedItem = null;
+        }
     }
 
     private void HandleLeftClick()

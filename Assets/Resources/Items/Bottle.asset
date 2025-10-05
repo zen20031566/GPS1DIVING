@@ -17,5 +17,5 @@ MonoBehaviour:
   DisplaySprite: {fileID: -2174827668884051896, guid: 9630a014f69f6f247893d59dc80de648, type: 3}
   InventorySprite: {fileID: -2174827668884051896, guid: 9630a014f69f6f247893d59dc80de648, type: 3}
   Icon: {fileID: -2174827668884051896, guid: 9630a014f69f6f247893d59dc80de648, type: 3}
-  SizeWidth: 1
-  SizeHeight: 2
+  Width: 1
+  Height: 2

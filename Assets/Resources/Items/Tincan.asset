@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   DisplayName: Tincan
-  DisplaySprite: {fileID: -2174827668884051896, guid: 9630a014f69f6f247893d59dc80de648, type: 3}
-  InventorySprite: {fileID: -2174827668884051896, guid: 9630a014f69f6f247893d59dc80de648, type: 3}
-  Icon: {fileID: -2174827668884051896, guid: 9630a014f69f6f247893d59dc80de648, type: 3}
-  SizeWidth: 1
-  SizeHeight: 1
+  DisplaySprite: {fileID: 6388389237426139460, guid: 153e0f63d0a50ac4ea97a6bef81a1373, type: 3}
+  InventorySprite: {fileID: 6388389237426139460, guid: 153e0f63d0a50ac4ea97a6bef81a1373, type: 3}
+  Icon: {fileID: 6388389237426139460, guid: 153e0f63d0a50ac4ea97a6bef81a1373, type: 3}
+  Width: 1
+  Height: 1

@@ -39,25 +39,68 @@ public class ItemGrid : MonoBehaviour
         return tileGridPosition;    
     }
 
-    public void PlaceItem(InventoryItem item, int posX, int posY)
+    public bool PlaceItem(InventoryItem item, int posX, int posY)
     {
+        if (BoundaryCheck(posX, posY, item.ItemData.Width, item.ItemData.Height) == false) return false;
+
         RectTransform itemRectTransform = item.GetComponent<RectTransform>();
         itemRectTransform.SetParent(this.rectTransform);
 
-        inventoryItemSlot[posX, posY] = item;
+        //Make item occupy the correct number of slots
+        for (int x = 0; x < item.ItemData.Width; x++)
+        {
+            for (int y = 0; y < item.ItemData.Height; y++)
+            {
+                inventoryItemSlot[posX + x, posY + y] = item;
+            }
+        }
+
+        item.PositionOnGridX = posX;
+        item.PositionOnGridY = posY;
 
         Vector2 position = new Vector2();
         position.x = posX * tileWidth + tileWidth * item.ItemData.Width / 2;
         position.y = -(posY * tileHeight + tileHeight * item.ItemData.Height / 2);
 
         itemRectTransform.localPosition = position;
+
+        return true;
     }
 
     public InventoryItem PickUpItem(int posX, int posY)
     {
-        InventoryItem toReturn = inventoryItemSlot[posX, posY];
-        inventoryItemSlot[posX, posY] = null;
+        InventoryItem item = inventoryItemSlot[posX, posY];
 
-        return toReturn;    
+        if (item == null) return null;
+
+        //Remove the correct number of slots
+        for (int x = 0; x < item.ItemData.Width; x++)
+        {
+            for (int y = 0; y < item.ItemData.Height; y++)
+            {
+                inventoryItemSlot[item.PositionOnGridX + x, item.PositionOnGridY + y] = null;
+            }
+        }
+       
+        return item;    
+    }
+
+    bool PositionCheck(int posX, int posY)
+    {
+        if (posX < 0 || posY < 0) return false;
+
+        if (posX >= gridWidth || posY >= gridHeight) return false;
+
+        return true;
+    }
+
+    bool BoundaryCheck(int posX, int posY, int itemWidth, int itemHeight)
+    {
+        posX += itemWidth - 1;
+        posY += itemHeight - 1;
+
+        if (PositionCheck(posX, posY) == false) return false;
+
+        return true;
     }
 }
