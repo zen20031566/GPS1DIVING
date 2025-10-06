@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class InventoryManager : MonoBehaviour
 {
     public ItemGrid SelectedItemGrid { get; set; }
     public ItemGrid InventoryGrid;
+    public ItemGrid WeaponSlot1;
+    public ItemGrid WeaponSlot2;
+    public ItemGrid ConsumablesSlots;
 
     private InventoryItem selectedItem;
     private RectTransform selectedItemRectTransform;
@@ -17,6 +19,7 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] private int inventoryWidth = 8;
     [SerializeField] private int inventoryHeight = 10;
+
     private void Start()
     {
         InventoryGrid.InitializeGrid(inventoryWidth, inventoryHeight);
@@ -45,25 +48,30 @@ public class InventoryManager : MonoBehaviour
         } 
     }
 
-    public void AddItem(ItemDataSO itemData)
+    public void AddItem(Item item)
     {
-        if (InventoryGrid.CheckHasEmptySlot())
+        if (InventoryGrid.CheckHasEmptySlot(item.ItemData))
         {
-            InventoryItem item = Instantiate(inventoryItemPrefab, canvasTransform);
-            item.InitializeItem(itemData);
-            Vector2Int emptySlot = InventoryGrid.GetEmptySlot();
-            InventoryGrid.PlaceItem(item, emptySlot.x, emptySlot.y);
+            InventoryItem inventoryItem = Instantiate(inventoryItemPrefab, canvasTransform);
+            inventoryItem.InitializeItem(item.ItemData);
+            Vector2Int? emptySlot = InventoryGrid.GetEmptySlot(inventoryItem);
+
+            if (emptySlot == null) return;
+
+            Debug.Log(emptySlot.Value.x + emptySlot.Value.y);
+
+            InventoryGrid.PlaceItem(inventoryItem, emptySlot.Value.x, emptySlot.Value.y);
         }
     }
 
     private void CreateRandomItem()
     {
         Debug.Log("Created");
-        InventoryItem item = Instantiate(inventoryItemPrefab, canvasTransform);
-        selectedItemRectTransform = item.GetComponent<RectTransform>();
+        InventoryItem inventoryItem = Instantiate(inventoryItemPrefab, canvasTransform);
+        selectedItemRectTransform = inventoryItem.GetComponent<RectTransform>();
         int selectedItemID = UnityEngine.Random.Range(0, playerItems.Count);
-        item.InitializeItem(playerItems[selectedItemID]);
-        selectedItem = item;
+        inventoryItem.InitializeItem(playerItems[selectedItemID]);
+        selectedItem = inventoryItem;
     }
 
     private void PickUpItem(Vector2Int tileGridPosition)

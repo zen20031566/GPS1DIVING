@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Ladder : MonoBehaviour, IInteractable
 {
-    Player player;
+    Player player = null;
     public bool CanInteract { get; set; } = true;
 
     public void Interact(Player player)
@@ -22,6 +22,8 @@ public class Ladder : MonoBehaviour, IInteractable
 
     private void OnTriggerStay2D(Collider2D other)
     {
+        if (player == null) return;
+
         if (other.CompareTag("Player"))
         {
             //Calculate if player's bottom is above platform's top

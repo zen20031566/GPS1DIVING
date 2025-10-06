@@ -8,11 +8,11 @@ public class MenuTabButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] private MenuTabGroup tabGroup;
     public Image Background;
 
-    private void Start()
-    {
-        Background = GetComponent<Image>();
-        tabGroup.SubscribeTab(this);
-    }
+    //private void Start()
+    //{
+    //    Background = GetComponent<Image>();
+    //    tabGroup.SubscribeTab(this);
+    //}
 
     public void OnPointerEnter(PointerEventData eventData)
     {

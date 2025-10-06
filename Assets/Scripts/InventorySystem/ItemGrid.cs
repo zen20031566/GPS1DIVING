@@ -105,7 +105,7 @@ public class ItemGrid : MonoBehaviour
     {
         if (posX < 0 || posY < 0) return false;
 
-        if (posX >= gridWidth || posY >= gridHeight) return false;
+        if (posX > gridWidth || posY > gridHeight) return false;
 
         return true;
     }
@@ -120,15 +120,53 @@ public class ItemGrid : MonoBehaviour
         return true;
     }
 
-    public bool CheckHasEmptySlot()
+    public bool CheckHasEmptySlot(ItemDataSO itemData)
     {
-        if (emptySlots.Count > 0) return true;
-        else return false;
+        SortEmptySlots();
+        if (emptySlots.Count == 0) return false;
+
+        for (int i = 0; i < emptySlots.Count; i++)
+        {
+            if (BoundaryCheck(emptySlots[i].x, emptySlots[i].y, itemData.Width, itemData.Height) == true)
+            {
+                if (OverlapCheck(emptySlots[i].x, emptySlots[i].y, itemData.Width, itemData.Height) == true)
+                {
+                    return true;
+                }
+            }
+            
+        }
+
+        return false;
     }
 
-    public Vector2Int GetEmptySlot()
+    public Vector2Int? GetEmptySlot(InventoryItem item)
     {
-        return emptySlots[0];
+        SortEmptySlots();
+        for (int i = 0; i < emptySlots.Count; i++)
+        {
+            if (BoundaryCheck(emptySlots[i].x, emptySlots[i].y, item.ItemData.Width, item.ItemData.Height) == true)
+            {
+                if (OverlapCheck(emptySlots[i].x, emptySlots[i].y, item.ItemData.Width, item.ItemData.Height) == true)
+                {
+                    return emptySlots[i];
+                }
+            }   
+        }
+
+        Debug.LogError("Somehow adding item to full inventory");
+        return null;
+    }
+
+    private void SortEmptySlots()
+    {
+        emptySlots.Sort((a, b) =>
+        {
+            int yComparison = a.y.CompareTo(b.y);
+            if (yComparison != 0) return yComparison;  
+
+            return a.x.CompareTo(b.x); 
+        });
     }
 
     private void InitializeEmptySlots()

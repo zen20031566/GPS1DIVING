@@ -226,4 +226,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tabGroup: {fileID: 0}
-  background: {fileID: 5638927798935381044}
+  Background: {fileID: 5638927798935381044}

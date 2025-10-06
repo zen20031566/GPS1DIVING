@@ -12,7 +12,7 @@ public class MenuTabGroup : MonoBehaviour
 
     private void OnEnable()
     {
-        OnTabSelected(tabButtons[tabButtons.Count - 1]);
+        OnTabSelected(tabButtons[0]);
     }
 
     private void OnDisable()

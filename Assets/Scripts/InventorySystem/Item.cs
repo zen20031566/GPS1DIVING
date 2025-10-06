@@ -26,17 +26,16 @@ public class Item : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
-        if (player.inventoryManager.InventoryGrid.CheckHasEmptySlot() == true)
+        if (player.inventoryManager.InventoryGrid.CheckHasEmptySlot(itemData) == true)
         {
-            Debug.Log("GFood");
-            player.inventoryManager.AddItem(itemData);
+            Debug.Log("Adding item " + itemData.DisplayName);
+            player.inventoryManager.AddItem(this);
 
             Destroy(gameObject);
         }
         else
         {
-            Debug.Log("Fail");
-            //Inventory full
+            Debug.Log("Failed to add item " + itemData.DisplayName + "Inventory full");
         }
     }
 }
