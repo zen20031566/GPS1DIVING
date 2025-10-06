@@ -4,17 +4,17 @@ using UnityEngine.UI;
 public class InventoryItem : MonoBehaviour
 {
     [SerializeField] private Image image;
-    public Item Item;
-    public ItemDataSO ItemData;
+    public ItemData ItemData;
+    public ItemDataSO ItemDataSO;
 
     public int PositionOnGridX;
     public int PositionOnGridY;
 
-    public void InitializeItem(Item item)
+    public void InitializeItem(ItemData itemData)
     {
-        this.Item = item;
-        this.ItemData = item.ItemData;
-        image.sprite = ItemData.DisplaySprite;
+        this.ItemData = itemData;
+        this.ItemDataSO = itemData.ItemDataSO;
+        image.sprite = ItemDataSO.DisplaySprite;
         image.SetNativeSize();
     }
 

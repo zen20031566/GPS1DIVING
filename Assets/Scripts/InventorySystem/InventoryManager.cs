@@ -1,3 +1,4 @@
+using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private InventoryItem selectedItem;
     private RectTransform selectedItemRectTransform;
     
-    [SerializeField] private List<Item> playerItems;
+    [SerializeField] private List<ItemData> playerItems = new List<ItemData>();
 
     [SerializeField] private InventoryItem inventoryItemPrefab;
 
@@ -44,14 +45,15 @@ public class InventoryManager : MonoBehaviour
         } 
     }
 
-    public void AddItem(Item item)
+    public void AddItem(ItemDataSO itemDataSO)
     {
-        if (InventoryGrid.CheckHasEmptySlot(item.ItemData))
+        if (InventoryGrid.CheckHasEmptySlot(itemDataSO))
         {
-            playerItems.Add(item);
+            ItemData itemData = new ItemData(itemDataSO);
+            playerItems.Add(itemData);
 
             InventoryItem inventoryItem = Instantiate(inventoryItemPrefab, canvasTransform);
-            inventoryItem.InitializeItem(item);
+            inventoryItem.InitializeItem(itemData);
 
             Vector2Int? emptySlot = InventoryGrid.GetEmptySlot(inventoryItem);
 
@@ -81,15 +83,25 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void DropItem(InventoryItem selectedItem)
+    private void RemoveItem(InventoryItem selectedItem)
     {
-        playerItems.Remove(selectedItem.Item);
+        DropItem(selectedItem.ItemData);
+
+        playerItems.Remove(selectedItem.ItemData);
         selectedItemGrid.RemoveItem(selectedItem);
-        GameEventsManager.Instance.InventoryEvents.ItemDropped(selectedItem.Item);
+
+        Destroy(selectedItem.gameObject);
+
         selectedItem = null;
         selectedItemGrid = null;
-        Destroy(selectedItem.gameObject);
+
         Debug.Log("Dropped item");
+    }
+
+    private void DropItem(ItemData itemData)
+    {
+        Item item = Instantiate(itemData.ItemDataSO.prefab, GameManager.Instance.PlayerTransform.position, Quaternion.identity);
+        item.InitializeItem(itemData.ItemDataSO);
     }
 
     private void HandleLeftClick()
@@ -101,8 +113,8 @@ public class InventoryManager : MonoBehaviour
             //Offset mouse position by item size so drag and drop feels better
             if (selectedItem != null)
             {
-                position.x -= (selectedItem.ItemData.Width - 1) * ItemGrid.TileWidth / 2;
-                position.y += (selectedItem.ItemData.Height - 1) * ItemGrid.TileHeight / 2;
+                position.x -= (selectedItem.ItemDataSO.Width - 1) * ItemGrid.TileWidth / 2;
+                position.y += (selectedItem.ItemDataSO.Height - 1) * ItemGrid.TileHeight / 2;
             }
 
             Vector2Int tileGridPosition = CurrentItemGrid.GetTileGridPosition(position);
@@ -122,7 +134,7 @@ public class InventoryManager : MonoBehaviour
         {
             if (selectedItem != null)
             {
-                DropItem(selectedItem);
+                RemoveItem(selectedItem);
             }
         }
         

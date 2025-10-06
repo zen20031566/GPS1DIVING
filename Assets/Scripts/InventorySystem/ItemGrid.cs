@@ -39,16 +39,16 @@ public class ItemGrid : MonoBehaviour
 
     public bool PlaceItem(InventoryItem item, int posX, int posY)
     {
-        if (OverlapCheck(posX, posY, item.ItemData.Width, item.ItemData.Height) == false) return false;
-        if (BoundaryCheck(posX, posY, item.ItemData.Width, item.ItemData.Height) == false) return false;
+        if (OverlapCheck(posX, posY, item.ItemDataSO.Width, item.ItemDataSO.Height) == false) return false;
+        if (BoundaryCheck(posX, posY, item.ItemDataSO.Width, item.ItemDataSO.Height) == false) return false;
         
         RectTransform itemRectTransform = item.GetComponent<RectTransform>();
         itemRectTransform.SetParent(this.rectTransform);
 
         //Make item occupy the correct number of slots
-        for (int x = 0; x < item.ItemData.Width; x++)
+        for (int x = 0; x < item.ItemDataSO.Width; x++)
         {
-            for (int y = 0; y < item.ItemData.Height; y++)
+            for (int y = 0; y < item.ItemDataSO.Height; y++)
             {
                 inventoryItemSlot[posX + x, posY + y] = item;
                 emptySlots.Remove(new Vector2Int(posX + x, posY + y));
@@ -59,8 +59,8 @@ public class ItemGrid : MonoBehaviour
         item.PositionOnGridY = posY;
 
         Vector2 position = new Vector2();
-        position.x = posX * TileWidth + TileWidth * item.ItemData.Width / 2;
-        position.y = -(posY * TileHeight + TileHeight * item.ItemData.Height / 2);
+        position.x = posX * TileWidth + TileWidth * item.ItemDataSO.Width / 2;
+        position.y = -(posY * TileHeight + TileHeight * item.ItemDataSO.Height / 2);
 
         itemRectTransform.localPosition = position;
 
@@ -81,9 +81,9 @@ public class ItemGrid : MonoBehaviour
     public void RemoveItem(InventoryItem item)
     {
         //Remove the correct number of slots
-        for (int x = 0; x < item.ItemData.Width; x++)
+        for (int x = 0; x < item.ItemDataSO.Width; x++)
         {
-            for (int y = 0; y < item.ItemData.Height; y++)
+            for (int y = 0; y < item.ItemDataSO.Height; y++)
             {
                 inventoryItemSlot[item.PositionOnGridX + x, item.PositionOnGridY + y] = null;
                 emptySlots.Add(new Vector2Int(item.PositionOnGridX + x, item.PositionOnGridY + y));
@@ -97,6 +97,11 @@ public class ItemGrid : MonoBehaviour
         {
             for (int y = 0; y < itemHeight; y++)
             {
+                if (posX + x >= inventoryItemSlot.GetLength(0) || posY + y >= inventoryItemSlot.GetLength(1))
+                {
+                    return false; //Out of bounds
+                }
+
                 if (inventoryItemSlot[posX + x, posY + y] != null)
                 {
                     return false;
@@ -151,9 +156,9 @@ public class ItemGrid : MonoBehaviour
         SortEmptySlots();
         for (int i = 0; i < emptySlots.Count; i++)
         {
-            if (BoundaryCheck(emptySlots[i].x, emptySlots[i].y, item.ItemData.Width, item.ItemData.Height) == true)
+            if (BoundaryCheck(emptySlots[i].x, emptySlots[i].y, item.ItemDataSO.Width, item.ItemDataSO.Height) == true)
             {
-                if (OverlapCheck(emptySlots[i].x, emptySlots[i].y, item.ItemData.Width, item.ItemData.Height) == true)
+                if (OverlapCheck(emptySlots[i].x, emptySlots[i].y, item.ItemDataSO.Width, item.ItemDataSO.Height) == true)
                 {
                     return emptySlots[i];
                 }

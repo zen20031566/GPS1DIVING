@@ -10,6 +10,9 @@ public class ItemDataSO : ScriptableObject
     public Sprite Icon;
     public int Width = 1;
     public int Height = 1;
+    public Item prefab;
+    public ItemWeight weight;
+    public ItemRarity rarity;
 
     private void OnValidate()
     {
