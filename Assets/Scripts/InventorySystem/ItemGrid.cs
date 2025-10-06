@@ -73,6 +73,13 @@ public class ItemGrid : MonoBehaviour
 
         if (item == null) return null;
 
+        RemoveItem(item);
+
+        return item;    
+    }
+
+    public void RemoveItem(InventoryItem item)
+    {
         //Remove the correct number of slots
         for (int x = 0; x < item.ItemData.Width; x++)
         {
@@ -82,7 +89,6 @@ public class ItemGrid : MonoBehaviour
                 emptySlots.Add(new Vector2Int(item.PositionOnGridX + x, item.PositionOnGridY + y));
             }
         }
-        return item;    
     }
 
     bool OverlapCheck(int posX, int posY, int itemWidth, int itemHeight)
