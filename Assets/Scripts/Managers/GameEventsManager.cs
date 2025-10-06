@@ -10,6 +10,8 @@ public class GameEventsManager : MonoBehaviour
     public QuestEvents QuestEvents { get; set; }
     public QuestStepEvents QuestStepEvents { get; set; }
     public GameUIEvents GameUIEvents { get; set; }
+    public InteractEvent InteractEvent { get; set; } 
+    public InventoryEvents InventoryEvents { get; set; }
 
     private void Awake()
     {
@@ -27,5 +29,7 @@ public class GameEventsManager : MonoBehaviour
         QuestEvents = new QuestEvents();
         QuestStepEvents = new QuestStepEvents();
         GameUIEvents = new GameUIEvents();
+        InteractEvent = new InteractEvent();
+        InventoryEvents = new InventoryEvents();
     }
 }

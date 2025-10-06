@@ -2,10 +2,10 @@ using System;
 
 public class InteractEvent 
 {
-    public event Action<Type> OnInteract;
+    public event Action OnInteract;
 
-    public void Interact(Type interactedObj)
+    public void Interact()
     {
-        OnInteract?.Invoke(interactedObj);
+        OnInteract?.Invoke();
     }
 }

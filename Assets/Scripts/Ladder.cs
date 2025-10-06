@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class Ladder : MonoBehaviour, IInteractable
 {
-    [SerializeField] private Player player;
-    public bool canInteract { get; set; } = true;
+    Player player;
+    public bool CanInteract { get; set; } = true;
 
-    public void Interact()
+    public void Interact(Player player)
     {
+        this.player = player;
         if (player.PlayerStateMachine.CurrentState != player.OnLadderState)
         {
             player.PlayerStateMachine.ChangeState(player.OnLadderState);

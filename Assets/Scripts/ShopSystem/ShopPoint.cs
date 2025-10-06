@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class ShopPoint : MonoBehaviour, IInteractable
 {
-    public bool canInteract { get; set; } = true;
+    public bool CanInteract { get; set; } = true;
 
-    public void Interact()
+    public void Interact(Player player)
     {
-        GameEventsManager.Instance.GameUIEvents.OpenMenu("UI_SHOP");
+        GameEventsManager.Instance.GameUIEvents.OpenMenu("Shop");
     }
 }

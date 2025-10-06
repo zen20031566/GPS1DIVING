@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class InventoryManager : MonoBehaviour
 {
     public ItemGrid SelectedItemGrid { get; set; }
+    public ItemGrid InventoryGrid;
 
     private InventoryItem selectedItem;
     private RectTransform selectedItemRectTransform;
@@ -12,6 +14,13 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private InventoryItem inventoryItemPrefab;
 
     [SerializeField] private Transform canvasTransform;
+
+    [SerializeField] private int inventoryWidth = 8;
+    [SerializeField] private int inventoryHeight = 10;
+    private void Start()
+    {
+        InventoryGrid.InitializeGrid(inventoryWidth, inventoryHeight);
+    }
 
     private void Update()
     {
@@ -22,6 +31,11 @@ public class InventoryManager : MonoBehaviour
             CreateRandomItem();
         }
 
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            GameEventsManager.Instance.GameUIEvents.OpenMenu("Inventory");
+        }
+
         if (SelectedItemGrid == null) return;
 
         if (InputManager.LeftClickPressed)
@@ -29,6 +43,17 @@ public class InventoryManager : MonoBehaviour
             Debug.Log("MousePressedd");
             HandleLeftClick();
         } 
+    }
+
+    public void AddItem(ItemDataSO itemData)
+    {
+        if (InventoryGrid.CheckHasEmptySlot())
+        {
+            InventoryItem item = Instantiate(inventoryItemPrefab, canvasTransform);
+            item.InitializeItem(itemData);
+            Vector2Int emptySlot = InventoryGrid.GetEmptySlot();
+            InventoryGrid.PlaceItem(item, emptySlot.x, emptySlot.y);
+        }
     }
 
     private void CreateRandomItem()

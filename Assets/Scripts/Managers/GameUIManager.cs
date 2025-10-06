@@ -7,6 +7,7 @@ public class GameUIManager : MonoBehaviour
 
     [SerializeField] private GameObject gameplayUI;
     [SerializeField] private GameObject shopUI;
+    [SerializeField] private GameObject inventoryUI;
 
     private void OnEnable()
     {
@@ -39,9 +40,14 @@ public class GameUIManager : MonoBehaviour
 
         switch (menuName)
         {
-            case "UI_SHOP":
+            case "Shop":
                 shopUI.SetActive(true); 
                 currentMenu = shopUI;
+                break;
+
+            case "Inventory":
+                inventoryUI.SetActive(true);
+                currentMenu = inventoryUI;
                 break;
 
             default:

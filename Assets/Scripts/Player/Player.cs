@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public InventoryManager inventoryManager;
     public PlayerController PlayerController;
-
     public PlayerStateMachine PlayerStateMachine;
 
     public OnLandState OnLandState;

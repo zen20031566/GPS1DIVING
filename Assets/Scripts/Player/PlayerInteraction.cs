@@ -2,14 +2,20 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
+    private Player player;
     private IInteractable closestInteractable = null;
     [SerializeField] private GameObject interactUI;
+
+    private void Awake()
+    {
+        player = GetComponentInParent<Player>();
+    }
 
     private void Update()
     {
         if (InputManager.InteractPressed && closestInteractable != null)
         {
-            closestInteractable.Interact();
+            closestInteractable.Interact(player);
         }
     }
 

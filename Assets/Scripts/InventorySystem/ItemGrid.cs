@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemGrid : MonoBehaviour
@@ -8,24 +9,21 @@ public class ItemGrid : MonoBehaviour
     [SerializeField] private int gridWidth = 10;
     [SerializeField] private int gridHeight = 10;
 
-    InventoryItem[,] inventoryItemSlot;
+    private InventoryItem[,] inventoryItemSlot;
+    private List<Vector2Int> emptySlots = new List<Vector2Int>();
 
     private RectTransform rectTransform;
 
     private Vector2 positionOnGrid = new Vector2();
     private Vector2Int tileGridPosition = new Vector2Int();
 
-    private void Start()
-    {
-        rectTransform = GetComponent<RectTransform>();
-        InitializeGrid(gridWidth, gridHeight);
-    }
-
     public void InitializeGrid(int width, int height)
     {
-       inventoryItemSlot = new InventoryItem[width, height];
+        rectTransform = GetComponent<RectTransform>();
+        inventoryItemSlot = new InventoryItem[width, height];
         Vector2 size = new Vector2(width * TileWidth, height * TileHeight);
         rectTransform.sizeDelta = size;
+        InitializeEmptySlots();
     }
 
     public Vector2Int GetTileGridPosition(Vector2 mousePosition)
@@ -53,6 +51,7 @@ public class ItemGrid : MonoBehaviour
             for (int y = 0; y < item.ItemData.Height; y++)
             {
                 inventoryItemSlot[posX + x, posY + y] = item;
+                emptySlots.Remove(new Vector2Int(posX + x, posY + y));
             }
         }
 
@@ -80,9 +79,9 @@ public class ItemGrid : MonoBehaviour
             for (int y = 0; y < item.ItemData.Height; y++)
             {
                 inventoryItemSlot[item.PositionOnGridX + x, item.PositionOnGridY + y] = null;
+                emptySlots.Add(new Vector2Int(item.PositionOnGridX + x, item.PositionOnGridY + y));
             }
         }
-       
         return item;    
     }
 
@@ -119,5 +118,32 @@ public class ItemGrid : MonoBehaviour
         if (PositionCheck(posX, posY) == false) return false;
 
         return true;
+    }
+
+    public bool CheckHasEmptySlot()
+    {
+        if (emptySlots.Count > 0) return true;
+        else return false;
+    }
+
+    public Vector2Int GetEmptySlot()
+    {
+        return emptySlots[0];
+    }
+
+    private void InitializeEmptySlots()
+    {
+        emptySlots.Clear();
+
+        for (int x = 0; x < gridWidth; x++)
+        {
+            for (int y = 0; y < gridHeight; y++)
+            {
+                if (inventoryItemSlot[x, y] == null)
+                {
+                    emptySlots.Add(new Vector2Int(x, y)); //Add empty slot to the list
+                }
+            }
+        }
     }
 }

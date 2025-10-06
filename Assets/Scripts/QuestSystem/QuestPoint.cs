@@ -6,7 +6,7 @@ public class QuestPoint : MonoBehaviour, IInteractable
 {
     [SerializeField] private QuestInfoSO questInfoForPoint;
     [SerializeField] private QuestIcon questIcon;
-    public bool canInteract { get; set; } = true;
+    public bool CanInteract { get; set; } = true;
 
     private string questId;
 
@@ -27,7 +27,7 @@ public class QuestPoint : MonoBehaviour, IInteractable
         GameEventsManager.Instance.QuestEvents.OnQuestStateChange -= QuestStateChange;
     }
 
-    public void Interact()
+    public void Interact(Player player)
     {
         if (currentQuestState.Equals(QuestState.CAN_START))
         {
