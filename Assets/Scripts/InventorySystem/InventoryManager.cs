@@ -86,10 +86,9 @@ public class InventoryManager : MonoBehaviour
         playerItems.Remove(selectedItem.Item);
         selectedItemGrid.RemoveItem(selectedItem);
         GameEventsManager.Instance.InventoryEvents.ItemDropped(selectedItem.Item);
-        Destroy(selectedItem.gameObject);
         selectedItem = null;
         selectedItemGrid = null;
-
+        Destroy(selectedItem.gameObject);
         Debug.Log("Dropped item");
     }
 
