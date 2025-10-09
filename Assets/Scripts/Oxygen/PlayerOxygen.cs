@@ -22,7 +22,6 @@ public class PlayerOxygen : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private Image oxygenBar_Filled;
-    [SerializeField] private Image oxygenBar_Back;
 
     [Header("Low Oxygen Effect")] //for black overlay when oxygen low
     [SerializeField] private Image lowOxygenOverlay;  // UI overlay here (might change)
@@ -46,10 +45,14 @@ public class PlayerOxygen : MonoBehaviour
     {
         if (player.PlayerHead.transform.position.y >= player.PlayerController.WaterLevel)
         {
+            player.PlayerOxygen.isUnderwater = false;
+        }
+        else
+        {
             player.PlayerOxygen.isUnderwater = true;
         }
 
-        HandleOxygen();
+            HandleOxygen();
 
         if (currentOxygen <= 0 && !isFadingOut)
         {
@@ -74,7 +77,6 @@ public class PlayerOxygen : MonoBehaviour
 
         //ui oxygen
         oxygenBar_Filled.fillAmount = currentOxygen / maxOxygen;
-        oxygenBar_Back.fillAmount = maxOxygen;
     }
 
     private void HandleLowOxygenEffect()
