@@ -41,8 +41,8 @@ public class ItemGrid : MonoBehaviour
     {
         if (OverlapCheck(posX, posY, item.ItemDataSO.Width, item.ItemDataSO.Height) == false) return false;
         if (BoundaryCheck(posX, posY, item.ItemDataSO.Width, item.ItemDataSO.Height) == false) return false;
-        
-        RectTransform itemRectTransform = item.GetComponent<RectTransform>();
+
+        RectTransform itemRectTransform = item.RectTransform;
         itemRectTransform.SetParent(this.rectTransform);
 
         //Make item occupy the correct number of slots

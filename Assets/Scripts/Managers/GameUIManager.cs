@@ -9,6 +9,8 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private GameObject shopUI;
     [SerializeField] private GameObject inventoryUI;
 
+    private Player player;
+
     private void OnEnable()
     {
         GameEventsManager.Instance.GameUIEvents.OnOpenMenu += OpenMenu;
@@ -19,6 +21,11 @@ public class GameUIManager : MonoBehaviour
     {
         GameEventsManager.Instance.GameUIEvents.OnOpenMenu -= OpenMenu;
         GameEventsManager.Instance.GameUIEvents.OnCloseMenu -= CloseMenu;
+    }
+
+    private void Start()
+    {
+        player = GameManager.Instance.Player;
     }
 
     private void Update()
@@ -37,6 +44,7 @@ public class GameUIManager : MonoBehaviour
         if (menuIsOpen) return;
 
         menuIsOpen = true;
+        player.PlayerStateMachine.ChangeState(player.OnUIOrDialog);
 
         switch (menuName)
         {
@@ -65,6 +73,7 @@ public class GameUIManager : MonoBehaviour
             menuIsOpen = false;
             currentMenu.SetActive(false);
             currentMenu = null;
+            player.PlayerStateMachine.ChangeState(player.OnLandState);
         }
     } 
 }

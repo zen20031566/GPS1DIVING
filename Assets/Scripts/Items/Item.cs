@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -61,8 +60,9 @@ public class Item : MonoBehaviour, IInteractable
         if (player.inventoryManager.InventoryGrid.CheckHasEmptySlot(itemDataSO) == true)
         {
             Debug.Log("Adding item " + itemDataSO.DisplayName);
-            
-            player.inventoryManager.AddItem(itemDataSO);
+
+            ItemData itemData = new ItemData(itemDataSO);
+            player.inventoryManager.AddItem(itemData);
 
             Destroy(gameObject);
         }

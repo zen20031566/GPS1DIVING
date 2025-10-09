@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public OnLandState OnLandState;
     public InWaterState InWaterState;
     public OnLadderState OnLadderState;
+    public InUIOrDialog OnUIOrDialog;
 
     private void Awake()
     {
@@ -17,7 +18,8 @@ public class Player : MonoBehaviour
 
         OnLandState = new OnLandState(PlayerStateMachine, this);
         InWaterState = new InWaterState(PlayerStateMachine, this);
-        OnLadderState = new OnLadderState(PlayerStateMachine, this); 
+        OnLadderState = new OnLadderState(PlayerStateMachine, this);
+        OnUIOrDialog = new InUIOrDialog(PlayerStateMachine, this);
     }
 
     private void Start()

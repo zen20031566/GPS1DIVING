@@ -4,6 +4,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    public Player Player;
     public Transform PlayerTransform;
 
     private void Awake()
@@ -16,6 +17,10 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
 
-        
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        PlayerTransform = Player.transform;
+
+        if (Player == null)
+            Debug.LogError("Player not found Make sure player has 'Player' tag");
     }
 }
