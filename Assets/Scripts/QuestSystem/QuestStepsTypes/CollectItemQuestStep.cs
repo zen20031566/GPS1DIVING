@@ -22,6 +22,9 @@ public class CollectItemQuestStep : QuestStep
 
     public override void Configure(QuestStepConfig config)
     {
+        itemsCollectedMap = new Dictionary<int, int>();
+        amountToCompleteMap = new Dictionary<int, int>();
+
         foreach (var pair in config.itemsToCollect)
         {
             amountToCompleteMap.Add(pair.Id, pair.RequiredAmount);
@@ -40,7 +43,10 @@ public class CollectItemQuestStep : QuestStep
         if (itemsCollectedMap.ContainsKey(id))
         {
             itemsCollectedMap[id]++;
-            
+            UpdateDescription();
+
+            GameEventsManager.Instance.QuestStepEvents.QuestStepProgressChanged(questId);
+
             if (CheckCompletion())
             {
                 FinishQuestStep();
@@ -52,9 +58,12 @@ public class CollectItemQuestStep : QuestStep
     {
         if (itemsCollectedMap.ContainsKey(id))
         {
-            if (itemsCollectedMap[id] >= 0)
+            if (itemsCollectedMap[id] > 0)
             {
                 itemsCollectedMap[id]--;
+                UpdateDescription();
+
+                GameEventsManager.Instance.QuestStepEvents.QuestStepProgressChanged(questId);
             }
         }
     }
@@ -79,19 +88,20 @@ public class CollectItemQuestStep : QuestStep
     private void UpdateDescription()
     {
         description = "";
-        foreach (int Id in itemsCollectedMap.Keys)
+        foreach (var kvp in itemsCollectedMap)
         {
-            int collectedAmount = itemsCollectedMap[Id];
-            int amountToComplete = amountToCompleteMap[Id];
+            int id = kvp.Key;
+            int collectedAmount = kvp.Value;
+            int amountToComplete = amountToCompleteMap[id];
 
             if (collectedAmount >= amountToComplete)
             {
                 collectedAmount = amountToComplete;
             }
 
-            ItemDataSO itemDataSO = ItemCreator.GetItemById(Id);
+            ItemDataSO itemDataSO = ItemCreator.GetItemById(id);
             string collectionDescription = "Collect " + itemDataSO.DisplayName;
-            string progressDescription = " (" + itemsCollectedMap + "/" + amountToComplete + ")\n";
+            string progressDescription = " (" + collectedAmount + "/" + amountToComplete + ")\n";
 
             description += collectionDescription + progressDescription;
         }

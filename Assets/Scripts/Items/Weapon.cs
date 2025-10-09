@@ -1,16 +1,14 @@
 using UnityEngine;
 
-public class Weapon : Item
+public class Weapon : Item, IEquipable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Equip()
     {
-        
+        Debug.Log("Equpped item " + this.itemDataSO.DisplayName);
+    }
+    public void Unequip()
+    {
+        Debug.Log("Unequipped item " + this.itemDataSO.DisplayName);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

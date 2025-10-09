@@ -100,9 +100,9 @@ public class InventoryManager : MonoBehaviour
 
         if (CurrentItemGrid == WeaponSlot1 || CurrentItemGrid == WeaponSlot2 || CurrentItemGrid == ConsumablesSlots)
         {
-            //playerEquipment.EquipedItems.Remove(selectedItem.ItemData);
-            //playerEquipment.UpdateEquipmentSlot();
-            //Debug.Log(playerEquipment.EquipedItems.Count);
+            playerEquipment.EquipedItems.Remove(selectedItem.ItemData);
+            playerEquipment.UpdateEquipmentSlot();
+            Debug.Log(playerEquipment.EquipedItems.Count);
         }
     }
 
@@ -112,9 +112,9 @@ public class InventoryManager : MonoBehaviour
         {
             if (CurrentItemGrid == WeaponSlot1 || CurrentItemGrid == WeaponSlot2 || CurrentItemGrid == ConsumablesSlots)
             {
-                //playerEquipment.EquipedItems.Add(selectedItem.ItemData);
-                //playerEquipment.UpdateEquipmentSlot();
-                //Debug.Log(playerEquipment.EquipedItems.Count);
+                playerEquipment.EquipedItems.Add(selectedItem.ItemData);
+                playerEquipment.UpdateEquipmentSlot();
+                Debug.Log(playerEquipment.EquipedItems.Count);
             }
 
             selectedItem = null;

@@ -12,9 +12,15 @@ public class PlayerEquipment : MonoBehaviour
         ClearEquipment();
 
         foreach (ItemData itemData in EquipedItems)
-        {
+        { 
             Item item = Instantiate(itemData.ItemDataSO.prefab, equipedItemTransform.position, Quaternion.identity, equipedItemTransform);
             item.InitializeItem(itemData.ItemDataSO);
+            item.rb.simulated = false;
+
+            if (item is IEquipable equipableItem)
+            {
+                equipableItem.Equip();
+            }
         }
     }
 
