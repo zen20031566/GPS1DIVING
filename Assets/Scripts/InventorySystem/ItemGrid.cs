@@ -17,12 +17,16 @@ public class ItemGrid : MonoBehaviour
     private Vector2 positionOnGrid = new Vector2();
     private Vector2Int tileGridPosition = new Vector2Int();
 
+    public int TotalSlots = 0;
+    public int OccupiedSlots = 0;
+
     public void InitializeGrid(int width, int height)
     {
         rectTransform = GetComponent<RectTransform>();
         inventoryItemSlot = new InventoryItem[width, height];
         Vector2 size = new Vector2(width * TileWidth, height * TileHeight);
         rectTransform.sizeDelta = size;
+        TotalSlots = width * height;
         InitializeEmptySlots();
     }
 
@@ -63,7 +67,7 @@ public class ItemGrid : MonoBehaviour
         position.y = -(posY * TileHeight + TileHeight * item.ItemDataSO.Height / 2);
 
         itemRectTransform.localPosition = position;
-
+        OccupiedSlots += item.ItemDataSO.Width * item.ItemDataSO.Height;
         return true;
     }
 
@@ -73,6 +77,7 @@ public class ItemGrid : MonoBehaviour
 
         if (item == null) return null;
 
+        OccupiedSlots -= item.ItemDataSO.Width * item.ItemDataSO.Height;
         RemoveItem(item);
 
         return item;    

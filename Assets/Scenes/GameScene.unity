@@ -1323,6 +1323,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxWeight: 100
+--- !u!1 &104740756
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 104740757}
+  m_Layer: 6
+  m_Name: PlayerEquippedItems
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &104740757
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104740756}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1909275082}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &111816119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1919,6 +1950,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridWidth: 3
   gridHeight: 1
+  TotalSlots: 0
+  OccupiedSlots: 0
 --- !u!114 &128847557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9561,6 +9594,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridWidth: 3
   gridHeight: 2
+  TotalSlots: 0
+  OccupiedSlots: 0
 --- !u!114 &843764951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20851,9 +20886,9 @@ GameObject:
   - component: {fileID: 1909275082}
   - component: {fileID: 1909275081}
   - component: {fileID: 1909275079}
-  - component: {fileID: 1909275084}
   - component: {fileID: 1909275083}
   - component: {fileID: 1909275085}
+  - component: {fileID: 1909275086}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -20957,6 +20992,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 298765850}
+  - {fileID: 104740757}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1909275083
@@ -20984,20 +21020,6 @@ MonoBehaviour:
   moveRotationSmoothing: 0.1
   headRotationOffset: 90
   WaterLevel: 0
---- !u!114 &1909275084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1909275078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f33363c7eaf217c4c852cb2b3e7db8ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryManager: {fileID: 76721542}
-  PlayerController: {fileID: 1909275083}
 --- !u!61 &1909275085
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -21044,6 +21066,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.57, y: 1.98}
   m_EdgeRadius: 0
+--- !u!114 &1909275086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1909275078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33363c7eaf217c4c852cb2b3e7db8ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryManager: {fileID: 0}
+  PlayerController: {fileID: 0}
 --- !u!1 &1924275108
 GameObject:
   m_ObjectHideFlags: 0
@@ -23706,6 +23742,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridWidth: 3
   gridHeight: 2
+  TotalSlots: 0
+  OccupiedSlots: 0
 --- !u!114 &2113132379
 MonoBehaviour:
   m_ObjectHideFlags: 0
