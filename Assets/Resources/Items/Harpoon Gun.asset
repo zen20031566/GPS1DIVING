@@ -16,7 +16,6 @@ MonoBehaviour:
   DisplayName: Harpoon Gun
   DisplaySprite: {fileID: -4360640626391904315, guid: 4ef952f054da4684db9c066435d91b14, type: 3}
   InventorySprite: {fileID: -4360640626391904315, guid: 4ef952f054da4684db9c066435d91b14, type: 3}
-  Icon: {fileID: -4360640626391904315, guid: 4ef952f054da4684db9c066435d91b14, type: 3}
   Width: 3
   Height: 2
   prefab: {fileID: 834810385572461669, guid: ec1884a232490b64d9731c12a6aa8577, type: 3}
