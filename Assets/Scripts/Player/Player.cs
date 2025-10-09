@@ -5,8 +5,9 @@ public class Player : MonoBehaviour
     public InventoryManager inventoryManager;
     public PlayerController PlayerController;
     public PlayerEquipment PlayerEquipment;
-    public PlayerStateMachine PlayerStateMachine;
+    public PlayerOxygen PlayerOxygen;
 
+    public PlayerStateMachine PlayerStateMachine;
     public OnLandState OnLandState;
     public InWaterState InWaterState;
     public OnLadderState OnLadderState;
