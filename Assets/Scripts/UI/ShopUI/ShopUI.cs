@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ShopUI : MonoBehaviour
 {
-    [SerializeField] private EquipmentManager equipmentManager;
+    [SerializeField] private GearManager equipmentManager;
 
     [SerializeField] private Transform equipmentTab;
     [SerializeField] private EquipmentTabSlot equipmentTabSlotPrefab;
@@ -23,7 +23,7 @@ public class ShopUI : MonoBehaviour
     //Equipment Tab
     private void FillEquipmentTab()
     {
-        foreach (EquipmentSO equipment in equipmentManager.PlayerEquipment)
+        foreach (GearSO equipment in equipmentManager.PlayerEquipment)
         {
             InstantiateEquipmentSlot(equipment);
         }
@@ -37,7 +37,7 @@ public class ShopUI : MonoBehaviour
         }
     }
 
-    private void InstantiateEquipmentSlot(EquipmentSO equipmentData)
+    private void InstantiateEquipmentSlot(GearSO equipmentData)
     {
         EquipmentTabSlot equipmentTabSlot = Instantiate(equipmentTabSlotPrefab, equipmentTab);
         equipmentTabSlot.InitializeEquipmentSlot(equipmentData);
@@ -45,9 +45,9 @@ public class ShopUI : MonoBehaviour
     }
 
     //Upgrades Tab
-    private void FillUpgradeTab(EquipmentSO equipmentData)
+    private void FillUpgradeTab(GearSO equipmentData)
     {
-        foreach (EquipmentUpgradeSO upgrade in equipmentData.EquipmentUpgrades)
+        foreach (GearUpgrades upgrade in equipmentData.EquipmentUpgrades)
         {
             InstantiateUpgradeSlot(upgrade);
         }
@@ -61,7 +61,7 @@ public class ShopUI : MonoBehaviour
         }
     }
 
-    private void InstantiateUpgradeSlot(EquipmentUpgradeSO upgradeData)
+    private void InstantiateUpgradeSlot(GearUpgrades upgradeData)
     {
         UpgradeTabSlot upgradeTabSlot;
         upgradeTabSlot = Instantiate(upgradeTabSlotPrefab, upgradeTab);

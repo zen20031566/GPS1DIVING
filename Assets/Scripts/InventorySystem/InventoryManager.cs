@@ -6,8 +6,6 @@ public class InventoryManager : MonoBehaviour
 {
     private List<ItemData> playerItems = new List<ItemData>();
 
-    [SerializeField] EquipmentManager equipmentManager;
-
     public ItemGrid CurrentItemGrid;
     private ItemGrid selectedItemGrid;
     [SerializeField] private LayerMask inventoryLayer;
@@ -31,6 +29,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] Vector2Int consumablesSlotsSize = new Vector2Int(3, 1);
 
     private Player player;
+    private PlayerEquipment playerEquipment;
 
     private void Start()
     {
@@ -39,11 +38,16 @@ public class InventoryManager : MonoBehaviour
         WeaponSlot2.InitializeGrid(weaponSlotSize.x, weaponSlotSize.y);
         ConsumablesSlots.InitializeGrid(consumablesSlotsSize.x, consumablesSlotsSize.y);
         player = GameManager.Instance.Player;
+        playerEquipment = player.PlayerEquipment;
         UpdateSlotsCounter();
     }
 
     private void Update()
     {
+        //if (CurrentItemGrid != null)
+        //{
+        //    Debug.Log(GetTileGridPosition());
+        //}
         DragItem();
 
         if (Input.GetKeyDown(KeyCode.I))
@@ -82,6 +86,8 @@ public class InventoryManager : MonoBehaviour
 
     private void PickUpItem(Vector2Int tileGridPosition)
     {
+        if (CurrentItemGrid == null) return;
+
         selectedItemGrid = CurrentItemGrid;
         selectedItem = selectedItemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
 
@@ -92,8 +98,9 @@ public class InventoryManager : MonoBehaviour
 
         if (CurrentItemGrid == WeaponSlot1 || CurrentItemGrid == WeaponSlot2 || CurrentItemGrid == ConsumablesSlots)
         {
-            equipmentManager.EquipedItems.Remove(selectedItem.ItemData);
-            Debug.Log(equipmentManager.EquipedItems.Count);
+            //playerEquipment.EquipedItems.Remove(selectedItem.ItemData);
+            //playerEquipment.UpdateEquipmentSlot();
+            //Debug.Log(playerEquipment.EquipedItems.Count);
         }
     }
 
@@ -103,8 +110,9 @@ public class InventoryManager : MonoBehaviour
         {
             if (CurrentItemGrid == WeaponSlot1 || CurrentItemGrid == WeaponSlot2 || CurrentItemGrid == ConsumablesSlots)
             {
-                equipmentManager.EquipedItems.Add(selectedItem.ItemData);
-                Debug.Log(equipmentManager.EquipedItems.Count);
+                //playerEquipment.EquipedItems.Add(selectedItem.ItemData);
+                //playerEquipment.UpdateEquipmentSlot();
+                //Debug.Log(playerEquipment.EquipedItems.Count);
             }
 
             selectedItem = null;
@@ -131,7 +139,7 @@ public class InventoryManager : MonoBehaviour
 
     private void DropItem(ItemData itemData)
     {
-        Item item = Instantiate(itemData.ItemDataSO.prefab, GameManager.Instance.PlayerTransform.position, Quaternion.identity);
+        Item item = Instantiate(itemData.ItemDataSO.prefab, player.transform.position, Quaternion.identity);
         item.InitializeItem(itemData.ItemDataSO);
     }
 

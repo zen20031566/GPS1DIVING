@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EquipmentUpgradeSO", menuName = "Scriptable Objects/EquipmentUpgradeSO")]
-public class EquipmentUpgradeSO : ScriptableObject
+[CreateAssetMenu(fileName = "GearUpgradesSO", menuName = "Scriptable Objects/GearUpgradesSO")]
+public class GearUpgrades : ScriptableObject
 {
     [field: SerializeField] public string Id { get; private set; }
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Torch : Equipment
+public class Torch : Gear
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

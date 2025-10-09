@@ -8,19 +8,10 @@ public class ItemDataSO : ScriptableObject
     public string DisplayName;
     public Sprite DisplaySprite;
     public Sprite InventorySprite;
-    public Sprite Icon;
     public int Width = 1;
     public int Height = 1;
     public Item prefab;
     public ItemWeight weight;
     public ItemRarity rarity;
     public List<ItemTag> tags;
-
-    private void OnValidate()
-    {
-        #if UNITY_EDITOR
-                DisplayName = this.name;
-                UnityEditor.EditorUtility.SetDirty(this);
-        #endif
-    }
 }

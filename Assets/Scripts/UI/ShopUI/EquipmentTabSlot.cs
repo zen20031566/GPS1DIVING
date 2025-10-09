@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 public class EquipmentTabSlot : MonoBehaviour
 {
-    private EquipmentSO data;
+    private GearSO data;
     [SerializeField] private Image icon;
     
-    public void InitializeEquipmentSlot(EquipmentSO equipmentData)
+    public void InitializeEquipmentSlot(GearSO equipmentData)
     {
         data = equipmentData;
         icon.sprite = data.Icon;

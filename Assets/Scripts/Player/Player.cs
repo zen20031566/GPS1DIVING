@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public InventoryManager inventoryManager;
     public PlayerController PlayerController;
+    public PlayerEquipment PlayerEquipment;
     public PlayerStateMachine PlayerStateMachine;
-    public Transform PlayerEquippedItemTransform;
 
     public OnLandState OnLandState;
     public InWaterState InWaterState;
