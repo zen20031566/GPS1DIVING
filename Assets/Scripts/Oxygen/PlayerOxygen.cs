@@ -5,6 +5,8 @@ using System.Collections;
 
 public class PlayerOxygen : MonoBehaviour
 {
+    Player player;
+
     [Header("Oxygen Settings")]
     [SerializeField] private float maxOxygen = 100f;
     [SerializeField] private float currentOxygen;
@@ -12,8 +14,8 @@ public class PlayerOxygen : MonoBehaviour
     [SerializeField] private float oxygenRefillRate = 40f;   //oxygen gained per second at surface or air pocket
 
     [Header("State")]
-    public bool isUnderwater = false;
-    public bool isInAirPocket = false;
+    private bool isUnderwater = false;
+    private bool isInAirPocket = false;
 
     [Header("Respawn")]
     [SerializeField] private Transform respawnPoint; //insert surface spawn point here
@@ -36,11 +38,17 @@ public class PlayerOxygen : MonoBehaviour
 
     private void Start()
     {
+        player = GameManager.Instance.Player;
         currentOxygen = maxOxygen;
     }
 
     private void Update()
     {
+        if (player.PlayerHead.transform.position.y >= player.PlayerController.WaterLevel)
+        {
+            player.PlayerOxygen.isUnderwater = true;
+        }
+
         HandleOxygen();
 
         if (currentOxygen <= 0 && !isFadingOut)
@@ -144,9 +152,6 @@ public class PlayerOxygen : MonoBehaviour
     {
         if (other.CompareTag("AirPocket"))
             isInAirPocket = true;
-
-        if (other.CompareTag("Surface"))
-            isUnderwater = false;
     }
 
     private void OnTriggerExit2D(Collider2D other)

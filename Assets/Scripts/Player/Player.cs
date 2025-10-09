@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public OnLadderState OnLadderState;
     public InUIOrDialog OnUIOrDialog;
 
+    public GameObject PlayerHead;
     private void Awake()
     {
         PlayerController = GetComponent<PlayerController>();
