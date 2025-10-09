@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Tranq : Equipment
+public class Tranq : Gear
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

@@ -1,14 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class EquipmentManager : MonoBehaviour
+public class GearManager : MonoBehaviour
 {
-    private Dictionary<string, EquipmentSO> allEquipmentsMap;
+    private Dictionary<string, GearSO> allEquipmentsMap;
 
-    private List<EquipmentSO> playerEquipment = new List<EquipmentSO>();
+    private List<GearSO> playerEquipment = new List<GearSO>();
 
     //Properties
-    public List<EquipmentSO> PlayerEquipment => playerEquipment;
+    public List<GearSO> PlayerEquipment => playerEquipment;
 
     private void Awake()
     {
@@ -19,7 +19,7 @@ public class EquipmentManager : MonoBehaviour
     {
         GiveEquipment("EQUIPMENT_01");
 
-        foreach (EquipmentSO equipment in playerEquipment)
+        foreach (GearSO equipment in playerEquipment)
         {
             Debug.Log(equipment.Id);
         }
@@ -30,9 +30,9 @@ public class EquipmentManager : MonoBehaviour
         playerEquipment.Add(GetEquipmentById(id));
     }
 
-    private EquipmentSO GetEquipmentById(string id)
+    private GearSO GetEquipmentById(string id)
     {
-        EquipmentSO equipment = allEquipmentsMap[id];
+        GearSO equipment = allEquipmentsMap[id];
 
         if (equipment == null)
         {
@@ -42,13 +42,13 @@ public class EquipmentManager : MonoBehaviour
         return equipment;
     }
 
-    private Dictionary<string, EquipmentSO> CreateEquipmentMap()
+    private Dictionary<string, GearSO> CreateEquipmentMap()
     {
-        EquipmentSO[] allEquipment = Resources.LoadAll<EquipmentSO>("Equipment");
+        GearSO[] allEquipment = Resources.LoadAll<GearSO>("Equipment");
 
-        Dictionary<string, EquipmentSO> idToEquipmentsMap = new Dictionary<string, EquipmentSO>();
+        Dictionary<string, GearSO> idToEquipmentsMap = new Dictionary<string, GearSO>();
 
-        foreach (EquipmentSO equipmentData in allEquipment)
+        foreach (GearSO equipmentData in allEquipment)
         {
             if (idToEquipmentsMap.ContainsKey(equipmentData.Id))
             {

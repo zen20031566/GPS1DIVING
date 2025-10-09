@@ -1,18 +1,18 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class Equipment : MonoBehaviour
+public class Gear : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
 
-    public EquipmentSO Data;
+    public GearSO Data;
 
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void InitializeEquipment(EquipmentSO equipmentData)
+    private void InitializeEquipment(GearSO equipmentData)
     {
         Data = equipmentData;
         spriteRenderer.sprite = Data.Sprite;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    [SerializeField] private List<ItemData> playerItems = new List<ItemData>();
+    private List<ItemData> playerItems = new List<ItemData>();
 
     public ItemGrid CurrentItemGrid;
     private ItemGrid selectedItemGrid;
@@ -17,8 +17,6 @@ public class InventoryManager : MonoBehaviour
 
     public bool IsPointerOnInventory;
 
-    private int totalSlots;
-    private int occupiedSlots = 0;
     [SerializeField] TMP_Text slotsText;
 
     public ItemGrid InventoryGrid;
@@ -31,6 +29,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] Vector2Int consumablesSlotsSize = new Vector2Int(3, 1);
 
     private Player player;
+    private PlayerEquipment playerEquipment;
 
     private void Start()
     {
@@ -38,14 +37,17 @@ public class InventoryManager : MonoBehaviour
         WeaponSlot1.InitializeGrid(weaponSlotSize.x, weaponSlotSize.y);
         WeaponSlot2.InitializeGrid(weaponSlotSize.x, weaponSlotSize.y);
         ConsumablesSlots.InitializeGrid(consumablesSlotsSize.x, consumablesSlotsSize.y);
-
-        totalSlots = inventorySize.x * inventorySize.y;
-
         player = GameManager.Instance.Player;
+        playerEquipment = player.PlayerEquipment;
+        UpdateSlotsCounter();
     }
 
     private void Update()
     {
+        //if (CurrentItemGrid != null)
+        //{
+        //    Debug.Log(GetTileGridPosition());
+        //}
         DragItem();
 
         if (Input.GetKeyDown(KeyCode.I))
@@ -78,13 +80,14 @@ public class InventoryManager : MonoBehaviour
 
             InventoryGrid.PlaceItem(inventoryItem, emptySlot.Value.x, emptySlot.Value.y);
 
-            occupiedSlots += itemDataSO.Width * itemDataSO.Height;
             UpdateSlotsCounter();
         }
     }
 
     private void PickUpItem(Vector2Int tileGridPosition)
     {
+        if (CurrentItemGrid == null) return;
+
         selectedItemGrid = CurrentItemGrid;
         selectedItem = selectedItemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
 
@@ -92,14 +95,29 @@ public class InventoryManager : MonoBehaviour
 
         selectedItem.RectTransform.parent.SetAsLastSibling();
         selectedItem.RectTransform.SetAsLastSibling();
+
+        if (CurrentItemGrid == WeaponSlot1 || CurrentItemGrid == WeaponSlot2 || CurrentItemGrid == ConsumablesSlots)
+        {
+            //playerEquipment.EquipedItems.Remove(selectedItem.ItemData);
+            //playerEquipment.UpdateEquipmentSlot();
+            //Debug.Log(playerEquipment.EquipedItems.Count);
+        }
     }
 
     private void PlaceItem(Vector2Int tileGridPosition)
     {
         if (CurrentItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y))
         {
+            if (CurrentItemGrid == WeaponSlot1 || CurrentItemGrid == WeaponSlot2 || CurrentItemGrid == ConsumablesSlots)
+            {
+                //playerEquipment.EquipedItems.Add(selectedItem.ItemData);
+                //playerEquipment.UpdateEquipmentSlot();
+                //Debug.Log(playerEquipment.EquipedItems.Count);
+            }
+
             selectedItem = null;
             selectedItemGrid = null;
+            UpdateSlotsCounter();
         }
     }
 
@@ -110,7 +128,6 @@ public class InventoryManager : MonoBehaviour
         playerItems.Remove(selectedItem.ItemData);
         selectedItemGrid.RemoveItem(selectedItem);
 
-        occupiedSlots -= selectedItem.ItemDataSO.Width * selectedItem.ItemDataSO.Height;
         UpdateSlotsCounter();
 
         Destroy(selectedItem.gameObject);
@@ -122,7 +139,7 @@ public class InventoryManager : MonoBehaviour
 
     private void DropItem(ItemData itemData)
     {
-        Item item = Instantiate(itemData.ItemDataSO.prefab, GameManager.Instance.PlayerTransform.position, Quaternion.identity);
+        Item item = Instantiate(itemData.ItemDataSO.prefab, player.transform.position, Quaternion.identity);
         item.InitializeItem(itemData.ItemDataSO);
     }
 
@@ -195,7 +212,7 @@ public class InventoryManager : MonoBehaviour
 
     private void UpdateSlotsCounter()
     {
-        slotsText.text = occupiedSlots + "/" + totalSlots;
+        slotsText.text = InventoryGrid.OccupiedSlots + "/" + InventoryGrid.TotalSlots;
     }
 
 }

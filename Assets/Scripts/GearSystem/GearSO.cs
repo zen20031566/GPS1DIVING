@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EquipmentSO", menuName = "Scriptable Objects/EquipmentSO")]
-public class EquipmentSO : ScriptableObject
+[CreateAssetMenu(fileName = "GearSO", menuName = "Scriptable Objects/GearSO")]
+public class GearSO : ScriptableObject
 {
     [field: SerializeField] public string Id { get; private set; }
 
@@ -11,5 +11,5 @@ public class EquipmentSO : ScriptableObject
     public Sprite Icon;
     public float BaseCost;
     public string Description;
-    public EquipmentUpgradeSO[] EquipmentUpgrades;
+    public GearUpgrades[] EquipmentUpgrades;
 }
