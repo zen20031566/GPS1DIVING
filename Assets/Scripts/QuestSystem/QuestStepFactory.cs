@@ -9,7 +9,7 @@ public static class QuestStepFactory
 
         QuestStep questStep = config.stepType switch
         {
-            QuestStepType.COLLECT_TRASH => questStepObject.AddComponent<CollectTrashQuestStep>(),
+            QuestStepType.COLLECT_ITEM => questStepObject.AddComponent<CollectItemQuestStep>(),
             QuestStepType.GO_TO_LOCATION => questStepObject.AddComponent<GoToLocationQuestStep>(),
 
             //default
@@ -30,7 +30,7 @@ public static class QuestStepFactory
 
         switch (questStep)
         {
-            case CollectTrashQuestStep collectionStep:
+            case CollectItemQuestStep collectionStep:
                 collectionStep.Configure(config);
                 break;
             case GoToLocationQuestStep locationStep:

@@ -8,6 +8,7 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private GameObject gameplayUI;
     [SerializeField] private GameObject shopUI;
     [SerializeField] private GameObject inventoryUI;
+    [SerializeField] private GameObject pauseUI;
 
     private Player player;
 
@@ -30,12 +31,16 @@ public class GameUIManager : MonoBehaviour
 
     private void Update()
     {
-        if (menuIsOpen)
+        if (InputManager.EscPressed)
         {
-            if (InputManager.EscPressed)
+            if (menuIsOpen)
             {
                 CloseMenu();
             }
+            else
+            {
+                OpenMenu("Pause");
+            }    
         }
     }
 
@@ -56,6 +61,11 @@ public class GameUIManager : MonoBehaviour
             case "Inventory":
                 inventoryUI.SetActive(true);
                 currentMenu = inventoryUI;
+                break;
+
+            case "Pause":
+                pauseUI.SetActive(true);
+                currentMenu = pauseUI;
                 break;
 
             default:

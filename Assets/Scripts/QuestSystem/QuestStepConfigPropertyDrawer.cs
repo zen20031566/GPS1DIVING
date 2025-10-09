@@ -29,8 +29,8 @@ public class QuestStepConfigPropertyDrawer : PropertyDrawer
             //Draw conditional fields
             switch ((QuestStepType)stepTypeProp.enumValueIndex)
             {
-                case QuestStepType.COLLECT_TRASH:
-                    currentY = DrawProperty(property, "amountToComplete", position, currentY);
+                case QuestStepType.COLLECT_ITEM:
+                    currentY = DrawProperty(property, "itemsToCollect", position, currentY);
                     break;
 
                 case QuestStepType.GO_TO_LOCATION:
@@ -73,8 +73,8 @@ public class QuestStepConfigPropertyDrawer : PropertyDrawer
         //Conditional fields height
         switch ((QuestStepType)stepTypeProp.enumValueIndex)
         {
-            case QuestStepType.COLLECT_TRASH:
-                height += GetPropertyHeight(property, "amountToComplete") + verticalSpacing;
+            case QuestStepType.COLLECT_ITEM:
+                height += GetPropertyHeight(property, "itemsToCollect") + verticalSpacing;
                 break;
 
             case QuestStepType.GO_TO_LOCATION:

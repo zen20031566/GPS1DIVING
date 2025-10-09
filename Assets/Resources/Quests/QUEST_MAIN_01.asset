@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: QUEST_MAIN_01
   m_EditorClassIdentifier: 
   <Id>k__BackingField: QUEST_MAIN_01
-  DisplayName: 
+  DisplayName: Cleaning up the ocean
   QuestPrerequisites: []
   QuestStepConfigs: []
   GoldReward: 0

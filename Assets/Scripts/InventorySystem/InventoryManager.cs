@@ -81,6 +81,8 @@ public class InventoryManager : MonoBehaviour
             InventoryGrid.PlaceItem(inventoryItem, emptySlot.Value.x, emptySlot.Value.y);
 
             UpdateSlotsCounter();
+
+            GameEventsManager.Instance.InventoryEvents.ItemAdded(itemDataSO.Id);
         }
     }
 
@@ -130,10 +132,13 @@ public class InventoryManager : MonoBehaviour
 
         UpdateSlotsCounter();
 
+        GameEventsManager.Instance.InventoryEvents.ItemAdded(selectedItem.ItemData.ItemDataSO.Id);
+
         Destroy(selectedItem.gameObject);
 
         selectedItem = null;
         selectedItemGrid = null;
+
         Debug.Log("Dropped item");
     }
 
