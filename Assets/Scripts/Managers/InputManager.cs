@@ -44,9 +44,9 @@ public class InputManager : MonoBehaviour
 
         LeftClickPressed = leftClickAction.WasPressedThisFrame();
 
-        ScrollDirection = scrollAction.ReadValue<Vector2>().normalized.y;
-
-        Debug.Log(ScrollDirection);
+        ScrollDirection = scrollAction.ReadValue<float>();
+        float rawScrollDirection = Mathf.Sign(ScrollDirection);
+        Debug.Log(rawScrollDirection);
 
     }
 }
