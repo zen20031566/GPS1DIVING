@@ -1,34 +1,47 @@
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerEquipment : MonoBehaviour
 {
+    //Can change to events later idk not much dif can be better for sound later on
+    //Weapon
+    private const int numberOfEquipmentSlots = 5;
+    [SerializeField] private Image[] EquipmentSlotDisplays = new Image[numberOfEquipmentSlots];
+    public Item[] EquipedItems = new Item[numberOfEquipmentSlots];
+
     [SerializeField] private Transform equipedItemTransform;
 
-    public List<ItemData> EquipedItems = new List<ItemData>();
-
-    public void UpdateEquipmentSlot()
+    public void InstantiateEquipment(ItemData itemData, int slot)
     {
-        ClearEquipment();
+        if (itemData == null) return;
 
-        foreach (ItemData itemData in EquipedItems)
-        { 
-            Item item = Instantiate(itemData.ItemDataSO.prefab, equipedItemTransform.position, Quaternion.identity, equipedItemTransform);
-            item.InitializeItem(itemData.ItemDataSO);
-            item.rb.simulated = false;
+        Item item = Instantiate(itemData.ItemDataSO.prefab, equipedItemTransform.position, Quaternion.identity, equipedItemTransform);
+        item.InitializeItem(itemData.ItemDataSO);
+        item.rb.simulated = false;
+        EquipedItems[slot] = item;
+        item.gameObject.SetActive(false);
+        EquipmentSlotDisplays[slot].sprite = itemData.ItemDataSO.InventorySprite;
+        EquipmentSlotDisplays[slot].color = new Color(1, 1, 1, 1);
 
-            if (item is IEquipable equipableItem)
-            {
-                equipableItem.Equip();
-            }
+        //if (item is IEquipable equipableItem)
+        //{
+        //    equipableItem.Equip();
+        //}
+    }
+
+    public void RemoveEquipment(int slot)
+    {
+        if (slot < EquipedItems.Length)
+        {
+            Destroy(EquipedItems[slot].gameObject);
+            EquipedItems[slot] = null;
+            EquipmentSlotDisplays[slot].sprite = null;
+            EquipmentSlotDisplays[slot].color = new Color(1, 1, 1, 0);
         }
     }
 
-    public void ClearEquipment()
+    private void ChangeEquipment()
     {
-        foreach (Transform item in equipedItemTransform)
-        {
-            Destroy(item.gameObject);
-        }
+
     }
 }

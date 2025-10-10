@@ -98,28 +98,52 @@ public class InventoryManager : MonoBehaviour
         selectedItem.RectTransform.parent.SetAsLastSibling();
         selectedItem.RectTransform.SetAsLastSibling();
 
-        if (CurrentItemGrid == WeaponSlot1 || CurrentItemGrid == WeaponSlot2 || CurrentItemGrid == ConsumablesSlots)
-        {
-            playerEquipment.EquipedItems.Remove(selectedItem.ItemData);
-            playerEquipment.UpdateEquipmentSlot();
-            Debug.Log(playerEquipment.EquipedItems.Count);
-        }
+        HandleEquipmentRemove(tileGridPosition);
     }
 
     private void PlaceItem(Vector2Int tileGridPosition)
     {
         if (CurrentItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y))
         {
-            if (CurrentItemGrid == WeaponSlot1 || CurrentItemGrid == WeaponSlot2 || CurrentItemGrid == ConsumablesSlots)
-            {
-                playerEquipment.EquipedItems.Add(selectedItem.ItemData);
-                playerEquipment.UpdateEquipmentSlot();
-                Debug.Log(playerEquipment.EquipedItems.Count);
-            }
+            HandleEquipmentPlace(tileGridPosition);
 
             selectedItem = null;
             selectedItemGrid = null;
             UpdateSlotsCounter();
+        }
+    }
+
+    private void HandleEquipmentPlace(Vector2Int tileGridPosition)
+    {
+        if (CurrentItemGrid == WeaponSlot1)
+        {
+            playerEquipment.InstantiateEquipment(selectedItem.ItemData, 0);
+        }
+        else if (CurrentItemGrid == WeaponSlot2)
+        {
+            playerEquipment.InstantiateEquipment(selectedItem.ItemData, 1);
+        }
+        else if (CurrentItemGrid == ConsumablesSlots)
+        {
+            int slotIndex = tileGridPosition.x + 2;
+            playerEquipment.InstantiateEquipment(selectedItem.ItemData, slotIndex);
+        }
+    }
+
+    private void HandleEquipmentRemove(Vector2Int tileGridPosition)
+    {
+        if (CurrentItemGrid == WeaponSlot1)
+        {
+            playerEquipment.RemoveEquipment(0);
+        }
+        else if (CurrentItemGrid == WeaponSlot2)
+        {
+            playerEquipment.RemoveEquipment(1);
+        }
+        else if (CurrentItemGrid == ConsumablesSlots)
+        {
+            int slotIndex = tileGridPosition.x + 2;
+            playerEquipment.RemoveEquipment(slotIndex);
         }
     }
 

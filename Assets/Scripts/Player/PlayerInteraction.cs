@@ -16,25 +16,26 @@ public class PlayerInteraction : MonoBehaviour
         if (InputManager.InteractPressed && closestInteractable != null)
         {
             closestInteractable.Interact(player);
+            closestInteractable = null;
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (closestInteractable != null) return;
-
-        IInteractable interactable = collision.GetComponent<IInteractable>();
-        if (interactable != null)
+        if (collision.TryGetComponent(out IInteractable interactable))
         {
             closestInteractable = interactable;
             interactUI.SetActive(true);
-
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        closestInteractable = null;
-        interactUI.SetActive(false);
+        if (collision.TryGetComponent(out IInteractable interactable) && interactable == closestInteractable)
+        {
+            closestInteractable = interactable;
+            interactUI.SetActive(false);
+        }
     }
+
 }
