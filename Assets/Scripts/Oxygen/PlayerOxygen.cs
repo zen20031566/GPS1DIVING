@@ -56,6 +56,7 @@ public class PlayerOxygen : MonoBehaviour
 
         if (currentOxygen <= 0 && !isFadingOut)
         {
+            currentOxygen = 0;
             StartCoroutine(FadeOutAndRespawn());
         }
 
@@ -103,6 +104,7 @@ public class PlayerOxygen : MonoBehaviour
 
     private IEnumerator FadeOutAndRespawn()
     {
+        if (isFadingOut) yield break; //prevent duplicate
         isFadingOut = true;
         float alpha = 0f;
 
@@ -117,9 +119,6 @@ public class PlayerOxygen : MonoBehaviour
 
         //Respawn player
         RespawnPlayer();
-
-        //Small delay before fade back in
-        yield return new WaitForSeconds(1f);
 
         //Fade back to normal
         while (alpha > 0f)
