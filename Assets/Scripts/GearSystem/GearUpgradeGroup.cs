@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GearUpgradeGroup : MonoBehaviour
 {
+    [SerializeField] private ShopManager shopManager;
     [SerializeField] private GearUpgradeTab tabPrefab;
     private Player player;
 
@@ -20,8 +21,9 @@ public class GearUpgradeGroup : MonoBehaviour
         
     }
 
-    private void InstiantiateUpgradeTab()
+    private void InstiantiateUpgradeTab(GearUpgrade gearUpgrade)
     {
-        GearUpgradeTab GearUpgradeTab = Instantiate(tabPrefab, gameObject.transform);
+        GearUpgradeTab gearUpgradeTab = Instantiate(tabPrefab, gameObject.transform);
+        gearUpgradeTab.Initialize(gearUpgrade, shopManager);
     }
 }

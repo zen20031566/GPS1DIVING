@@ -50,12 +50,12 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private void TryBuyItem()
+    private void TryBuyItem(ItemDataSO itemDataSO)
     {
 
     }
 
-    private void TryBuyUpgrade()
+    private void TryBuyGearUpgrade(GearUpgrade gearUpgrade)
     {
 
     }
