@@ -3,26 +3,51 @@ using UnityEngine;
 
 public class ItemCreator : MonoBehaviour
 {
-    [SerializeField] private Item ItemPrefab;
+    public static Item ItemPrefab;
 
-    private Dictionary<int, ItemDataSO> allItemsMap;
+    public static Dictionary<int, ItemDataSO> allItemsMap;
 
-    public void SpawnItem(int id, Vector3 position)
+    private void Awake()
     {
-        ItemDataSO itemData = GetItemById(id);
-        Item item = Instantiate(ItemPrefab, position, Quaternion.identity);
-        item.InitializeItem(itemData);
+        allItemsMap = CreateItemMap();
     }
 
-    public ItemDataSO GetItemById(int id)
+    public static void SpawnItem(int id, Vector3 position)
     {
-        ItemDataSO itemData = allItemsMap[id];
+        ItemDataSO itemDataSO = GetItemById(id);
+        Item item = Instantiate(ItemPrefab, position, Quaternion.identity);
+        item.InitializeItem(itemDataSO);
+    }
 
-        if (itemData == null)
+    private Dictionary<int, ItemDataSO> CreateItemMap()
+    {
+        ItemDataSO[] allItems = Resources.LoadAll<ItemDataSO>("Items");
+
+        Dictionary<int, ItemDataSO> idToItemMap = new Dictionary<int, ItemDataSO>();
+
+        foreach (ItemDataSO itemDataSO in allItems)
+        {
+            if (idToItemMap.ContainsKey(itemDataSO.Id))
+            {
+                Debug.LogWarning("Duplicate id found when creating item map: " + itemDataSO.Id);
+                continue; //Skip this item to avoid duplicates
+            }
+
+            idToItemMap.Add(itemDataSO.Id, itemDataSO);
+        }
+
+        return idToItemMap;
+    }
+
+    public static ItemDataSO GetItemById(int id)
+    {
+        ItemDataSO itemDataSO = allItemsMap[id];
+
+        if (itemDataSO == null)
         {
             Debug.LogError("id not found in the item list: " + id);
         }
 
-        return itemData;
+        return itemDataSO;
     }
 }

@@ -81,6 +81,8 @@ public class InventoryManager : MonoBehaviour
             InventoryGrid.PlaceItem(inventoryItem, emptySlot.Value.x, emptySlot.Value.y);
 
             UpdateSlotsCounter();
+
+            GameEventsManager.Instance.InventoryEvents.ItemAdded(itemDataSO.Id);
         }
     }
 
@@ -96,28 +98,52 @@ public class InventoryManager : MonoBehaviour
         selectedItem.RectTransform.parent.SetAsLastSibling();
         selectedItem.RectTransform.SetAsLastSibling();
 
-        if (CurrentItemGrid == WeaponSlot1 || CurrentItemGrid == WeaponSlot2 || CurrentItemGrid == ConsumablesSlots)
-        {
-            //playerEquipment.EquipedItems.Remove(selectedItem.ItemData);
-            //playerEquipment.UpdateEquipmentSlot();
-            //Debug.Log(playerEquipment.EquipedItems.Count);
-        }
+        HandleEquipmentRemove(tileGridPosition);
     }
 
     private void PlaceItem(Vector2Int tileGridPosition)
     {
         if (CurrentItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y))
         {
-            if (CurrentItemGrid == WeaponSlot1 || CurrentItemGrid == WeaponSlot2 || CurrentItemGrid == ConsumablesSlots)
-            {
-                //playerEquipment.EquipedItems.Add(selectedItem.ItemData);
-                //playerEquipment.UpdateEquipmentSlot();
-                //Debug.Log(playerEquipment.EquipedItems.Count);
-            }
+            HandleEquipmentPlace(tileGridPosition);
 
             selectedItem = null;
             selectedItemGrid = null;
             UpdateSlotsCounter();
+        }
+    }
+
+    private void HandleEquipmentPlace(Vector2Int tileGridPosition)
+    {
+        if (CurrentItemGrid == WeaponSlot1)
+        {
+            playerEquipment.InstantiateEquipment(selectedItem.ItemData, 0);
+        }
+        else if (CurrentItemGrid == WeaponSlot2)
+        {
+            playerEquipment.InstantiateEquipment(selectedItem.ItemData, 1);
+        }
+        else if (CurrentItemGrid == ConsumablesSlots)
+        {
+            int slotIndex = tileGridPosition.x + 2;
+            playerEquipment.InstantiateEquipment(selectedItem.ItemData, slotIndex);
+        }
+    }
+
+    private void HandleEquipmentRemove(Vector2Int tileGridPosition)
+    {
+        if (CurrentItemGrid == WeaponSlot1)
+        {
+            playerEquipment.RemoveEquipment(0);
+        }
+        else if (CurrentItemGrid == WeaponSlot2)
+        {
+            playerEquipment.RemoveEquipment(1);
+        }
+        else if (CurrentItemGrid == ConsumablesSlots)
+        {
+            int slotIndex = tileGridPosition.x + 2;
+            playerEquipment.RemoveEquipment(slotIndex);
         }
     }
 
@@ -130,10 +156,13 @@ public class InventoryManager : MonoBehaviour
 
         UpdateSlotsCounter();
 
+        GameEventsManager.Instance.InventoryEvents.ItemAdded(selectedItem.ItemData.ItemDataSO.Id);
+
         Destroy(selectedItem.gameObject);
 
         selectedItem = null;
         selectedItemGrid = null;
+
         Debug.Log("Dropped item");
     }
 
@@ -193,8 +222,8 @@ public class InventoryManager : MonoBehaviour
         //Offset mouse position by item size so drag and drop feels better
         if (selectedItem != null)
         {
-            position.x -= (selectedItem.ItemDataSO.Width - 1) * ItemGrid.TileWidth / 2;
-            position.y += (selectedItem.ItemDataSO.Height - 1) * ItemGrid.TileHeight / 2;
+            position.x -= (selectedItem.ItemDataSO.Width - 1) * CurrentItemGrid.TileWidth / 2;
+            position.y += (selectedItem.ItemDataSO.Height - 1) * CurrentItemGrid.TileHeight / 2;
         }
 
         Vector2Int tileGridPosition = CurrentItemGrid.GetTileGridPosition(position);

@@ -7,10 +7,10 @@ using UnityEngine;
 public class Item : MonoBehaviour, IInteractable
 {
     public bool CanInteract { get; set; } = true;
-    [SerializeField] private ItemDataSO itemDataSO;
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private BoxCollider2D col;
-    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] protected ItemDataSO itemDataSO;
+    [SerializeField] protected SpriteRenderer spriteRenderer;
+    public BoxCollider2D col;
+    public Rigidbody2D rb;
 
     //Properties
     public ItemDataSO ItemData => itemDataSO;

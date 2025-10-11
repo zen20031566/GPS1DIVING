@@ -1,9 +1,7 @@
 using UnityEngine;
 
-public class UpgradeTabSlot : MonoBehaviour
+public class ConsumableTest : MonoBehaviour
 {
-    private string id;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

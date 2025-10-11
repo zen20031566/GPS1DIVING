@@ -17,7 +17,7 @@ public class InWaterState : PlayerState
 
     public override void FrameUpdate()
     {
-
+        
     }
 
     public override void PhysicsUpdate()

@@ -1,10 +1,15 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemGrid : MonoBehaviour
 {
-    public const float TileWidth = 76;
-    public const float TileHeight = 76;
+    public const float BaseTileWidth = 76f;
+    public const float BaseTileHeight = 76f;
+    public Vector2 ReferenceResolution = new Vector2(1920, 1080); // Base resolution for scaling
+
+    public float TileWidth => BaseTileWidth;
+    public float TileHeight => BaseTileHeight;
 
     [SerializeField] private int gridWidth = 10;
     [SerializeField] private int gridHeight = 10;
@@ -20,14 +25,34 @@ public class ItemGrid : MonoBehaviour
     public int TotalSlots = 0;
     public int OccupiedSlots = 0;
 
+    public float GetScaleFactor()
+    {
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+
+        // Calculate the scale factor based on width (or height) ratio compared to the reference resolution
+        float scaleFactor = Mathf.Min(screenWidth / ReferenceResolution.x, screenHeight / ReferenceResolution.y);
+
+        return scaleFactor;
+    }
+
     public void InitializeGrid(int width, int height)
     {
         rectTransform = GetComponent<RectTransform>();
         inventoryItemSlot = new InventoryItem[width, height];
+
         Vector2 size = new Vector2(width * TileWidth, height * TileHeight);
         rectTransform.sizeDelta = size;
+
         TotalSlots = width * height;
         InitializeEmptySlots();
+    }
+
+    private IEnumerator InitializeAfterCanvasScaler()
+    {
+        yield return new WaitForEndOfFrame(); // wait one frame for CanvasScaler to apply
+
+        InitializeGrid(gridWidth, gridHeight);
     }
 
     public Vector2Int GetTileGridPosition(Vector2 mousePosition)
@@ -73,6 +98,8 @@ public class ItemGrid : MonoBehaviour
 
     public InventoryItem PickUpItem(int posX, int posY)
     {
+        Debug.Log(posX);
+        Debug.Log(posY);
         InventoryItem item = inventoryItemSlot[posX, posY];
 
         if (item == null) return null;

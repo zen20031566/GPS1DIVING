@@ -2,22 +2,16 @@ using System;
 
 public class InventoryEvents
 {
-    public event Action<Item> OnTryAddItem;
-    public event Action<Item> OnItemAdded;
-    public event Action<Item> OnItemDropped;
+    public event Action<int> OnItemAdded;
+    public event Action<int> OnItemDropped;
 
-    public void TryAddItem(Item item)
+    public void ItemAdded(int id)
     {
-        OnTryAddItem?.Invoke(item);
+        OnItemAdded?.Invoke(id);
     }
 
-    public void ItemAdded(Item item)
+    public void ItemDropped(int id)
     {
-        OnItemAdded?.Invoke(item);
-    }
-
-    public void ItemDropped(Item item)
-    {
-        OnItemDropped?.Invoke(item);
+        OnItemDropped?.Invoke(id);
     }
 }

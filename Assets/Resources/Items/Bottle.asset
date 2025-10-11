@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a762804b266e34a837100982f51631, type: 3}
   m_Name: Bottle
   m_EditorClassIdentifier: 
-  Id: 1
+  Id: 3
   DisplayName: Bottle
   DisplaySprite: {fileID: -2174827668884051896, guid: 9630a014f69f6f247893d59dc80de648, type: 3}
   InventorySprite: {fileID: -2174827668884051896, guid: 9630a014f69f6f247893d59dc80de648, type: 3}
