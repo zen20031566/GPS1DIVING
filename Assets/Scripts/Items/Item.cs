@@ -35,7 +35,7 @@ public class Item : MonoBehaviour, IInteractable
         float spriteHeight = spriteRenderer.sprite.bounds.size.y;
         col.size = new Vector2(spriteWidth, spriteHeight);
 
-        switch (itemDataSO.weight)
+        switch (itemDataSO.Weight)
         {
             case ItemWeight.Light: 
                 rb.mass = 5;

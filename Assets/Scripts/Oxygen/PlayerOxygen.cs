@@ -8,9 +8,9 @@ public class PlayerOxygen : MonoBehaviour
     Player player;
 
     [Header("Oxygen Settings")]
-    [SerializeField] private float maxOxygen = 100f;
+    [SerializeField] private float maxOxygenTime = 600f;
     [SerializeField] private float currentOxygen;
-    [SerializeField] private float oxygenDecayRate = 5f;     //oxygen lost per second underwater
+    [SerializeField] private float oxygenDecayRate = 1f;     //oxygen lost per second underwater
     [SerializeField] private float oxygenRefillRate = 40f;   //oxygen gained per second at surface or air pocket
 
     [Header("State")]
@@ -38,7 +38,7 @@ public class PlayerOxygen : MonoBehaviour
     private void Start()
     {
         player = GameManager.Instance.Player;
-        currentOxygen = maxOxygen;
+        currentOxygen = maxOxygenTime;
     }
 
     private void Update()
@@ -73,10 +73,10 @@ public class PlayerOxygen : MonoBehaviour
             currentOxygen += oxygenRefillRate * Time.deltaTime;
         }
 
-        currentOxygen = Mathf.Clamp(currentOxygen, 0f, maxOxygen);
+        currentOxygen = Mathf.Clamp(currentOxygen, 0f, maxOxygenTime);
 
         //ui oxygen
-        oxygenBar_Filled.fillAmount = currentOxygen / maxOxygen;
+        oxygenBar_Filled.fillAmount = currentOxygen / maxOxygenTime;
     }
 
     private void HandleLowOxygenEffect()
@@ -137,7 +137,7 @@ public class PlayerOxygen : MonoBehaviour
     private void RespawnPlayer()
     {
         Debug.Log("Out of oxygen. Respawning...");
-        currentOxygen = maxOxygen;
+        currentOxygen = maxOxygenTime;
 
         //move player to respawn point
         if (respawnPoint != null)
@@ -162,10 +162,9 @@ public class PlayerOxygen : MonoBehaviour
             isInAirPocket = false;
     }
 
-    //Upgrade (WIP)
     public void UpgradeOxygen(float amount)
     {
-        maxOxygen += amount;
-        currentOxygen = maxOxygen; //refill on upgrade
+        maxOxygenTime += amount;
+        currentOxygen = maxOxygenTime; //refill on upgrade
     }
 }

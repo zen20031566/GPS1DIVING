@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public InUIOrDialog OnUIOrDialog;
 
     public GameObject PlayerHead;
+
     private void Awake()
     {
         PlayerController = GetComponent<PlayerController>();

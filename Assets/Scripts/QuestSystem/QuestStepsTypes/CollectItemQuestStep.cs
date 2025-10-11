@@ -20,7 +20,7 @@ public class CollectItemQuestStep : QuestStep
         GameEventsManager.Instance.InventoryEvents.OnItemDropped -= ItemDropped;
     }
 
-    public override void Configure(QuestStepConfig config)
+    public override void Configure(QuestStepConfig config) //Add player reference to check inventory
     {
         itemsCollectedMap = new Dictionary<int, int>();
         amountToCompleteMap = new Dictionary<int, int>();

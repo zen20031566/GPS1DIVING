@@ -5,6 +5,7 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     private List<ItemData> playerItems = new List<ItemData>();
+    public List<ItemData> PlayerItems => playerItems;
 
     public ItemGrid CurrentItemGrid;
     private ItemGrid selectedItemGrid;
@@ -147,29 +148,29 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void RemoveItem(InventoryItem selectedItem)
+    public void RemoveItem(InventoryItem inventoryItem, ItemGrid itemGrid)
     {
-        DropItem(selectedItem.ItemData);
-
-        playerItems.Remove(selectedItem.ItemData);
-        selectedItemGrid.RemoveItem(selectedItem);
+        playerItems.Remove(inventoryItem.ItemData);
+        itemGrid.RemoveItem(inventoryItem);
 
         UpdateSlotsCounter();
 
-        GameEventsManager.Instance.InventoryEvents.ItemAdded(selectedItem.ItemData.ItemDataSO.Id);
+        GameEventsManager.Instance.InventoryEvents.ItemAdded(inventoryItem.ItemData.ItemDataSO.Id);
 
-        Destroy(selectedItem.gameObject);
+        Destroy(inventoryItem.gameObject);
+
+    }
+
+    private void DropItem(InventoryItem selectedItem)
+    {
+        ItemData itemData = selectedItem.ItemData;
+        Item item = Instantiate(itemData.ItemDataSO.Prefab, player.transform.position, Quaternion.identity);
+        item.InitializeItem(itemData.ItemDataSO);
+
+        RemoveItem(selectedItem, selectedItemGrid);
 
         selectedItem = null;
         selectedItemGrid = null;
-
-        Debug.Log("Dropped item");
-    }
-
-    private void DropItem(ItemData itemData)
-    {
-        Item item = Instantiate(itemData.ItemDataSO.prefab, player.transform.position, Quaternion.identity);
-        item.InitializeItem(itemData.ItemDataSO);
     }
 
     private void HandleLeftClick()
@@ -198,7 +199,7 @@ public class InventoryManager : MonoBehaviour
         {
             if (selectedItem != null)
             {
-                RemoveItem(selectedItem);
+                DropItem(selectedItem);
             }
         }
     }
@@ -242,6 +243,11 @@ public class InventoryManager : MonoBehaviour
     private void UpdateSlotsCounter()
     {
         slotsText.text = InventoryGrid.OccupiedSlots + "/" + InventoryGrid.TotalSlots;
+    }
+
+    public void UpgradeInventory()
+    {
+        InventoryGrid.IncreaseGridSize(2, 2);
     }
 
 }

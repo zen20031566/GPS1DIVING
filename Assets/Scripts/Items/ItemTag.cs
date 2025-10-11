@@ -4,4 +4,5 @@ public enum ItemTag
     Consumable,
     Quest,
     NotSellable,
+    Trash
 }

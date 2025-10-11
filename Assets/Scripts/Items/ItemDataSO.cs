@@ -10,8 +10,9 @@ public class ItemDataSO : ScriptableObject
     public Sprite InventorySprite;
     public int Width = 1;
     public int Height = 1;
-    public Item prefab;
-    public ItemWeight weight;
-    public ItemRarity rarity;
-    public List<ItemTag> tags;
+    public Item Prefab;
+    public int Value;
+    public ItemWeight Weight;
+    public ItemRarity Rarity;
+    public List<ItemTag> Tags;
 }

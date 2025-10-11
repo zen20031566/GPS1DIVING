@@ -11,10 +11,12 @@ public class ItemGrid : MonoBehaviour
     public float TileWidth => BaseTileWidth;
     public float TileHeight => BaseTileHeight;
 
-    [SerializeField] private int gridWidth = 10;
-    [SerializeField] private int gridHeight = 10;
+    private int gridWidth = 10;
+    private int gridHeight = 10;
 
-    private InventoryItem[,] inventoryItemSlot;
+    private InventoryItem[,] gridItems;
+    public InventoryItem[,] GridItems => gridItems;
+
     private List<Vector2Int> emptySlots = new List<Vector2Int>();
 
     private RectTransform rectTransform;
@@ -38,21 +40,25 @@ public class ItemGrid : MonoBehaviour
 
     public void InitializeGrid(int width, int height)
     {
+        gridWidth = width;
+        gridHeight = height;
         rectTransform = GetComponent<RectTransform>();
-        inventoryItemSlot = new InventoryItem[width, height];
+        gridItems = new InventoryItem[gridWidth, gridHeight];
 
-        Vector2 size = new Vector2(width * TileWidth, height * TileHeight);
+        Vector2 size = new Vector2(gridWidth * TileWidth, gridHeight * TileHeight);
         rectTransform.sizeDelta = size;
 
-        TotalSlots = width * height;
+        TotalSlots = gridWidth * gridHeight;
         InitializeEmptySlots();
     }
 
-    private IEnumerator InitializeAfterCanvasScaler()
+    public void IncreaseGridSize(int width, int height)
     {
-        yield return new WaitForEndOfFrame(); // wait one frame for CanvasScaler to apply
+        gridWidth += width;
+        gridHeight += height;
 
-        InitializeGrid(gridWidth, gridHeight);
+        Vector2 size = new Vector2(gridWidth * TileWidth, gridHeight * TileHeight);
+        rectTransform.sizeDelta = size;
     }
 
     public Vector2Int GetTileGridPosition(Vector2 mousePosition)
@@ -79,7 +85,7 @@ public class ItemGrid : MonoBehaviour
         {
             for (int y = 0; y < item.ItemDataSO.Height; y++)
             {
-                inventoryItemSlot[posX + x, posY + y] = item;
+                gridItems[posX + x, posY + y] = item;
                 emptySlots.Remove(new Vector2Int(posX + x, posY + y));
             }
         }
@@ -100,7 +106,7 @@ public class ItemGrid : MonoBehaviour
     {
         Debug.Log(posX);
         Debug.Log(posY);
-        InventoryItem item = inventoryItemSlot[posX, posY];
+        InventoryItem item = gridItems[posX, posY];
 
         if (item == null) return null;
 
@@ -117,10 +123,11 @@ public class ItemGrid : MonoBehaviour
         {
             for (int y = 0; y < item.ItemDataSO.Height; y++)
             {
-                inventoryItemSlot[item.PositionOnGridX + x, item.PositionOnGridY + y] = null;
+                gridItems[item.PositionOnGridX + x, item.PositionOnGridY + y] = null;
                 emptySlots.Add(new Vector2Int(item.PositionOnGridX + x, item.PositionOnGridY + y));
             }
         }
+
     }
 
     bool OverlapCheck(int posX, int posY, int itemWidth, int itemHeight)
@@ -129,12 +136,12 @@ public class ItemGrid : MonoBehaviour
         {
             for (int y = 0; y < itemHeight; y++)
             {
-                if (posX + x >= inventoryItemSlot.GetLength(0) || posY + y >= inventoryItemSlot.GetLength(1))
+                if (posX + x >= gridItems.GetLength(0) || posY + y >= gridItems.GetLength(1))
                 {
                     return false; //Out of bounds
                 }
 
-                if (inventoryItemSlot[posX + x, posY + y] != null)
+                if (gridItems[posX + x, posY + y] != null)
                 {
                     return false;
                 }
@@ -220,7 +227,7 @@ public class ItemGrid : MonoBehaviour
         {
             for (int y = 0; y < gridHeight; y++)
             {
-                if (inventoryItemSlot[x, y] == null)
+                if (gridItems[x, y] == null)
                 {
                     emptySlots.Add(new Vector2Int(x, y)); //Add empty slot to the list
                 }

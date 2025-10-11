@@ -5,13 +5,13 @@ public class GameEventsManager : MonoBehaviour
     public static GameEventsManager Instance { get; private set; }
 
     //Events
-    public TrashEvents TrashEvents { get; set; }
-    public WeightEvents WeightEvents { get; set; }
     public QuestEvents QuestEvents { get; set; }
     public QuestStepEvents QuestStepEvents { get; set; }
     public GameUIEvents GameUIEvents { get; set; }
     public InteractEvent InteractEvent { get; set; } 
     public InventoryEvents InventoryEvents { get; set; }
+    public ShopEvents ShopEvents { get; set; }
+    public GoldEvents GoldEvents { get; set; }  
 
     private void Awake()
     {
@@ -24,12 +24,12 @@ public class GameEventsManager : MonoBehaviour
         Instance = this;
 
         //Initialize events
-        TrashEvents = new TrashEvents();
-        WeightEvents = new WeightEvents();
         QuestEvents = new QuestEvents();
         QuestStepEvents = new QuestStepEvents();
         GameUIEvents = new GameUIEvents();
         InteractEvent = new InteractEvent();
         InventoryEvents = new InventoryEvents();
+        ShopEvents = new ShopEvents();
+        GoldEvents = new GoldEvents();
     }
 }

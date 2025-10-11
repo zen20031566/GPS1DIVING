@@ -11,11 +11,47 @@ public class PlayerEquipment : MonoBehaviour
 
     [SerializeField] private Transform equipedItemTransform;
 
+    private int equipIndex = 0;
+
+    private void Update()
+    {
+        if (InputManager.ScrollDirection > 0)
+        {
+            int previousIndex = equipIndex;
+            equipIndex = (equipIndex - 1 + EquipedItems.Length) % EquipedItems.Length;
+
+            if (EquipedItems[previousIndex] != null)
+            {
+                EquipedItems[previousIndex].gameObject.SetActive(false);
+            }
+
+            if (EquipedItems[equipIndex] != null)
+            {
+                EquipedItems[equipIndex].gameObject.SetActive(true);
+            }
+        }
+        else if (InputManager.ScrollDirection < 0)
+        {
+            int previousIndex = equipIndex;
+            equipIndex = (equipIndex + 1) % EquipedItems.Length;
+
+            if (EquipedItems[previousIndex] != null)
+            {
+                EquipedItems[previousIndex].gameObject.SetActive(false);
+            }
+
+            if (EquipedItems[equipIndex] != null)
+            {
+                EquipedItems[equipIndex].gameObject.SetActive(true);
+            }
+        }
+    }
+
     public void InstantiateEquipment(ItemData itemData, int slot)
     {
         if (itemData == null) return;
 
-        Item item = Instantiate(itemData.ItemDataSO.prefab, equipedItemTransform.position, Quaternion.identity, equipedItemTransform);
+        Item item = Instantiate(itemData.ItemDataSO.Prefab, equipedItemTransform.position, Quaternion.identity, equipedItemTransform);
         item.InitializeItem(itemData.ItemDataSO);
         item.rb.simulated = false;
         EquipedItems[slot] = item;

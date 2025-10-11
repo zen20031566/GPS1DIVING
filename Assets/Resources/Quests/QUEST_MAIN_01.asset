@@ -27,4 +27,4 @@ MonoBehaviour:
       RequiredAmount: 3
     targetPosition: {x: 0, y: 0}
     triggerRadius: 0
-  GoldReward: 0
+  GoldReward: 100

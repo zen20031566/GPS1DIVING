@@ -1,12 +1,13 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "GearUpgradesSO", menuName = "Scriptable Objects/GearUpgradesSO")]
-public class GearUpgrades : ScriptableObject
+[CreateAssetMenu(fileName = "GearUpgradeSO", menuName = "Scriptable Objects/GearUpgradeSO")]
+public class GearUpgradeSO : ScriptableObject
 {
-    [field: SerializeField] public string Id { get; private set; }
-
     public string DisplayName;
     public Sprite Icon;
-    public float BaseCost;
+    public int MaxLevel;
+    public int BaseCost;
+    public int CostIncrease;
     public string Description;
+    public GearUpgrade Prefab;
 }

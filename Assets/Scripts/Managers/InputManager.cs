@@ -13,7 +13,7 @@ public class InputManager : MonoBehaviour
 
     public static bool LeftClickPressed;
 
-    public float ScrollDirection;
+    public static float ScrollDirection;
 
     //Input Actions
     private InputAction moveAction;
@@ -44,9 +44,9 @@ public class InputManager : MonoBehaviour
 
         LeftClickPressed = leftClickAction.WasPressedThisFrame();
 
-        float rawScroll = scrollAction.ReadValue<float>();
-        ScrollDirection = Mathf.Sign(rawScroll); // -1, 0, 1
-        Debug.Log(ScrollDirection);
+        ScrollDirection = scrollAction.ReadValue<float>();
+        float rawScrollDirection = Mathf.Sign(ScrollDirection);
+        Debug.Log(rawScrollDirection);
 
 
     }

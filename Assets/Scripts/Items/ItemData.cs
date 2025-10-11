@@ -10,9 +10,9 @@ public class ItemData
 
     public bool HasItemTag(ItemTag tagToFind)
     {
-        if (this.ItemDataSO.tags.Count == 0) return false;
+        if (this.ItemDataSO.Tags.Count == 0) return false;
 
-        foreach (ItemTag tag in this.ItemDataSO.tags)
+        foreach (ItemTag tag in this.ItemDataSO.Tags)
         {
             if (tag == tagToFind) return true;
         }

@@ -110,7 +110,7 @@ public class QuestManager : MonoBehaviour
 
     private void ClaimRewards(Quest quest)
     {
-        //rewards
+        GameEventsManager.Instance.GoldEvents.AddGold(quest.Info.GoldReward);
     }
 
     private Dictionary<string, Quest> CreateQuestMap()
