@@ -52,13 +52,32 @@ public class ItemGrid : MonoBehaviour
         InitializeEmptySlots();
     }
 
-    public void IncreaseGridSize(int width, int height)
+    public void ChangeGridSize(int width, int height)
     {
-        gridWidth += width;
-        gridHeight += height;
+        int newWidth = gridWidth + width;
+        int newHeight = gridHeight + height;
+
+
+        InventoryItem[,] newGridItems = new InventoryItem[gridWidth, gridWidth];
+
+        for (int x = 0; x < gridWidth; x++)
+        {
+            for (int y = 0; y < gridHeight; y++)
+            {
+                newGridItems[x, y] = gridItems[x, y];
+            }
+        }
+
+        gridItems = newGridItems;
+
+        gridWidth = newWidth;
+        gridHeight = newHeight;
 
         Vector2 size = new Vector2(gridWidth * TileWidth, gridHeight * TileHeight);
         rectTransform.sizeDelta = size;
+
+        TotalSlots = gridWidth * gridHeight;
+        InitializeEmptySlots();
     }
 
     public Vector2Int GetTileGridPosition(Vector2 mousePosition)

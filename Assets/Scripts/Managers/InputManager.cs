@@ -46,8 +46,5 @@ public class InputManager : MonoBehaviour
 
         ScrollDirection = scrollAction.ReadValue<float>();
         float rawScrollDirection = Mathf.Sign(ScrollDirection);
-        Debug.Log(rawScrollDirection);
-
-
     }
 }

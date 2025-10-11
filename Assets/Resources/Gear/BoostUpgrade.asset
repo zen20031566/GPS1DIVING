@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e7962cc0bbc6d7439d37271d9953f91, type: 3}
   m_Name: BoostUpgrade
   m_EditorClassIdentifier: 
-  displayName: 
-  baseCost: 0
-  description: 
+  DisplayName: Boost
+  Icon: {fileID: 0}
+  MaxLevel: 5
+  BaseCost: 5
+  CostIncrease: 5
+  Description: niga
+  Prefab: {fileID: -1078881165185786354, guid: b300793c0b4ed0e4696a76355619112b, type: 3}

@@ -1,7 +1,6 @@
 using System;
-using UnityEngine;
 
-public class GoldEvents : MonoBehaviour
+public class GoldEvents 
 {
     public event Action<int> OnGoldChange;
     public event Action<int> OnGoldAdd;

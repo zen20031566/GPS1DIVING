@@ -4,10 +4,10 @@ public class FlashlightUpgrade : GearUpgrade
 
     public override void ApplyUpgrade(Player player)
     {
-        if (level <= gearUpgradeData.MaxLevel)
+        if (Level <= GearUpgradeData.MaxLevel)
         {
-            level++;
-            cost = gearUpgradeData.BaseCost + (gearUpgradeData.CostIncrease * level);
+            Level++;
+            Cost = GearUpgradeData.BaseCost + (GearUpgradeData.CostIncrease * Level);
 
           
         }

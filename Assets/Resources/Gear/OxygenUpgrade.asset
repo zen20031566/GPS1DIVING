@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e7962cc0bbc6d7439d37271d9953f91, type: 3}
   m_Name: OxygenUpgrade
   m_EditorClassIdentifier: 
-  displayName: 
-  baseCost: 0
-  description: 
+  DisplayName: Oxygen
+  Icon: {fileID: 0}
+  MaxLevel: 5
+  BaseCost: 5
+  CostIncrease: 5
+  Description: niga
+  Prefab: {fileID: -3182989986711090434, guid: 7f4e426e360fea44ea49c854c73ffb20, type: 3}

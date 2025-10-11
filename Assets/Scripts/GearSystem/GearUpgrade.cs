@@ -2,19 +2,16 @@ using UnityEngine;
 
 public abstract class GearUpgrade : MonoBehaviour
 {
-    protected GearUpgradeSO gearUpgradeData;
-    protected int level = 0;
-    protected int cost;
-    protected string description;
-
-    //Properties
-    public GearUpgradeSO GearUpgradeData => gearUpgradeData;
+    public GearUpgradeSO GearUpgradeData;
+    public int Level = 0;
+    public int Cost;
+    public string Description;
 
     public void Initialiize(GearUpgradeSO gearUpgradeData)
     {
-        this.gearUpgradeData = gearUpgradeData; 
-        this.description = gearUpgradeData.Description;
-        cost = gearUpgradeData.BaseCost;
+        this.GearUpgradeData = gearUpgradeData; 
+        this.Description = gearUpgradeData.Description;
+        Cost = gearUpgradeData.BaseCost;
     }
 
     public abstract void ApplyUpgrade(Player player);

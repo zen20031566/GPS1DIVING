@@ -57,12 +57,12 @@ public class Item : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
-        if (player.inventoryManager.InventoryGrid.CheckHasEmptySlot(itemDataSO) == true)
+        if (player.InventoryManager.InventoryGrid.CheckHasEmptySlot(itemDataSO) == true)
         {
             Debug.Log("Adding item " + itemDataSO.DisplayName);
 
             ItemData itemData = new ItemData(itemDataSO);
-            player.inventoryManager.AddItem(itemData);
+            player.InventoryManager.AddItem(itemData);
 
             Destroy(gameObject);
         }

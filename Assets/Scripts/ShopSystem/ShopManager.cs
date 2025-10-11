@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ShopManager : MonoBehaviour 
 {
-    private Player player;
+    public Player Player;
 
     private void OnEnable()
     {
@@ -16,7 +16,7 @@ public class ShopManager : MonoBehaviour
 
     private void Start()
     {
-        player = GameManager.Instance.Player;
+        Player = GameManager.Instance.Player;
     }
 
     private void Update()
@@ -29,12 +29,12 @@ public class ShopManager : MonoBehaviour
     }
     private void OpenShop(Player player)
     {
-        this.player = player;   
+        this.Player = player;   
     }
 
     private void SellAllTrash()
     {
-        InventoryManager playerInventory = player.inventoryManager;
+        InventoryManager playerInventory = Player.InventoryManager;
         var playerInventoryItems = playerInventory.InventoryGrid.GridItems;
 
         foreach (InventoryItem item in playerInventoryItems)
@@ -50,14 +50,20 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private void TryBuyItem(ItemDataSO itemDataSO)
+    public void TryBuyItem(ItemDataSO itemDataSO)
     {
 
     }
 
-    private void TryBuyGearUpgrade(GearUpgrade gearUpgrade)
+    public void TryBuyGearUpgrade(GearUpgrade gearUpgrade, GearUpgradeTab gearUpgradeTab)
     {
-
+        Debug.Log("Try buy upgrade " + gearUpgrade.GearUpgradeData.DisplayName);
+        gearUpgrade.ApplyUpgrade(Player);
+        gearUpgradeTab.UpdateTab(gearUpgrade);
+        if (Player.GoldManager.GoldAmount >= gearUpgrade.Cost)
+        {
+            
+        }
     }
 
 

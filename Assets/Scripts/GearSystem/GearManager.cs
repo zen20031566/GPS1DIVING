@@ -5,7 +5,12 @@ public class GearManager : MonoBehaviour
 {
     [SerializeField] private List<GearUpgradeSO> gearUpgradesSOList = new List<GearUpgradeSO>();
 
-    private List<GearUpgrade> gearUpgradesList = new List<GearUpgrade>();
+    public List<GearUpgrade> GearUpgradesList = new List<GearUpgrade>();
+
+    private void Start()
+    {
+        InitializeGear();
+    }
 
     private void InitializeGear()
     {
@@ -13,7 +18,7 @@ public class GearManager : MonoBehaviour
         {
             GearUpgrade gearUpgrade = Instantiate(gearUpgradeData.Prefab, transform);
             gearUpgrade.Initialiize(gearUpgradeData);
-            gearUpgradesList.Add(gearUpgrade);
+            GearUpgradesList.Add(gearUpgrade);
         }
     }
 

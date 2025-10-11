@@ -13,10 +13,9 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
-        if (InputManager.InteractPressed && closestInteractable != null)
+        if (InputManager.InteractPressed && closestInteractable != null && player.PlayerStateMachine.CurrentState != player.OnUIOrDialog)
         {
             closestInteractable.Interact(player);
-            closestInteractable = null;
         }
     }
 

@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public InventoryManager inventoryManager;
+    public InventoryManager InventoryManager;
+    public GearManager GearManager;
+    public GoldManager GoldManager;
     public PlayerController PlayerController;
     public PlayerEquipment PlayerEquipment;
     public PlayerOxygen PlayerOxygen;
