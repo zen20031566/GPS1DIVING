@@ -248,6 +248,7 @@ public class InventoryManager : MonoBehaviour
     public void UpgradeInventory()
     {
         InventoryGrid.ChangeGridSize(0, 2);
+        UpdateSlotsCounter();
     }
 
 }

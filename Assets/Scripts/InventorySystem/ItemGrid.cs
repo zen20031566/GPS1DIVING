@@ -58,13 +58,16 @@ public class ItemGrid : MonoBehaviour
         int newHeight = gridHeight + height;
 
 
-        InventoryItem[,] newGridItems = new InventoryItem[gridWidth, gridWidth];
+        InventoryItem[,] newGridItems = new InventoryItem[newWidth, newHeight];
 
         for (int x = 0; x < gridWidth; x++)
         {
             for (int y = 0; y < gridHeight; y++)
             {
-                newGridItems[x, y] = gridItems[x, y];
+                if (gridItems[x, y] != null) //Only copy if there is an item
+                {
+                    newGridItems[x, y] = gridItems[x, y];
+                }
             }
         }
 
