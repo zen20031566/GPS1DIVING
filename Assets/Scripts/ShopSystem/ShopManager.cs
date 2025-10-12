@@ -40,7 +40,10 @@ public class ShopManager : MonoBehaviour
 
     public void TryBuyItem(ItemDataSO itemDataSO)
     {
-
+        if (Player.GoldManager.GoldAmount >= itemDataSO.Price)
+        {
+            Player.InventoryManager
+        }
     }
 
     public void TryBuyGearUpgrade(GearUpgrade gearUpgrade, GearUpgradeTab gearUpgradeTab)

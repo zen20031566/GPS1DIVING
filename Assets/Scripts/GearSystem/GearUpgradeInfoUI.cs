@@ -4,7 +4,7 @@ using TMPro;
 
 public class GearUpgradeInfoUI : MonoBehaviour
 {
-    public Image image;
+    public Image Icon;
     [SerializeField] private TMP_Text displayNameText;
     [SerializeField] private TMP_Text lvlText;
     [SerializeField] private TMP_Text descriptionText;

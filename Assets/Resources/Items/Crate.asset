@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a762804b266e34a837100982f51631, type: 3}
   m_Name: Crate
   m_EditorClassIdentifier: 
-  Id: 4
+  Id: 8
   DisplayName: Crate
   DisplaySprite: {fileID: 7499154508442906066, guid: a5313d57f1cc15d44965b30c26ca0552, type: 3}
   InventorySprite: {fileID: 7499154508442906066, guid: a5313d57f1cc15d44965b30c26ca0552, type: 3}
+  Icon: {fileID: 0}
   Width: 2
   Height: 2
-  prefab: {fileID: 834810385572461669, guid: ec1884a232490b64d9731c12a6aa8577, type: 3}
-  weight: 1
-  rarity: 0
-  tags: 
+  Prefab: {fileID: 834810385572461669, guid: ec1884a232490b64d9731c12a6aa8577, type: 3}
+  Value: 0
+  Weight: 0
+  Rarity: 0
+  Tags: 
+  Price: 0

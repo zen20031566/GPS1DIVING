@@ -16,6 +16,7 @@ MonoBehaviour:
   DisplayName: Can
   DisplaySprite: {fileID: -7681379018332087146, guid: e15a5b274a7d1fc4881450b1a406dd5e, type: 3}
   InventorySprite: {fileID: -7681379018332087146, guid: e15a5b274a7d1fc4881450b1a406dd5e, type: 3}
+  Icon: {fileID: -7681379018332087146, guid: e15a5b274a7d1fc4881450b1a406dd5e, type: 3}
   Width: 1
   Height: 1
   Prefab: {fileID: 834810385572461669, guid: ec1884a232490b64d9731c12a6aa8577, type: 3}

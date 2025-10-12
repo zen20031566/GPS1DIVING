@@ -1,17 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class SellableItemsGroup : MonoBehaviour
 {
     [SerializeField] private ShopManager shopManager;
     [SerializeField] SellItemInfoUI sellItemPrefab;
     private Player player;
+    private int totalSaleValue = 0;
+    [SerializeField] private TMP_Text totalSaleValueText;
 
     private Dictionary<ItemDataSO, int> sellableQuantityMap = new Dictionary<ItemDataSO, int>();
 
     private void OnEnable()
     {
         GameEventsManager.Instance.InventoryEvents.OnItemRemoved += UpdateSellItems;
+        UpdateSellItems();
     }
 
     private void OnDisable()
@@ -24,21 +28,10 @@ public class SellableItemsGroup : MonoBehaviour
         this.shopManager = shopManager;
         player = shopManager.Player;
 
-        if (player != null)
-        {
-            GetQuantityOfSellables();
-
-            foreach (var kvp in sellableQuantityMap)
-            {
-                ItemDataSO itemDataSO = kvp.Key;
-                int quantity = kvp.Value;
-
-                InstiantiateSellItem(itemDataSO, quantity);
-            }
-        }
+        UpdateSellItems();
     }
 
-    private void UpdateSellItems(int id) //for future use maybe if only want to sell a specific item
+    private void UpdateSellItems(int id = 0) //for future use maybe if only want to sell a specific item
     {
         ResetSellItems();
 
@@ -52,6 +45,9 @@ public class SellableItemsGroup : MonoBehaviour
                 int quantity = kvp.Value;
 
                 InstiantiateSellItem(itemDataSO, quantity);
+
+                totalSaleValue += (itemDataSO.Value * quantity);
+                totalSaleValueText.text = $"{totalSaleValue}";
             }
         }
     }

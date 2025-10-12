@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23a762804b266e34a837100982f51631, type: 3}
-  m_Name: 02Jar
+  m_Name: 05OxygenCan
   m_EditorClassIdentifier: 
-  Id: 2
-  DisplayName: Jar
-  DisplaySprite: {fileID: 6085338041668243844, guid: 6614f5a04ee8ba74d85aebb4987eb944, type: 3}
-  InventorySprite: {fileID: 6085338041668243844, guid: 6614f5a04ee8ba74d85aebb4987eb944, type: 3}
-  Icon: {fileID: 6085338041668243844, guid: 6614f5a04ee8ba74d85aebb4987eb944, type: 3}
+  Id: 5
+  DisplayName: Oxygen Can
+  DisplaySprite: {fileID: -3265692048122209289, guid: 3e0d865ee3dff3e40b7ffe7bea334f15, type: 3}
+  InventorySprite: {fileID: -3265692048122209289, guid: 3e0d865ee3dff3e40b7ffe7bea334f15, type: 3}
+  Icon: {fileID: -3265692048122209289, guid: 3e0d865ee3dff3e40b7ffe7bea334f15, type: 3}
   Width: 1
   Height: 1
   Prefab: {fileID: 834810385572461669, guid: ec1884a232490b64d9731c12a6aa8577, type: 3}
-  Value: 6
+  Value: 0
   Weight: 0
   Rarity: 0
-  Tags: 0400000001000000
+  Tags: 0100000003000000
+  Price: 10

@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a762804b266e34a837100982f51631, type: 3}
   m_Name: Harpoon Gun
   m_EditorClassIdentifier: 
-  Id: 5
+  Id: 7
   DisplayName: Harpoon Gun
   DisplaySprite: {fileID: -4360640626391904315, guid: 4ef952f054da4684db9c066435d91b14, type: 3}
   InventorySprite: {fileID: -4360640626391904315, guid: 4ef952f054da4684db9c066435d91b14, type: 3}
+  Icon: {fileID: 0}
   Width: 3
   Height: 2
-  prefab: {fileID: 834810385572461669, guid: ec1884a232490b64d9731c12a6aa8577, type: 3}
-  weight: 2
-  rarity: 0
-  tags: 00000000
+  Prefab: {fileID: 834810385572461669, guid: ec1884a232490b64d9731c12a6aa8577, type: 3}
+  Value: 0
+  Weight: 0
+  Rarity: 0
+  Tags: 
+  Price: 0

@@ -29,11 +29,6 @@ public class ItemGrid : MonoBehaviour
     public int TotalSlots = 0;
     public int OccupiedSlots = 0;
 
-    private void OnDisable()
-    {
-        inventoryManager.CurrentItemGrid = null;
-    }
-
     public float GetScaleFactor()
     {
         float screenWidth = Screen.width;

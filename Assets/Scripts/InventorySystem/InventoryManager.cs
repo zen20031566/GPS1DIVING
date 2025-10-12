@@ -91,6 +91,31 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    //Overload add using itemDataSO
+    public void AddItem(ItemDataSO itemDataSO)
+    {
+        ItemData itemData = new ItemData(itemDataSO);
+
+        if (InventoryGrid.CheckHasEmptySlot(itemDataSO))
+        {
+
+            playerItems.Add(itemData);
+
+            InventoryItem inventoryItem = Instantiate(inventoryItemPrefab, canvasTransform);
+            inventoryItem.InitializeItem(itemData);
+
+            Vector2Int? emptySlot = InventoryGrid.GetEmptySlot(inventoryItem);
+
+            if (emptySlot == null) return;
+
+            InventoryGrid.PlaceItem(inventoryItem, emptySlot.Value.x, emptySlot.Value.y);
+
+            UpdateSlotsCounter();
+
+            GameEventsManager.Instance.InventoryEvents.ItemAdded(itemDataSO.Id);
+        }
+    }
+
     private void PickUpItem(Vector2Int tileGridPosition)
     {
         if (CurrentItemGrid == null) return;
@@ -124,12 +149,15 @@ public class InventoryManager : MonoBehaviour
 
     public void ReturnSelectedItemBack()
     {
-        Vector2Int initialPos = new Vector2Int(selectedItem.PositionOnGridX, selectedItem.PositionOnGridY);
-        selectedItemGrid.PlaceItem(selectedItem, initialPos.x, initialPos.y);
-        HandleEquipmentPlace(initialPos, selectedItem.CurrentGrid);
-        selectedItem = null;
-        selectedItemGrid = null;
-        UpdateSlotsCounter();
+        if (selectedItem != null)
+        {
+            Vector2Int initialPos = new Vector2Int(selectedItem.PositionOnGridX, selectedItem.PositionOnGridY);
+            selectedItemGrid.PlaceItem(selectedItem, initialPos.x, initialPos.y);
+            HandleEquipmentPlace(initialPos, selectedItem.CurrentGrid);
+            selectedItem = null;
+            selectedItemGrid = null;
+            UpdateSlotsCounter();
+        }
     }
 
     private void HandleEquipmentPlace(Vector2Int tileGridPosition, ItemGrid grid)

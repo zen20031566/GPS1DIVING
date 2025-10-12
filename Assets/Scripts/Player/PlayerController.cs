@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private Player player;
+    private SpriteRenderer spriteRenderer;
     public Rigidbody2D Rb { get; private set; }
     private bool isFacingRight;
 
@@ -32,6 +34,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        player = GetComponent<Player>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         Rb = GetComponent<Rigidbody2D>();
         defaultGravity = 9.8f;
         Rb.gravityScale = defaultGravity;
@@ -79,7 +83,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            ResetOrientation();
+            //ResetOrientation();
         }
 
         Turn(moveDir);
@@ -95,9 +99,7 @@ public class PlayerController : MonoBehaviour
     private void FlipSprite()
     {
         isFacingRight = !isFacingRight;
-        Vector3 newScale = transform.localScale;
-        newScale.x = Mathf.Abs(newScale.x) * (isFacingRight ? 1 : -1);
-        transform.localScale = newScale;
+        spriteRenderer.flipX = !isFacingRight;
     }
 
     public void Turn(Vector2 moveDir)

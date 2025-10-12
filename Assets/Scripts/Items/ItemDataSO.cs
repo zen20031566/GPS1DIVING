@@ -16,4 +16,5 @@ public class ItemDataSO : ScriptableObject
     public ItemWeight Weight;
     public ItemRarity Rarity;
     public List<ItemTag> Tags;
+    public int Price;
 }
