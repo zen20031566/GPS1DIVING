@@ -446,7 +446,7 @@ MonoBehaviour:
   nextGearUpgrade: {fileID: 3976796306154554635}
   tabBackground: {fileID: 9196923158633146882}
   tabIdleColor: {r: 0.16078432, g: 0.16078432, b: 0.16078432, a: 1}
-  tabHoverColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  tabHoverColor: {r: 0.39607844, g: 0.39607844, b: 0.39607844, a: 1}
 --- !u!1001 &3527660823642173024
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@
 public class BoostUpgrade : GearUpgrade
 {
 
-    public override void ApplyUpgrade(Player player)
+    public override void ApplyUpgrade()
     {
         if (Level < GearUpgradeData.MaxLevel)
         {

@@ -49,7 +49,8 @@ public class MenuTabGroup : MonoBehaviour
         selectedTab = button;
         ResetTabs();
         button.Background.color = tabActiveColor;
-        int index = button.transform.GetSiblingIndex(); 
+        int index = tabButtons.IndexOf(button);
+
         for (int i = 0; i < pages.Count; i++)
         {
             if (i == index)

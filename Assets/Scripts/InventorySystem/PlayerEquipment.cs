@@ -13,38 +13,48 @@ public class PlayerEquipment : MonoBehaviour
 
     private int equipIndex = 0;
 
+    Player player;
+    private void Start()
+    {
+        player = GetComponent<Player>();
+    }
+
     private void Update()
     {
-        if (InputManager.ScrollDirection > 0)
+        if (player.PlayerStateMachine.CurrentState != player.OnUIOrDialog)
         {
-            int previousIndex = equipIndex;
-            equipIndex = (equipIndex - 1 + EquipedItems.Length) % EquipedItems.Length;
-
-            if (EquipedItems[previousIndex] != null)
+            if (InputManager.ScrollDirection > 0)
             {
-                EquipedItems[previousIndex].gameObject.SetActive(false);
+                int previousIndex = equipIndex;
+                equipIndex = (equipIndex - 1 + EquipedItems.Length) % EquipedItems.Length;
+
+                if (EquipedItems[previousIndex] != null)
+                {
+                    EquipedItems[previousIndex].gameObject.SetActive(false);
+                }
+
+                if (EquipedItems[equipIndex] != null)
+                {
+                    EquipedItems[equipIndex].gameObject.SetActive(true);
+                }
             }
-
-            if (EquipedItems[equipIndex] != null)
+            else if (InputManager.ScrollDirection < 0)
             {
-                EquipedItems[equipIndex].gameObject.SetActive(true);
+                int previousIndex = equipIndex;
+                equipIndex = (equipIndex + 1) % EquipedItems.Length;
+
+                if (EquipedItems[previousIndex] != null)
+                {
+                    EquipedItems[previousIndex].gameObject.SetActive(false);
+                }
+
+                if (EquipedItems[equipIndex] != null)
+                {
+                    EquipedItems[equipIndex].gameObject.SetActive(true);
+                }
             }
         }
-        else if (InputManager.ScrollDirection < 0)
-        {
-            int previousIndex = equipIndex;
-            equipIndex = (equipIndex + 1) % EquipedItems.Length;
-
-            if (EquipedItems[previousIndex] != null)
-            {
-                EquipedItems[previousIndex].gameObject.SetActive(false);
-            }
-
-            if (EquipedItems[equipIndex] != null)
-            {
-                EquipedItems[equipIndex].gameObject.SetActive(true);
-            }
-        }
+        
     }
 
     public void InstantiateEquipment(ItemData itemData, int slot)

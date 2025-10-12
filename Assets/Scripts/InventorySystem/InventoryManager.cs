@@ -8,7 +8,7 @@ public class InventoryManager : MonoBehaviour
     public List<ItemData> PlayerItems => playerItems;
 
     public ItemGrid CurrentItemGrid;
-    private ItemGrid selectedItemGrid;
+    [SerializeField] private ItemGrid selectedItemGrid;
     [SerializeField] private LayerMask inventoryLayer;
 
     [SerializeField] private InventoryItem selectedItem;
@@ -34,10 +34,10 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        InventoryGrid.InitializeGrid(inventorySize.x, inventorySize.y);
-        WeaponSlot1.InitializeGrid(weaponSlotSize.x, weaponSlotSize.y);
-        WeaponSlot2.InitializeGrid(weaponSlotSize.x, weaponSlotSize.y);
-        ConsumablesSlots.InitializeGrid(consumablesSlotsSize.x, consumablesSlotsSize.y);
+        InventoryGrid.InitializeGrid(inventorySize.x, inventorySize.y, this);
+        WeaponSlot1.InitializeGrid(weaponSlotSize.x, weaponSlotSize.y, this);
+        WeaponSlot2.InitializeGrid(weaponSlotSize.x, weaponSlotSize.y, this);
+        ConsumablesSlots.InitializeGrid(consumablesSlotsSize.x, consumablesSlotsSize.y, this);
         player = GameManager.Instance.Player;
         playerEquipment = player.PlayerEquipment;
         UpdateSlotsCounter();
@@ -53,7 +53,7 @@ public class InventoryManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.I))
         {
-            GameEventsManager.Instance.GameUIEvents.OpenMenu("Inventory");
+            GameEventsManager.Instance.GameUIEvents.OpenMenu("Inventory", player);
         }
 
         if (player.PlayerStateMachine.CurrentState != player.OnUIOrDialog) return;
@@ -61,7 +61,11 @@ public class InventoryManager : MonoBehaviour
         if (InputManager.LeftClickPressed)
         {
             HandleLeftClick();
-        } 
+        }
+        else if (InputManager.LeftClickReleased)
+        {
+            HandleMouseReleased();
+        }
     }
 
     public void AddItem(ItemData itemData)
@@ -99,49 +103,63 @@ public class InventoryManager : MonoBehaviour
         selectedItem.RectTransform.parent.SetAsLastSibling();
         selectedItem.RectTransform.SetAsLastSibling();
 
-        HandleEquipmentRemove(tileGridPosition);
+        HandleEquipmentRemove(tileGridPosition, CurrentItemGrid);
     }
 
-    private void PlaceItem(Vector2Int tileGridPosition)
+    public void PlaceItem(Vector2Int tileGridPosition)
     {
         if (CurrentItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y))
         {
-            HandleEquipmentPlace(tileGridPosition);
+            HandleEquipmentPlace(tileGridPosition, CurrentItemGrid);
 
             selectedItem = null;
             selectedItemGrid = null;
             UpdateSlotsCounter();
         }
+        else
+        {
+            ReturnSelectedItemBack();
+        }
     }
 
-    private void HandleEquipmentPlace(Vector2Int tileGridPosition)
+    public void ReturnSelectedItemBack()
     {
-        if (CurrentItemGrid == WeaponSlot1)
+        Vector2Int initialPos = new Vector2Int(selectedItem.PositionOnGridX, selectedItem.PositionOnGridY);
+        selectedItemGrid.PlaceItem(selectedItem, initialPos.x, initialPos.y);
+        HandleEquipmentPlace(initialPos, selectedItem.CurrentGrid);
+        selectedItem = null;
+        selectedItemGrid = null;
+        UpdateSlotsCounter();
+    }
+
+    private void HandleEquipmentPlace(Vector2Int tileGridPosition, ItemGrid grid)
+    {
+        if (grid == WeaponSlot1)
         {
             playerEquipment.InstantiateEquipment(selectedItem.ItemData, 0);
         }
-        else if (CurrentItemGrid == WeaponSlot2)
+        else if (grid == WeaponSlot2)
         {
             playerEquipment.InstantiateEquipment(selectedItem.ItemData, 1);
         }
-        else if (CurrentItemGrid == ConsumablesSlots)
+        else if (grid == ConsumablesSlots)
         {
             int slotIndex = tileGridPosition.x + 2;
             playerEquipment.InstantiateEquipment(selectedItem.ItemData, slotIndex);
         }
     }
 
-    private void HandleEquipmentRemove(Vector2Int tileGridPosition)
+    private void HandleEquipmentRemove(Vector2Int tileGridPosition, ItemGrid grid)
     {
-        if (CurrentItemGrid == WeaponSlot1)
+        if (grid == WeaponSlot1)
         {
             playerEquipment.RemoveEquipment(0);
         }
-        else if (CurrentItemGrid == WeaponSlot2)
+        else if (grid == WeaponSlot2)
         {
             playerEquipment.RemoveEquipment(1);
         }
-        else if (CurrentItemGrid == ConsumablesSlots)
+        else if (grid == ConsumablesSlots)
         {
             int slotIndex = tileGridPosition.x + 2;
             playerEquipment.RemoveEquipment(slotIndex);
@@ -155,7 +173,7 @@ public class InventoryManager : MonoBehaviour
 
         UpdateSlotsCounter();
 
-        GameEventsManager.Instance.InventoryEvents.ItemAdded(inventoryItem.ItemData.ItemDataSO.Id);
+        GameEventsManager.Instance.InventoryEvents.ItemRemoved(inventoryItem.ItemData.ItemDataSO.Id);
 
         Destroy(inventoryItem.gameObject);
 
@@ -182,24 +200,38 @@ public class InventoryManager : MonoBehaviour
             {
                 PickUpItem(tileGridPosition);
             }
+        }
+    }
+
+    private void HandleMouseReleased()
+    {
+        if (selectedItem == null) return;
+
+        if (CurrentItemGrid != null)
+        {
+            Vector2Int tileGridPosition = GetTileGridPosition();
+            ItemData itemData = selectedItem.ItemData;
+
+            if (CanPlaceItemInCurrentGrid(itemData))
+            {
+                PlaceItem(tileGridPosition);
+            }
             else
             {
-                ItemData itemData = selectedItem.ItemData;
-
-                if (CanPlaceItemInCurrentGrid(itemData))
-                {
-                    PlaceItem(tileGridPosition);
-                }
+                ReturnSelectedItemBack();
             }
         }
-
-        Debug.Log(IsPointerOnInventory);
-        //If cursor is outside inventory we drop the item
-        if (!IsPointerOnInventory)
+        else
         {
-            if (selectedItem != null)
+            Debug.Log(IsPointerOnInventory);
+            //If cursor is outside inventory we drop the item
+            if (!IsPointerOnInventory)
             {
                 DropItem(selectedItem);
+            }
+            else
+            {
+                ReturnSelectedItemBack();
             }
         }
     }
@@ -245,9 +277,9 @@ public class InventoryManager : MonoBehaviour
         slotsText.text = InventoryGrid.OccupiedSlots + "/" + InventoryGrid.TotalSlots;
     }
 
-    public void UpgradeInventory()
+    public void UpgradeInventory(int increaseRowAmount)
     {
-        InventoryGrid.ChangeGridSize(0, 2);
+        InventoryGrid.ChangeGridSize(0, increaseRowAmount);
         UpdateSlotsCounter();
     }
 

@@ -8,6 +8,7 @@ public class ItemDataSO : ScriptableObject
     public string DisplayName;
     public Sprite DisplaySprite;
     public Sprite InventorySprite;
+    public Sprite Icon;
     public int Width = 1;
     public int Height = 1;
     public Item Prefab;

@@ -8,6 +8,6 @@ public class ShopPoint : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
-        GameEventsManager.Instance.GameUIEvents.OpenMenu("Shop");
+        GameEventsManager.Instance.GameUIEvents.OpenMenu("Shop", player);
     }
 }

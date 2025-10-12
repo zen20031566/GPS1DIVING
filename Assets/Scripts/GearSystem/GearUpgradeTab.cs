@@ -18,6 +18,7 @@ public class GearUpgradeTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         tabBackground.color = tabIdleColor;
         this.shopManager = shopManager;
+        this.gearUpgrade = gearUpgrade;
         UpdateTab(gearUpgrade);
     }
 

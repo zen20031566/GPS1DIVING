@@ -11,13 +11,13 @@ public class CollectItemQuestStep : QuestStep
     private void OnEnable()
     {
         GameEventsManager.Instance.InventoryEvents.OnItemAdded += ItemCollected;
-        GameEventsManager.Instance.InventoryEvents.OnItemDropped += ItemDropped; 
+        GameEventsManager.Instance.InventoryEvents.OnItemRemoved += ItemRemoved; 
     }
 
     private void OnDisable()
     {
         GameEventsManager.Instance.InventoryEvents.OnItemAdded -= ItemCollected;
-        GameEventsManager.Instance.InventoryEvents.OnItemDropped -= ItemDropped;
+        GameEventsManager.Instance.InventoryEvents.OnItemRemoved -= ItemRemoved;
     }
 
     public override void Configure(QuestStepConfig config) //Add player reference to check inventory
@@ -54,7 +54,7 @@ public class CollectItemQuestStep : QuestStep
         }
     }
 
-    private void ItemDropped(int id)
+    private void ItemRemoved(int id)
     {
         if (itemsCollectedMap.ContainsKey(id))
         {

@@ -37,7 +37,7 @@ public class PlayerOxygen : MonoBehaviour
 
     private void Start()
     {
-        player = GameManager.Instance.Player;
+        player = GetComponent<Player>();
         currentOxygen = maxOxygenTime;
     }
 

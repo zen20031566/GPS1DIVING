@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class ShopManager : MonoBehaviour 
 {
-    public Player Player;
+    public Player Player { get; private set; }
+    
 
     private void OnEnable()
     {
-        GameEventsManager.Instance.ShopEvents.OnShopOpen += OpenShop;
+        GameEventsManager.Instance.ShopEvents.OnShopOpen += OpenShop;  
     }
 
     private void OnDisable()
@@ -14,25 +15,12 @@ public class ShopManager : MonoBehaviour
         GameEventsManager.Instance.ShopEvents.OnShopOpen -= OpenShop;
     }
 
-    private void Start()
-    {
-        Player = GameManager.Instance.Player;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            SellAllTrash();
-        }
-
-    }
     private void OpenShop(Player player)
     {
-        this.Player = player;   
+        this.Player = player;
     }
 
-    private void SellAllTrash()
+    public void SellAllSellables()
     {
         InventoryManager playerInventory = Player.InventoryManager;
         var playerInventoryItems = playerInventory.InventoryGrid.GridItems;
@@ -57,14 +45,12 @@ public class ShopManager : MonoBehaviour
 
     public void TryBuyGearUpgrade(GearUpgrade gearUpgrade, GearUpgradeTab gearUpgradeTab)
     {
-        Debug.Log("Try buy upgrade " + gearUpgrade.GearUpgradeData.DisplayName);
-        gearUpgrade.ApplyUpgrade(Player);
-        gearUpgradeTab.UpdateTab(gearUpgrade);
         if (Player.GoldManager.GoldAmount >= gearUpgrade.Cost)
         {
-            
+            gearUpgrade.ApplyUpgrade();
+            gearUpgradeTab.UpdateTab(gearUpgrade);
+            GameEventsManager.Instance.GoldEvents.GoldDecrease(gearUpgrade.Cost);
+            Debug.Log("Upgraded " + gearUpgrade.GearUpgradeData.DisplayName);
         }
     }
-
-
 }

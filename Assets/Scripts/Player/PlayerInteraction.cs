@@ -32,7 +32,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (collision.TryGetComponent(out IInteractable interactable) && interactable == closestInteractable)
         {
-            closestInteractable = interactable;
+            closestInteractable = null;
             interactUI.SetActive(false);
         }
     }

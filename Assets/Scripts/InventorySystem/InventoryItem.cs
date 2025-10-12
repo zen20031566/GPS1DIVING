@@ -10,6 +10,7 @@ public class InventoryItem : MonoBehaviour
 
     public int PositionOnGridX;
     public int PositionOnGridY;
+    public ItemGrid CurrentGrid;
 
     public void InitializeItem(ItemData itemData)
     {

@@ -6,13 +6,15 @@ public abstract class GearUpgrade : MonoBehaviour
     public int Level = 0;
     public int Cost;
     public string Description;
+    public string UpgradedDescription;
+    public Player Player;
 
-    public void Initialiize(GearUpgradeSO gearUpgradeData)
+    public virtual void Initialiize(GearUpgradeSO gearUpgradeData, Player player)
     {
         this.GearUpgradeData = gearUpgradeData; 
-        this.Description = gearUpgradeData.Description;
         Cost = gearUpgradeData.BaseCost;
+        this.Player = player;
     }
 
-    public abstract void ApplyUpgrade(Player player);
+    public abstract void ApplyUpgrade();
 }

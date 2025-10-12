@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ItemGrid : MonoBehaviour
 {
+    private InventoryManager inventoryManager;  
+
     public const float BaseTileWidth = 76f;
     public const float BaseTileHeight = 76f;
     public Vector2 ReferenceResolution = new Vector2(1920, 1080); // Base resolution for scaling
@@ -11,8 +13,8 @@ public class ItemGrid : MonoBehaviour
     public float TileWidth => BaseTileWidth;
     public float TileHeight => BaseTileHeight;
 
-    private int gridWidth = 10;
-    private int gridHeight = 10;
+    public int GridWidth = 10;
+    public int GridHeight = 10;
 
     private InventoryItem[,] gridItems;
     public InventoryItem[,] GridItems => gridItems;
@@ -27,6 +29,11 @@ public class ItemGrid : MonoBehaviour
     public int TotalSlots = 0;
     public int OccupiedSlots = 0;
 
+    private void OnDisable()
+    {
+        inventoryManager.CurrentItemGrid = null;
+    }
+
     public float GetScaleFactor()
     {
         float screenWidth = Screen.width;
@@ -38,31 +45,32 @@ public class ItemGrid : MonoBehaviour
         return scaleFactor;
     }
 
-    public void InitializeGrid(int width, int height)
+    public void InitializeGrid(int width, int height, InventoryManager inventoryManager)
     {
-        gridWidth = width;
-        gridHeight = height;
+        this.inventoryManager = inventoryManager;
+        GridWidth = width;
+        GridHeight = height;
         rectTransform = GetComponent<RectTransform>();
-        gridItems = new InventoryItem[gridWidth, gridHeight];
+        gridItems = new InventoryItem[GridWidth, GridHeight];
 
-        Vector2 size = new Vector2(gridWidth * TileWidth, gridHeight * TileHeight);
+        Vector2 size = new Vector2(GridWidth * TileWidth, GridHeight * TileHeight);
         rectTransform.sizeDelta = size;
 
-        TotalSlots = gridWidth * gridHeight;
+        TotalSlots = GridWidth * GridHeight;
         InitializeEmptySlots();
     }
 
     public void ChangeGridSize(int width, int height)
     {
-        int newWidth = gridWidth + width;
-        int newHeight = gridHeight + height;
+        int newWidth = GridWidth + width;
+        int newHeight = GridHeight + height;
 
 
         InventoryItem[,] newGridItems = new InventoryItem[newWidth, newHeight];
 
-        for (int x = 0; x < gridWidth; x++)
+        for (int x = 0; x < GridWidth; x++)
         {
-            for (int y = 0; y < gridHeight; y++)
+            for (int y = 0; y < GridHeight; y++)
             {
                 if (gridItems[x, y] != null) //Only copy if there is an item
                 {
@@ -73,13 +81,13 @@ public class ItemGrid : MonoBehaviour
 
         gridItems = newGridItems;
 
-        gridWidth = newWidth;
-        gridHeight = newHeight;
+        GridWidth = newWidth;
+        GridHeight = newHeight;
 
-        Vector2 size = new Vector2(gridWidth * TileWidth, gridHeight * TileHeight);
+        Vector2 size = new Vector2(GridWidth * TileWidth, GridHeight * TileHeight);
         rectTransform.sizeDelta = size;
 
-        TotalSlots = gridWidth * gridHeight;
+        TotalSlots = GridWidth * GridHeight;
         InitializeEmptySlots();
     }
 
@@ -114,6 +122,7 @@ public class ItemGrid : MonoBehaviour
 
         item.PositionOnGridX = posX;
         item.PositionOnGridY = posY;
+        item.CurrentGrid = this;
 
         Vector2 position = new Vector2();
         position.x = posX * TileWidth + TileWidth * item.ItemDataSO.Width / 2;
@@ -177,7 +186,7 @@ public class ItemGrid : MonoBehaviour
     {
         if (posX < 0 || posY < 0) return false;
 
-        if (posX > gridWidth || posY > gridHeight) return false;
+        if (posX > GridWidth || posY > GridHeight) return false;
 
         return true;
     }
@@ -245,9 +254,9 @@ public class ItemGrid : MonoBehaviour
     {
         emptySlots.Clear();
 
-        for (int x = 0; x < gridWidth; x++)
+        for (int x = 0; x < GridWidth; x++)
         {
-            for (int y = 0; y < gridHeight; y++)
+            for (int y = 0; y < GridHeight; y++)
             {
                 if (gridItems[x, y] == null)
                 {

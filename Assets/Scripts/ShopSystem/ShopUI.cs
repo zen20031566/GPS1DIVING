@@ -2,14 +2,17 @@ using UnityEngine;
 
 public class ShopUI : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] ShopManager shopManager;
+    [SerializeField] private GearUpgradeGroup gearUpgradeGroup;
+    [SerializeField] private SellableItemsGroup sellableItemsGroup;
+
+    private void OnEnable()
     {
-        
+        gearUpgradeGroup.InitializeGroup(shopManager);
+        sellableItemsGroup.InitializeGroup(shopManager);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
         
     }

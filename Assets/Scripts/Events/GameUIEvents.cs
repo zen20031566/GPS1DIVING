@@ -2,12 +2,12 @@ using System;
 
 public class GameUIEvents 
 {
-    public event Action<string> OnOpenMenu;
+    public event Action<string, Player> OnOpenMenu;
     public event Action OnCloseMenu;
 
-    public void OpenMenu(string menuName)
+    public void OpenMenu(string menuName, Player player)
     {
-        OnOpenMenu?.Invoke(menuName);
+        OnOpenMenu?.Invoke(menuName, player);
     }
 
     public void CloseMenu()

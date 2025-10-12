@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DisplayName: Inventory
   Icon: {fileID: 0}
-  MaxLevel: 5
+  MaxLevel: 4
   BaseCost: 5
   CostIncrease: 5
   Description: niga

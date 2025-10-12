@@ -6,8 +6,9 @@ public class GearUpgradeGroup : MonoBehaviour
     [SerializeField] private GearUpgradeTab tabPrefab;
     private Player player;
 
-    private void OnEnable()
+    public void InitializeGroup(ShopManager shopManager)
     {
+        this.shopManager = shopManager;
         player = shopManager.Player;
 
         if (player != null)
@@ -18,7 +19,7 @@ public class GearUpgradeGroup : MonoBehaviour
             {
                 InstiantiateUpgradeTab(gearUpgrade);
             }
-        }  
+        }
     }
 
     private void InstiantiateUpgradeTab(GearUpgrade gearUpgrade)

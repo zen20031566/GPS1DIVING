@@ -12,6 +12,7 @@ public class InputManager : MonoBehaviour
     public static bool EscPressed;
 
     public static bool LeftClickPressed;
+    public static bool LeftClickReleased;
 
     public static float ScrollDirection;
 
@@ -43,6 +44,7 @@ public class InputManager : MonoBehaviour
         EscPressed = escAction.WasPressedThisFrame();
 
         LeftClickPressed = leftClickAction.WasPressedThisFrame();
+        LeftClickReleased = leftClickAction.WasReleasedThisFrame();
 
         ScrollDirection = scrollAction.ReadValue<float>();
         float rawScrollDirection = Mathf.Sign(ScrollDirection);

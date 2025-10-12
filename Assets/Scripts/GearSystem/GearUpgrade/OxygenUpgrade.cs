@@ -3,14 +3,14 @@ public class OxygenUpgrade : GearUpgrade
 {
     private float increaseOxygenAmount = 300;
 
-    public override void ApplyUpgrade(Player player)
+    public override void ApplyUpgrade()
     {
         if (Level < GearUpgradeData.MaxLevel)
         {
             Level++;
             Cost += GearUpgradeData.CostIncrease;
 
-            player.PlayerOxygen.UpgradeOxygen(increaseOxygenAmount);    
+            Player.PlayerOxygen.UpgradeOxygen(increaseOxygenAmount);    
         }
     }
 }

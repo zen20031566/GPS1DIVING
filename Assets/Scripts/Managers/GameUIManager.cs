@@ -39,13 +39,14 @@ public class GameUIManager : MonoBehaviour
             }
             else
             {
-                OpenMenu("Pause");
+                OpenMenu("Pause", player);
             }    
         }
     }
 
-    private void OpenMenu(string menuName)
+    private void OpenMenu(string menuName, Player player)
     {
+        this.player = player;
         if (menuIsOpen) return;
 
         menuIsOpen = true;
@@ -54,7 +55,8 @@ public class GameUIManager : MonoBehaviour
         switch (menuName)
         {
             case "Shop":
-                shopUI.SetActive(true); 
+                GameEventsManager.Instance.ShopEvents.ShopOpen(player);
+                shopUI.SetActive(true);
                 currentMenu = shopUI;
                 break;
 

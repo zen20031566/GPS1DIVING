@@ -32,14 +32,21 @@ public class GoldManager : MonoBehaviour
 
     private void AddGold(int amount)
     {
-        goldAmount += amount;
-        GameEventsManager.Instance.GoldEvents.GoldChange(goldAmount);
-        goldText.text = goldAmount + " gold";
+        if (amount > 0)
+        {
+            goldAmount += amount;
+            GameEventsManager.Instance.GoldEvents.GoldChange(goldAmount);
+            goldText.text = goldAmount + " gold";
+        }
     }
 
     private void DecreaseGold(int amount)
     {
         goldAmount -= amount;
+        if (goldAmount < 0)
+        {
+            goldAmount = 0;
+        }
         GameEventsManager.Instance.GoldEvents.GoldChange(goldAmount);
         goldText.text = goldAmount + " gold";
     }
