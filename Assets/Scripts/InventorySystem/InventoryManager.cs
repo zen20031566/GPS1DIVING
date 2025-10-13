@@ -1,9 +1,11 @@
+using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
+    [SerializeField] private List<ItemDataSO> startingItems = new List<ItemDataSO>();   
     private List<ItemData> playerItems = new List<ItemData>();
     public List<ItemData> PlayerItems => playerItems;
 
@@ -41,6 +43,7 @@ public class InventoryManager : MonoBehaviour
         Player = GameManager.Instance.Player;
         playerEquipment = Player.PlayerEquipment;
         UpdateSlotsCounter();
+        GiveStartingItems();
     }
 
     private void Update()
@@ -68,6 +71,14 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    private void GiveStartingItems()
+    {
+        foreach (ItemDataSO itemDataSO in startingItems)
+        {
+            AddItem(itemDataSO);
+        }
+    }
+
     public void AddItem(ItemData itemData)
     {
         ItemDataSO itemDataSO = itemData.ItemDataSO;
@@ -79,14 +90,10 @@ public class InventoryManager : MonoBehaviour
             InventoryItem inventoryItem = Instantiate(inventoryItemPrefab, canvasTransform);
             inventoryItem.InitializeItem(itemData);
 
-            Vector2Int? emptySlot = InventoryGrid.GetEmptySlot(inventoryItem);
+            HandleAddedItemPlacement(itemData, inventoryItem);
 
-            if (emptySlot == null) return;
-
-            InventoryGrid.PlaceItem(inventoryItem, emptySlot.Value.x, emptySlot.Value.y);
-
+            
             UpdateSlotsCounter();
-
             GameEventsManager.Instance.InventoryEvents.ItemAdded(itemDataSO.Id);
         }
     }
@@ -104,15 +111,59 @@ public class InventoryManager : MonoBehaviour
             InventoryItem inventoryItem = Instantiate(inventoryItemPrefab, canvasTransform);
             inventoryItem.InitializeItem(itemData);
 
-            Vector2Int? emptySlot = InventoryGrid.GetEmptySlot(inventoryItem);
-
-            if (emptySlot == null) return;
-
-            InventoryGrid.PlaceItem(inventoryItem, emptySlot.Value.x, emptySlot.Value.y);
-
+            HandleAddedItemPlacement(itemData, inventoryItem);
+           
             UpdateSlotsCounter();
-
             GameEventsManager.Instance.InventoryEvents.ItemAdded(itemDataSO.Id);
+        }
+    }
+
+    private void HandleAddedItemPlacement(ItemData itemData, InventoryItem inventoryItem)
+    {
+        if (itemData.HasItemTag(ItemTag.Weapon))
+        {
+            bool placedInWeaponSlot = false;
+
+            //Try to place item in slot1
+            placedInWeaponSlot = TryPlaceInWeaponSlot(WeaponSlot1, inventoryItem);
+
+            //If slot1 occupied try slot2
+            if (!placedInWeaponSlot)
+            {
+                placedInWeaponSlot = TryPlaceInWeaponSlot(WeaponSlot2, inventoryItem);
+            }
+
+            //If both weapon slots are occupied place in the inventory
+            if (!placedInWeaponSlot)
+            {
+                PlaceItemInInventory(inventoryItem);
+            }
+        }
+        else
+        {
+            //If its not a weapon place in inventory grid
+            PlaceItemInInventory(inventoryItem);
+        }
+    }
+
+    private bool TryPlaceInWeaponSlot(ItemGrid weaponSlot, InventoryItem inventoryItem)
+    {
+        Vector2Int? emptySlot = weaponSlot.GetEmptySlot(inventoryItem);
+        if (emptySlot != null)
+        {
+            weaponSlot.PlaceItem(inventoryItem, emptySlot.Value.x, emptySlot.Value.y);
+            HandleEquipmentPlace((Vector2Int)emptySlot, weaponSlot, inventoryItem);
+            return true;
+        }
+        return false;
+    }
+
+    private void PlaceItemInInventory(InventoryItem inventoryItem)
+    {
+        Vector2Int? emptySlot = InventoryGrid.GetEmptySlot(inventoryItem);
+        if (emptySlot != null)
+        {
+            InventoryGrid.PlaceItem(inventoryItem, emptySlot.Value.x, emptySlot.Value.y);
         }
     }
 
@@ -135,7 +186,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (CurrentItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y))
         {
-            HandleEquipmentPlace(tileGridPosition, CurrentItemGrid);
+            HandleEquipmentPlace(tileGridPosition, CurrentItemGrid, selectedItem);
 
             selectedItem = null;
             selectedItemGrid = null;
@@ -153,27 +204,27 @@ public class InventoryManager : MonoBehaviour
         {
             Vector2Int initialPos = new Vector2Int(selectedItem.PositionOnGridX, selectedItem.PositionOnGridY);
             selectedItemGrid.PlaceItem(selectedItem, initialPos.x, initialPos.y);
-            HandleEquipmentPlace(initialPos, selectedItem.CurrentGrid);
+            HandleEquipmentPlace(initialPos, selectedItem.CurrentGrid, selectedItem);
             selectedItem = null;
             selectedItemGrid = null;
             UpdateSlotsCounter();
         }
     }
 
-    private void HandleEquipmentPlace(Vector2Int tileGridPosition, ItemGrid grid)
+    private void HandleEquipmentPlace(Vector2Int tileGridPosition, ItemGrid grid, InventoryItem inventoryItem)
     {
         if (grid == WeaponSlot1)
         {
-            playerEquipment.InstantiateEquipment(selectedItem.ItemData, 0);
+            playerEquipment.InstantiateEquipment(inventoryItem.ItemData, 0);
         }
         else if (grid == WeaponSlot2)
         {
-            playerEquipment.InstantiateEquipment(selectedItem.ItemData, 1);
+            playerEquipment.InstantiateEquipment(inventoryItem.ItemData, 1);
         }
         else if (grid == ConsumablesSlots)
         {
             int slotIndex = tileGridPosition.x + 2;
-            playerEquipment.InstantiateEquipment(selectedItem.ItemData, slotIndex);
+            playerEquipment.InstantiateEquipment(inventoryItem.ItemData, slotIndex);
         }
     }
 
@@ -209,6 +260,12 @@ public class InventoryManager : MonoBehaviour
 
     private void DropItem(InventoryItem selectedItem)
     {
+        if (selectedItem.ItemData.HasItemTag(ItemTag.NotDroppable))
+        {
+            ReturnSelectedItemBack();
+            return;
+        }
+
         ItemData itemData = selectedItem.ItemData;
         Item item = Instantiate(itemData.ItemDataSO.Prefab, Player.transform.position, Quaternion.identity);
         item.InitializeItem(itemData.ItemDataSO);

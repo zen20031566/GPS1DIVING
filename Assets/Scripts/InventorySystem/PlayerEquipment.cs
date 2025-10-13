@@ -11,7 +11,7 @@ public class PlayerEquipment : MonoBehaviour
 
     [SerializeField] private Transform equipedItemTransform;
 
-    private int equipIndex = 0;
+    private int selectedEquipmentIndex = 0;
 
     Player player;
     private void Start()
@@ -21,40 +21,39 @@ public class PlayerEquipment : MonoBehaviour
 
     private void Update()
     {
-        if (player.PlayerStateMachine.CurrentState != player.OnUIOrDialog)
+        if (player.PlayerStateMachine.CurrentState != player.OnUIOrDialog && equipedItemTransform.childCount > 0)
         {
             if (InputManager.ScrollDirection > 0)
             {
-                int previousIndex = equipIndex;
-                equipIndex = (equipIndex - 1 + EquipedItems.Length) % EquipedItems.Length;
-
-                if (EquipedItems[previousIndex] != null)
-                {
-                    EquipedItems[previousIndex].gameObject.SetActive(false);
-                }
-
-                if (EquipedItems[equipIndex] != null)
-                {
-                    EquipedItems[equipIndex].gameObject.SetActive(true);
-                }
+                selectedEquipmentIndex = (selectedEquipmentIndex - 1 + equipedItemTransform.childCount) % equipedItemTransform.childCount;
+                SelectEquipment();
             }
             else if (InputManager.ScrollDirection < 0)
             {
-                int previousIndex = equipIndex;
-                equipIndex = (equipIndex + 1) % EquipedItems.Length;
-
-                if (EquipedItems[previousIndex] != null)
-                {
-                    EquipedItems[previousIndex].gameObject.SetActive(false);
-                }
-
-                if (EquipedItems[equipIndex] != null)
-                {
-                    EquipedItems[equipIndex].gameObject.SetActive(true);
-                }
+                selectedEquipmentIndex = (selectedEquipmentIndex + 1) % equipedItemTransform.childCount;
+                SelectEquipment();
             }
         }
         
+    }
+
+    public void SelectEquipment()
+    {
+        int i = 0;
+
+        foreach (Transform child in equipedItemTransform)
+        {
+            if (i == selectedEquipmentIndex)
+            {
+                child.gameObject.SetActive(true);
+            }
+            else
+            {
+                child.gameObject.SetActive(false);
+            }
+                i++;
+        }
+
     }
 
     public void InstantiateEquipment(ItemData itemData, int slot)
@@ -86,8 +85,4 @@ public class PlayerEquipment : MonoBehaviour
         }
     }
 
-    private void ChangeEquipment()
-    {
-
-    }
 }

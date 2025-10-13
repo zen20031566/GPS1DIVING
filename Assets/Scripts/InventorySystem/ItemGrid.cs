@@ -230,7 +230,6 @@ public class ItemGrid : MonoBehaviour
             }   
         }
 
-        Debug.LogError("Somehow adding item to full inventory");
         return null;
     }
 
