@@ -1,9 +1,11 @@
+using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
+    [SerializeField] List<ItemDataSO> startingItems = new List<ItemDataSO>();   
     private List<ItemData> playerItems = new List<ItemData>();
     public List<ItemData> PlayerItems => playerItems;
 
@@ -41,6 +43,7 @@ public class InventoryManager : MonoBehaviour
         Player = GameManager.Instance.Player;
         playerEquipment = Player.PlayerEquipment;
         UpdateSlotsCounter();
+        GiveStartingItems();
     }
 
     private void Update()
@@ -68,6 +71,14 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    private void GiveStartingItems()
+    {
+        foreach (ItemDataSO itemDataSO in startingItems)
+        {
+            AddItem(itemDataSO);
+        }
+    }
+
     public void AddItem(ItemData itemData)
     {
         ItemDataSO itemDataSO = itemData.ItemDataSO;
@@ -79,14 +90,10 @@ public class InventoryManager : MonoBehaviour
             InventoryItem inventoryItem = Instantiate(inventoryItemPrefab, canvasTransform);
             inventoryItem.InitializeItem(itemData);
 
-            Vector2Int? emptySlot = InventoryGrid.GetEmptySlot(inventoryItem);
+            //HandleAddedItemPlacement(itemData, inventoryItem);
 
-            if (emptySlot == null) return;
-
-            InventoryGrid.PlaceItem(inventoryItem, emptySlot.Value.x, emptySlot.Value.y);
-
+            PlaceItemInInventory(inventoryItem);
             UpdateSlotsCounter();
-
             GameEventsManager.Instance.InventoryEvents.ItemAdded(itemDataSO.Id);
         }
     }
@@ -104,15 +111,53 @@ public class InventoryManager : MonoBehaviour
             InventoryItem inventoryItem = Instantiate(inventoryItemPrefab, canvasTransform);
             inventoryItem.InitializeItem(itemData);
 
-            Vector2Int? emptySlot = InventoryGrid.GetEmptySlot(inventoryItem);
-
-            if (emptySlot == null) return;
-
-            InventoryGrid.PlaceItem(inventoryItem, emptySlot.Value.x, emptySlot.Value.y);
-
+            //HandleAddedItemPlacement(itemData, inventoryItem);
+            PlaceItemInInventory(inventoryItem);
             UpdateSlotsCounter();
-
             GameEventsManager.Instance.InventoryEvents.ItemAdded(itemDataSO.Id);
+        }
+    }
+
+    private void HandleAddedItemPlacement(ItemData itemData, InventoryItem inventoryItem)
+    {
+        if (itemData.HasItemTag(ItemTag.Weapon))
+        {
+            //Try to place in weapon slots first
+            if (!TryPlaceInWeaponSlot(WeaponSlot1, inventoryItem))
+            {
+                TryPlaceInWeaponSlot(WeaponSlot2, inventoryItem);
+            }
+
+            //If both slots occupied
+            if (!TryPlaceInWeaponSlot(WeaponSlot1, inventoryItem) && !TryPlaceInWeaponSlot(WeaponSlot2, inventoryItem))
+            {
+                PlaceItemInInventory(inventoryItem);
+            }
+        }
+        else
+        {
+            //If its not a weapon place in inventory grid
+            PlaceItemInInventory(inventoryItem);
+        }
+    }
+
+    private bool TryPlaceInWeaponSlot(ItemGrid weaponSlot, InventoryItem inventoryItem)
+    {
+        Vector2Int? emptySlot = weaponSlot.GetEmptySlot(inventoryItem);
+        if (emptySlot != null)
+        {
+            weaponSlot.PlaceItem(inventoryItem, emptySlot.Value.x, emptySlot.Value.y);
+            return true;
+        }
+        return false;
+    }
+
+    private void PlaceItemInInventory(InventoryItem inventoryItem)
+    {
+        Vector2Int? emptySlot = InventoryGrid.GetEmptySlot(inventoryItem);
+        if (emptySlot != null)
+        {
+            InventoryGrid.PlaceItem(inventoryItem, emptySlot.Value.x, emptySlot.Value.y);
         }
     }
 
@@ -209,6 +254,8 @@ public class InventoryManager : MonoBehaviour
 
     private void DropItem(InventoryItem selectedItem)
     {
+        if (selectedItem.ItemData.HasItemTag(ItemTag.NotDroppable)) return;
+
         ItemData itemData = selectedItem.ItemData;
         Item item = Instantiate(itemData.ItemDataSO.Prefab, Player.transform.position, Quaternion.identity);
         item.InitializeItem(itemData.ItemDataSO);

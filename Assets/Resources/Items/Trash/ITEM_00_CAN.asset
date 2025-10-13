@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23a762804b266e34a837100982f51631, type: 3}
+  m_Name: ITEM_00_CAN
+  m_EditorClassIdentifier: 
+  Id: 0
+  DisplayName: Can
+  DisplaySprite: {fileID: 8106873887768785080, guid: 1bf2c803b7354924dbe35dba847decea, type: 3}
+  InventorySprite: {fileID: 8106873887768785080, guid: 1bf2c803b7354924dbe35dba847decea, type: 3}
+  Icon: {fileID: 8106873887768785080, guid: 1bf2c803b7354924dbe35dba847decea, type: 3}
+  Width: 1
+  Height: 1
+  Prefab: {fileID: 834810385572461669, guid: ec1884a232490b64d9731c12a6aa8577, type: 3}
+  Value: 5
+  Weight: 0
+  Rarity: 0
+  Tags: 04000000
