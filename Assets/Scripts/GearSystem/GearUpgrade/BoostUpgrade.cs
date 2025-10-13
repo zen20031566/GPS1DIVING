@@ -7,7 +7,7 @@ public class BoostUpgrade : GearUpgrade
         if (Level < GearUpgradeData.MaxLevel)
         {
             Level++;
-            Cost += GearUpgradeData.CostIncrease;
+            Price += GearUpgradeData.CostIncrease;
         }
     }
 }

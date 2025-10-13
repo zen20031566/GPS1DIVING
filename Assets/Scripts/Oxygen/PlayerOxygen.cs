@@ -35,6 +35,9 @@ public class PlayerOxygen : MonoBehaviour
     public float fadeSpeed = 2f; //speed of fade in/out
     private bool isFadingOut = false;
 
+    //Properties
+    public float MaxOxygenTime => maxOxygenTime;
+
     private void Start()
     {
         player = GetComponent<Player>();

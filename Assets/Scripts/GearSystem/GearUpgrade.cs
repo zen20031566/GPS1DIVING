@@ -4,7 +4,7 @@ public abstract class GearUpgrade : MonoBehaviour
 {
     public GearUpgradeSO GearUpgradeData;
     public int Level = 0;
-    public int Cost;
+    public int Price;
     public string Description;
     public string UpgradedDescription;
     public Player Player;
@@ -12,7 +12,7 @@ public abstract class GearUpgrade : MonoBehaviour
     public virtual void Initialiize(GearUpgradeSO gearUpgradeData, Player player)
     {
         this.GearUpgradeData = gearUpgradeData; 
-        Cost = gearUpgradeData.BaseCost;
+        Price = gearUpgradeData.BaseCost;
         this.Player = player;
     }
 

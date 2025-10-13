@@ -11,6 +11,7 @@ public class GearUpgradeInfoUI : MonoBehaviour
 
     public void Initialize(GearUpgrade gearUpgrade)
     {
+        Icon.sprite = gearUpgrade.GearUpgradeData.Icon;
         displayNameText.text = gearUpgrade.GearUpgradeData.DisplayName;
         lvlText.text = "Lvl " + (gearUpgrade.Level + 1);
         descriptionText.text = gearUpgrade.Description;
@@ -18,6 +19,7 @@ public class GearUpgradeInfoUI : MonoBehaviour
 
     public void InitializeNextUpgrade(GearUpgrade gearUpgrade)
     {
+        Icon.sprite = gearUpgrade.GearUpgradeData.Icon;
         displayNameText.text = gearUpgrade.GearUpgradeData.DisplayName;
         lvlText.text = "Lvl " + (gearUpgrade.Level + 2);
         descriptionText.text = gearUpgrade.UpgradedDescription;

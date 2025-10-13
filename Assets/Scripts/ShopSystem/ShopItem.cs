@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ShopItem : MonoBehaviour
 {
-    private Image icon;
+    [SerializeField] private Image icon;
     [SerializeField] private TMP_Text displayNameText;
     [SerializeField] private TMP_Text priceText;
 
@@ -13,13 +13,14 @@ public class ShopItem : MonoBehaviour
     
     public void Initialize(ItemDataSO itemDataSO, ShopManager shopManager)
     {
+        this.shopManager = shopManager;
         this.itemDataSO = itemDataSO;
         icon.sprite = itemDataSO.Icon;
         displayNameText.text = itemDataSO.DisplayName;
         priceText.text = $"{itemDataSO.Price}";   
     }
 
-    private void OnClick()
+    public void OnClick()
     {
         shopManager.TryBuyItem(itemDataSO);
     }

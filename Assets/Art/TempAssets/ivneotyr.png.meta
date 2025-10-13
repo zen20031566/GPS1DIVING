@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: e01bb7b68914be34fb86887e83a6e512
+guid: f6905117252b7e1429f9f5c7fc524a02
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4962939012007405620
-    second: divertemp_0
-  - first:
-      213: 4764143862411127595
-    second: divertemp_1
+      213: -4810391957886325450
+    second: ivneotyr_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -129,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: divertemp_0
+      name: ivneotyr_0
       rect:
         serializedVersion: 2
-        x: 24
-        y: 0
-        width: 57
-        height: 198
+        x: 15
+        y: 18
+        width: 73
+        height: 71
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 3538253d45946b240b5fae3ad9a0ce5a
-      internalID: 160385110
+      spriteID: 63d2ac7300e0e3db0800000000000000
+      internalID: -4810391957886325450
       vertices: []
       indices: 
       edges: []
@@ -154,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 73c3483d81c04fa48bc10cc0e604c29a
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -163,8 +160,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      divertemp_0: 160385110
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

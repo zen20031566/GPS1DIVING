@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: InventoryUpgrade
   m_EditorClassIdentifier: 
   DisplayName: Inventory
-  Icon: {fileID: 0}
+  Icon: {fileID: -4810391957886325450, guid: f6905117252b7e1429f9f5c7fc524a02, type: 3}
   MaxLevel: 4
   BaseCost: 5
   CostIncrease: 5
-  Description: niga
+  Description: 
   Prefab: {fileID: 832707539035075786, guid: 85d5686a2b8d1b143872d5b91e14e7df, type: 3}

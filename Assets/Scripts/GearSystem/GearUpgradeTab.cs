@@ -26,7 +26,7 @@ public class GearUpgradeTab : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         this.gearUpgrade = gearUpgrade;
         currentGearUpgrade.Initialize(gearUpgrade);
-        goldText.text = $"{gearUpgrade.Cost}";
+        goldText.text = $"{gearUpgrade.Price}";
         nextGearUpgrade.InitializeNextUpgrade(gearUpgrade);
     }
 

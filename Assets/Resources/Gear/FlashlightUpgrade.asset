@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: FlashlightUpgrade
   m_EditorClassIdentifier: 
   DisplayName: Flashlight
-  Icon: {fileID: 0}
+  Icon: {fileID: 1025692012, guid: 5b3b96dec2ed5a24abaa2e479e4161a1, type: 3}
   MaxLevel: 5
   BaseCost: 5
   CostIncrease: 5
-  Description: nniga
+  Description: 
   Prefab: {fileID: 7916787570126743667, guid: da1f3237a1b9ada4fbfe0e24a22b5db5, type: 3}

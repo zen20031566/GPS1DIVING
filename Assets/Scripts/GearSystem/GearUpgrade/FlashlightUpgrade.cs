@@ -7,7 +7,7 @@ public class FlashlightUpgrade : GearUpgrade
         if (Level < GearUpgradeData.MaxLevel)
         {
             Level++;
-            Cost += GearUpgradeData.CostIncrease;
+            Price += GearUpgradeData.CostIncrease;
 
 
         }

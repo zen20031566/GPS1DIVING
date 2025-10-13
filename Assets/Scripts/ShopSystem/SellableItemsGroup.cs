@@ -33,12 +33,14 @@ public class SellableItemsGroup : MonoBehaviour
 
     private void UpdateSellItems(int id = 0) //for future use maybe if only want to sell a specific item
     {
+        sellableQuantityMap.Clear();
+        totalSaleValue = 0;
         ResetSellItems();
 
         if (player != null)
         {
             GetQuantityOfSellables();
-
+            
             foreach (var kvp in sellableQuantityMap)
             {
                 ItemDataSO itemDataSO = kvp.Key;
@@ -47,15 +49,13 @@ public class SellableItemsGroup : MonoBehaviour
                 InstiantiateSellItem(itemDataSO, quantity);
 
                 totalSaleValue += (itemDataSO.Value * quantity);
-                totalSaleValueText.text = $"{totalSaleValue}";
             }
         }
+        totalSaleValueText.text = $"{totalSaleValue}";
     }
 
     public void GetQuantityOfSellables()
     {
-        sellableQuantityMap.Clear();
-
         InventoryManager playerInventory = player.InventoryManager;
         var playerInventoryItems = playerInventory.InventoryGrid.GridItems;
 

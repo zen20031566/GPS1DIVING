@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: BoostUpgrade
   m_EditorClassIdentifier: 
   DisplayName: Boost
-  Icon: {fileID: 0}
+  Icon: {fileID: -2932603657010849340, guid: 88e7f9b958234764aafcf2060d3e8052, type: 3}
   MaxLevel: 5
   BaseCost: 5
   CostIncrease: 5
-  Description: niga
+  Description: 
   Prefab: {fileID: -1078881165185786354, guid: b300793c0b4ed0e4696a76355619112b, type: 3}
