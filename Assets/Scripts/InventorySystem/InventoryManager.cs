@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    [SerializeField] List<ItemDataSO> startingItems = new List<ItemDataSO>();   
+    [SerializeField] private List<ItemDataSO> startingItems = new List<ItemDataSO>();   
     private List<ItemData> playerItems = new List<ItemData>();
     public List<ItemData> PlayerItems => playerItems;
 
@@ -90,9 +90,9 @@ public class InventoryManager : MonoBehaviour
             InventoryItem inventoryItem = Instantiate(inventoryItemPrefab, canvasTransform);
             inventoryItem.InitializeItem(itemData);
 
-            //HandleAddedItemPlacement(itemData, inventoryItem);
+            HandleAddedItemPlacement(itemData, inventoryItem);
 
-            PlaceItemInInventory(inventoryItem);
+            
             UpdateSlotsCounter();
             GameEventsManager.Instance.InventoryEvents.ItemAdded(itemDataSO.Id);
         }
@@ -111,8 +111,8 @@ public class InventoryManager : MonoBehaviour
             InventoryItem inventoryItem = Instantiate(inventoryItemPrefab, canvasTransform);
             inventoryItem.InitializeItem(itemData);
 
-            //HandleAddedItemPlacement(itemData, inventoryItem);
-            PlaceItemInInventory(inventoryItem);
+            HandleAddedItemPlacement(itemData, inventoryItem);
+           
             UpdateSlotsCounter();
             GameEventsManager.Instance.InventoryEvents.ItemAdded(itemDataSO.Id);
         }
@@ -122,14 +122,19 @@ public class InventoryManager : MonoBehaviour
     {
         if (itemData.HasItemTag(ItemTag.Weapon))
         {
-            //Try to place in weapon slots first
-            if (!TryPlaceInWeaponSlot(WeaponSlot1, inventoryItem))
+            bool placedInWeaponSlot = false;
+
+            //Try to place item in slot1
+            placedInWeaponSlot = TryPlaceInWeaponSlot(WeaponSlot1, inventoryItem);
+
+            //If slot1 occupied try slot2
+            if (!placedInWeaponSlot)
             {
-                TryPlaceInWeaponSlot(WeaponSlot2, inventoryItem);
+                placedInWeaponSlot = TryPlaceInWeaponSlot(WeaponSlot2, inventoryItem);
             }
 
-            //If both slots occupied
-            if (!TryPlaceInWeaponSlot(WeaponSlot1, inventoryItem) && !TryPlaceInWeaponSlot(WeaponSlot2, inventoryItem))
+            //If both weapon slots are occupied place in the inventory
+            if (!placedInWeaponSlot)
             {
                 PlaceItemInInventory(inventoryItem);
             }
@@ -147,6 +152,7 @@ public class InventoryManager : MonoBehaviour
         if (emptySlot != null)
         {
             weaponSlot.PlaceItem(inventoryItem, emptySlot.Value.x, emptySlot.Value.y);
+            HandleEquipmentPlace((Vector2Int)emptySlot, weaponSlot, inventoryItem);
             return true;
         }
         return false;
@@ -180,7 +186,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (CurrentItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y))
         {
-            HandleEquipmentPlace(tileGridPosition, CurrentItemGrid);
+            HandleEquipmentPlace(tileGridPosition, CurrentItemGrid, selectedItem);
 
             selectedItem = null;
             selectedItemGrid = null;
@@ -198,27 +204,27 @@ public class InventoryManager : MonoBehaviour
         {
             Vector2Int initialPos = new Vector2Int(selectedItem.PositionOnGridX, selectedItem.PositionOnGridY);
             selectedItemGrid.PlaceItem(selectedItem, initialPos.x, initialPos.y);
-            HandleEquipmentPlace(initialPos, selectedItem.CurrentGrid);
+            HandleEquipmentPlace(initialPos, selectedItem.CurrentGrid, selectedItem);
             selectedItem = null;
             selectedItemGrid = null;
             UpdateSlotsCounter();
         }
     }
 
-    private void HandleEquipmentPlace(Vector2Int tileGridPosition, ItemGrid grid)
+    private void HandleEquipmentPlace(Vector2Int tileGridPosition, ItemGrid grid, InventoryItem inventoryItem)
     {
         if (grid == WeaponSlot1)
         {
-            playerEquipment.InstantiateEquipment(selectedItem.ItemData, 0);
+            playerEquipment.InstantiateEquipment(inventoryItem.ItemData, 0);
         }
         else if (grid == WeaponSlot2)
         {
-            playerEquipment.InstantiateEquipment(selectedItem.ItemData, 1);
+            playerEquipment.InstantiateEquipment(inventoryItem.ItemData, 1);
         }
         else if (grid == ConsumablesSlots)
         {
             int slotIndex = tileGridPosition.x + 2;
-            playerEquipment.InstantiateEquipment(selectedItem.ItemData, slotIndex);
+            playerEquipment.InstantiateEquipment(inventoryItem.ItemData, slotIndex);
         }
     }
 
@@ -254,7 +260,11 @@ public class InventoryManager : MonoBehaviour
 
     private void DropItem(InventoryItem selectedItem)
     {
-        if (selectedItem.ItemData.HasItemTag(ItemTag.NotDroppable)) return;
+        if (selectedItem.ItemData.HasItemTag(ItemTag.NotDroppable))
+        {
+            ReturnSelectedItemBack();
+            return;
+        }
 
         ItemData itemData = selectedItem.ItemData;
         Item item = Instantiate(itemData.ItemDataSO.Prefab, Player.transform.position, Quaternion.identity);
