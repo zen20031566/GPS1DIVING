@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public PlayerController PlayerController;
     public PlayerEquipment PlayerEquipment;
     public PlayerOxygen PlayerOxygen;
+    public PlayerHealth PlayerHealth;
 
     public PlayerStateMachine PlayerStateMachine;
     public OnLandState OnLandState;
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         PlayerController = GetComponent<PlayerController>();
+        PlayerHealth = GetComponent<PlayerHealth>();
         PlayerStateMachine = new PlayerStateMachine();
 
         OnLandState = new OnLandState(PlayerStateMachine, this);
