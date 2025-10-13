@@ -5,12 +5,12 @@ public class PauseUI : MonoBehaviour
 {
     public bool isPaused = false;
 
-    private void OnEnable()
+    private void OnEnable() //pause
     {
         PauseGame();
     }
 
-    private void OnDisable()
+    private void OnDisable() //resume
     {
         ResumeGame();
     }
