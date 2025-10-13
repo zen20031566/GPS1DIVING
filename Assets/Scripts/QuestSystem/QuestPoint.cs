@@ -1,20 +1,26 @@
+using NUnit.Framework;
 using UnityEngine;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(CircleCollider2D))]
 
 public class QuestPoint : MonoBehaviour, IInteractable
 {
-    [SerializeField] private QuestInfoSO questInfoForPoint;
+    private QuestInfoSO questInfoForPoint;
     [SerializeField] private QuestIcon questIcon;
+    [SerializeField] private List<QuestInfoSO> allQuestsForPoint = new();
+
     public bool CanInteract { get; set; } = true;
-
     private string questId;
-
     private QuestState currentQuestState;
+    private int questIndex = 0;
 
     private void Awake()
     {
-        questId = questInfoForPoint.Id;
+        if (allQuestsForPoint.Count != 0)
+        {
+            questId = allQuestsForPoint[questIndex].Id;
+        }
     }
 
     private void OnEnable()
@@ -39,6 +45,19 @@ public class QuestPoint : MonoBehaviour, IInteractable
         }
     }
 
+    private void CheckProceedToNextQuest()
+    {
+        if (currentQuestState.Equals(QuestState.FINISHED))
+        {
+            questIndex++;
+            
+            if (allQuestsForPoint[questIndex] != null)
+            {
+                questId = allQuestsForPoint[questIndex].Id;
+            }
+        }
+    }
+
     private void QuestStateChange(Quest quest)
     {
         if (quest.Info.Id.Equals(questId))
@@ -47,6 +66,8 @@ public class QuestPoint : MonoBehaviour, IInteractable
             Debug.Log("Quest with id: " + questId + " updated to state: " + currentQuestState);
 
             questIcon.SetState(currentQuestState);
+
+            CheckProceedToNextQuest();
         }
     }
 }

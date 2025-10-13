@@ -10,17 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb56f15c0a66c1d4b84b47a2dc04a3d9, type: 3}
-  m_Name: QUEST_MAIN_01
+  m_Name: QUEST_MAIN_02
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: QUEST_MAIN_01
-  DisplayName: Cleaning up the ocean
-  QuestPrerequisites: []
+  <Id>k__BackingField: QUEST_MAIN_02
+  DisplayName: Exploring The Ocean
+  QuestPrerequisites:
+  - {fileID: 11400000, guid: f96c9fdbb3e8ad84681a488d70cea309, type: 2}
   QuestStepConfigs:
-  - stepType: 0
-    description: 
-    itemsToCollect:
-    - Id: 0
-      RequiredAmount: 1
-    targetPosition: {x: 0, y: 0}
-    triggerRadius: 0
-  GoldReward: 100
+  - stepType: 1
+    description: Go Deeper
+    itemsToCollect: []
+    targetPosition: {x: 0, y: -150}
+    triggerRadius: 20
+  GoldReward: 123

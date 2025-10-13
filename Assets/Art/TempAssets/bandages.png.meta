@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      bandages_0: 2699149977525395511
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

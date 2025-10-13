@@ -29,7 +29,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] Vector2Int weaponSlotSize = new Vector2Int(3, 2); //Maybe change in the future cause u dont want limit weapon size? new class of innventory slot idk
     [SerializeField] Vector2Int consumablesSlotsSize = new Vector2Int(3, 1);
 
-    private Player player;
+    public Player Player;
     private PlayerEquipment playerEquipment;
 
     private void Start()
@@ -38,8 +38,8 @@ public class InventoryManager : MonoBehaviour
         WeaponSlot1.InitializeGrid(weaponSlotSize.x, weaponSlotSize.y, this);
         WeaponSlot2.InitializeGrid(weaponSlotSize.x, weaponSlotSize.y, this);
         ConsumablesSlots.InitializeGrid(consumablesSlotsSize.x, consumablesSlotsSize.y, this);
-        player = GameManager.Instance.Player;
-        playerEquipment = player.PlayerEquipment;
+        Player = GameManager.Instance.Player;
+        playerEquipment = Player.PlayerEquipment;
         UpdateSlotsCounter();
     }
 
@@ -53,10 +53,10 @@ public class InventoryManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.I))
         {
-            GameEventsManager.Instance.GameUIEvents.OpenMenu("Inventory", player);
+            GameEventsManager.Instance.GameUIEvents.OpenMenu("Inventory", Player);
         }
 
-        if (player.PlayerStateMachine.CurrentState != player.OnUIOrDialog) return;
+        if (Player.PlayerStateMachine.CurrentState != Player.OnUIOrDialog) return;
 
         if (InputManager.LeftClickPressed)
         {
@@ -210,7 +210,7 @@ public class InventoryManager : MonoBehaviour
     private void DropItem(InventoryItem selectedItem)
     {
         ItemData itemData = selectedItem.ItemData;
-        Item item = Instantiate(itemData.ItemDataSO.Prefab, player.transform.position, Quaternion.identity);
+        Item item = Instantiate(itemData.ItemDataSO.Prefab, Player.transform.position, Quaternion.identity);
         item.InitializeItem(itemData.ItemDataSO);
 
         RemoveItem(selectedItem, selectedItemGrid);

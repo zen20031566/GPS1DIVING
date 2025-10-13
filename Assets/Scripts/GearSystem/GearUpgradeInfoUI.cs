@@ -9,7 +9,7 @@ public class GearUpgradeInfoUI : MonoBehaviour
     [SerializeField] private TMP_Text lvlText;
     [SerializeField] private TMP_Text descriptionText;
 
-    public void Initialize(GearUpgrade gearUpgrade)
+    public void UpdateGearInfo(GearUpgrade gearUpgrade)
     {
         Icon.sprite = gearUpgrade.GearUpgradeData.Icon;
         displayNameText.text = gearUpgrade.GearUpgradeData.DisplayName;
@@ -17,7 +17,7 @@ public class GearUpgradeInfoUI : MonoBehaviour
         descriptionText.text = gearUpgrade.Description;
     }
 
-    public void InitializeNextUpgrade(GearUpgrade gearUpgrade)
+    public void UpdateNextGearUpgradeInfo(GearUpgrade gearUpgrade)
     {
         Icon.sprite = gearUpgrade.GearUpgradeData.Icon;
         displayNameText.text = gearUpgrade.GearUpgradeData.DisplayName;
