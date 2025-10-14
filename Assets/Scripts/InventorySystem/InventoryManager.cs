@@ -94,7 +94,7 @@ public class InventoryManager : MonoBehaviour
 
             
             UpdateSlotsCounter();
-            GameEventsManager.Instance.InventoryEvents.ItemAdded(itemDataSO.Id);
+            GameEventsManager.Instance.InventoryEvents.ItemAdded(itemData);
         }
     }
 
@@ -114,7 +114,7 @@ public class InventoryManager : MonoBehaviour
             HandleAddedItemPlacement(itemData, inventoryItem);
            
             UpdateSlotsCounter();
-            GameEventsManager.Instance.InventoryEvents.ItemAdded(itemDataSO.Id);
+            GameEventsManager.Instance.InventoryEvents.ItemAdded(itemData);
         }
     }
 
@@ -252,7 +252,7 @@ public class InventoryManager : MonoBehaviour
 
         UpdateSlotsCounter();
 
-        GameEventsManager.Instance.InventoryEvents.ItemRemoved(inventoryItem.ItemData.ItemDataSO.Id);
+        GameEventsManager.Instance.InventoryEvents.ItemDropped(inventoryItem.ItemData);
 
         Destroy(inventoryItem.gameObject);
 

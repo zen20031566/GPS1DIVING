@@ -17,10 +17,13 @@ public class Player : MonoBehaviour
     public InUIOrDialog OnUIOrDialog;
 
     public GameObject PlayerHead;
+    public GameObject PlayerBody;
 
     private void Awake()
     {
         PlayerController = GetComponent<PlayerController>();
+        PlayerEquipment = GetComponent<PlayerEquipment>();
+        PlayerOxygen = GetComponent<PlayerOxygen>();
         PlayerHealth = GetComponent<PlayerHealth>();
         PlayerStateMachine = new PlayerStateMachine();
 

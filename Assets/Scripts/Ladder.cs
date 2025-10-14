@@ -20,26 +20,36 @@ public class Ladder : MonoBehaviour, IInteractable
         
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    //private void OnTriggerStay2D(Collider2D other)
+    //{
+    //    if (player == null) return;
+
+    //    if (other.CompareTag("Player"))
+    //    {
+    //        //Calculate if player's bottom is above platform's top
+    //        float playerBottom = other.bounds.min.y;
+    //        float playerMiddle = other.bounds.center.y;
+    //        float platformTop = GetComponent<Collider2D>().bounds.max.y;
+    //        float platformBottom = GetComponent<Collider2D>().bounds.min.y;
+
+    //        if (playerBottom >= platformTop - 0.1f)
+    //        {
+    //            player.PlayerStateMachine.ChangeState(player.OnLandState);
+    //        }
+    //        else if (playerMiddle <= platformBottom - 0.5)
+    //        {
+    //            player.PlayerStateMachine.ChangeState(player.InWaterState);
+    //        }
+    //    }
+    //}
+
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (player == null) return;
 
-        if (other.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
         {
-            //Calculate if player's bottom is above platform's top
-            float playerBottom = other.bounds.min.y;
-            float playerMiddle = other.bounds.center.y;
-            float platformTop = GetComponent<Collider2D>().bounds.max.y;
-            float platformBottom = GetComponent<Collider2D>().bounds.min.y;
-
-            if (playerBottom >= platformTop - 0.1f)
-            {
-                player.PlayerStateMachine.ChangeState(player.OnLandState);
-            }
-            else if (playerMiddle <= platformBottom - 0.5)
-            {
-                player.PlayerStateMachine.ChangeState(player.InWaterState);
-            }
+            player.PlayerStateMachine.ChangeState(player.OnLandState);
         }
     }
 }

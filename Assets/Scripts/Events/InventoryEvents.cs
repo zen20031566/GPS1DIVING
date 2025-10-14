@@ -2,18 +2,18 @@ using System;
 
 public class InventoryEvents
 {
-    public event Action<int> OnItemAdded;
-    public event Action<int> OnItemRemoved;
+    public event Action<ItemData> OnItemAdded;
+    public event Action<ItemData> OnItemDropped;
     public event Action OnInventoryClosed;
 
-    public void ItemAdded(int id)
+    public void ItemAdded(ItemData itemData)
     {
-        OnItemAdded?.Invoke(id);
+        OnItemAdded?.Invoke(itemData);
     }
 
-    public void ItemRemoved(int id)
+    public void ItemDropped(ItemData itemData)
     {
-        OnItemRemoved?.Invoke(id);
+        OnItemDropped?.Invoke(itemData);
     }
 
     public void InventoryClose()

@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
         {
             float targetAngle = Mathf.Atan2(moveDir.y, moveDir.x) * Mathf.Rad2Deg;
             targetAngle -= headRotationOffset; //Add the head offset to have the head facing forward
-
+            
             //Smoothly rotate 
             float currentAngle = transform.eulerAngles.z;
             float newAngle = Mathf.LerpAngle(currentAngle, targetAngle, moveRotationSmoothing);
@@ -95,20 +95,15 @@ public class PlayerController : MonoBehaviour
         float currentAngle = transform.eulerAngles.z;
         float newAngle = Mathf.LerpAngle(currentAngle, 0, moveRotationSmoothing);
         transform.rotation = Quaternion.Euler(0, 0, newAngle);
+        player.PlayerHead.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     private void FlipSprite(Vector2 moveDir)
     {
-        if (IsFacingRight && moveDir.x < 0)
-        {
-            IsFacingRight = false;
-            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-        }
-        else if (!IsFacingRight && moveDir.x > 0)
-        {
-            IsFacingRight = true;
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
-        }
+        IsFacingRight = !IsFacingRight;
+        Vector3 newScale = transform.localScale;
+        newScale.x = Mathf.Abs(newScale.x) * (IsFacingRight ? 1 : -1);
+        transform.localScale = newScale; 
     }
 
     public void Turn(Vector2 moveDir)
@@ -121,10 +116,12 @@ public class PlayerController : MonoBehaviour
         if ((isMovingRight && !IsFacingRight) || (isMovingLeft && IsFacingRight))
         {
             //Only flip during substantial horizontal movement
-            if (Mathf.Abs(moveDir.x) > 0.7f)
-            {
-                FlipSprite(moveDir);
-            }
+            //if (Mathf.Abs(moveDir.x) > 0.7f)
+            //{
+            //    FlipSprite(moveDir);
+            //}
+
+            FlipSprite(moveDir);
         }
     }
 

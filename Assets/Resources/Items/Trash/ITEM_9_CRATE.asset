@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a762804b266e34a837100982f51631, type: 3}
   m_Name: ITEM_9_CRATE
   m_EditorClassIdentifier: 
-  Id: 10
+  Id: 9
   DisplayName: Crate
   DisplaySprite: {fileID: 7499154508442906066, guid: a5313d57f1cc15d44965b30c26ca0552, type: 3}
   InventorySprite: {fileID: 7499154508442906066, guid: a5313d57f1cc15d44965b30c26ca0552, type: 3}

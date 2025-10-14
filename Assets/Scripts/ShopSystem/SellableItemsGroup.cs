@@ -14,13 +14,13 @@ public class SellableItemsGroup : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEventsManager.Instance.InventoryEvents.OnItemRemoved += UpdateSellItems;
+        GameEventsManager.Instance.InventoryEvents.OnItemDropped += UpdateSellItems;
         UpdateSellItems();
     }
 
     private void OnDisable()
     {
-        GameEventsManager.Instance.InventoryEvents.OnItemRemoved -= UpdateSellItems;
+        GameEventsManager.Instance.InventoryEvents.OnItemDropped -= UpdateSellItems;
     }
 
     public void InitializeGroup(ShopManager shopManager)
@@ -31,7 +31,7 @@ public class SellableItemsGroup : MonoBehaviour
         UpdateSellItems();
     }
 
-    private void UpdateSellItems(int id = 0) //for future use maybe if only want to sell a specific item
+    private void UpdateSellItems(ItemData itemData = null) //for future use maybe if only want to sell a specific item
     {
         sellableQuantityMap.Clear();
         totalSaleValue = 0;

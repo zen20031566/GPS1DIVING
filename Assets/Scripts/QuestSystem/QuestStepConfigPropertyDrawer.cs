@@ -30,6 +30,13 @@ public class QuestStepConfigPropertyDrawer : PropertyDrawer
             switch ((QuestStepType)stepTypeProp.enumValueIndex)
             {
                 case QuestStepType.COLLECT_ITEM:
+                    currentY = DrawProperty(property, "collectByItemTag", position, currentY);
+
+                    //Set the static flag for RequiredAmountPairPropertyDrawer 
+                    SerializedProperty collectByItemTagProp = property.FindPropertyRelative("collectByItemTag");
+                    bool collectByItemTag = collectByItemTagProp.boolValue;
+                    RequiredAmountPairPropertyDrawer.CurrentCollectByItemTag = collectByItemTag;
+
                     currentY = DrawProperty(property, "itemsToCollect", position, currentY);
                     break;
 
@@ -74,6 +81,7 @@ public class QuestStepConfigPropertyDrawer : PropertyDrawer
         switch ((QuestStepType)stepTypeProp.enumValueIndex)
         {
             case QuestStepType.COLLECT_ITEM:
+                height += GetPropertyHeight(property, "collectByItemTag") + verticalSpacing;
                 height += GetPropertyHeight(property, "itemsToCollect") + verticalSpacing;
                 break;
 

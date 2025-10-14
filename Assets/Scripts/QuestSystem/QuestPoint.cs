@@ -51,7 +51,7 @@ public class QuestPoint : MonoBehaviour, IInteractable
         {
             questIndex++;
             
-            if (allQuestsForPoint[questIndex] != null)
+            if (questIndex < allQuestsForPoint.Count)
             {
                 questId = allQuestsForPoint[questIndex].Id;
             }

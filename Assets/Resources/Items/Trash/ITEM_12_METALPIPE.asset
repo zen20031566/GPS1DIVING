@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a762804b266e34a837100982f51631, type: 3}
   m_Name: ITEM_12_METALPIPE
   m_EditorClassIdentifier: 
-  Id: 10
+  Id: 12
   DisplayName: Metal Pipe
   DisplaySprite: {fileID: 8185194049609463313, guid: 96132e6a073570546bf75d72a8f300a9, type: 3}
   InventorySprite: {fileID: 8185194049609463313, guid: 96132e6a073570546bf75d72a8f300a9, type: 3}

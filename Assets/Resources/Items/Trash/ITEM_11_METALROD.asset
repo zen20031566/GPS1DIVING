@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a762804b266e34a837100982f51631, type: 3}
   m_Name: ITEM_11_METALROD
   m_EditorClassIdentifier: 
-  Id: 10
+  Id: 11
   DisplayName: Metal Rod
   DisplaySprite: {fileID: -2734093574386947678, guid: c090013a0f6ebdd4e98d505784f8b83d, type: 3}
   InventorySprite: {fileID: -2734093574386947678, guid: c090013a0f6ebdd4e98d505784f8b83d, type: 3}

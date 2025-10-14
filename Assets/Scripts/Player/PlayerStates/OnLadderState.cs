@@ -6,6 +6,7 @@ public class OnLadderState : PlayerState
 
     public override void EnterState()
     {
+        player.PlayerController.Rb.gravityScale = 0;
         player.PlayerController.Rb.linearVelocity = Vector2.zero;   
         player.transform.rotation = Quaternion.identity;
     }
@@ -22,7 +23,6 @@ public class OnLadderState : PlayerState
 
     public override void PhysicsUpdate()
     {
-        player.PlayerController.Rb.gravityScale = 0;
         player.PlayerController.LadderMove(InputManager.MoveDirection);
     }
 }
