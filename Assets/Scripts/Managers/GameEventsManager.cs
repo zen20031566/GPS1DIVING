@@ -12,7 +12,8 @@ public class GameEventsManager : MonoBehaviour
     public InventoryEvents InventoryEvents { get; set; }
     public ShopEvents ShopEvents { get; set; }
     public GoldEvents GoldEvents { get; set; }
-    public EnemyEvents EnemyEvents { get; set; }  
+    public EnemyEvents EnemyEvents { get; set; }
+    public DialogueEvents DialogueEvents { get; set; }  
 
     private void Awake()
     {
@@ -33,5 +34,6 @@ public class GameEventsManager : MonoBehaviour
         ShopEvents = new ShopEvents();
         GoldEvents = new GoldEvents();
         EnemyEvents = new EnemyEvents();
+        DialogueEvents = new DialogueEvents();
     }
 }
