@@ -22,15 +22,12 @@ MonoBehaviour:
     itemsToCollect:
     - Id: 0
       ItemTag: 0
-      RequiredAmount: 1
-    targetPosition: {x: 0, y: 0}
-    triggerRadius: 0
-  - stepType: 0
-    description: 
-    collectByItemTag: 1
-    itemsToCollect:
-    - Id: 0
-      ItemTag: 5
+      RequiredAmount: 3
+    - Id: 1
+      ItemTag: 0
+      RequiredAmount: 3
+    - Id: 2
+      ItemTag: 0
       RequiredAmount: 3
     targetPosition: {x: 0, y: 0}
     triggerRadius: 0
