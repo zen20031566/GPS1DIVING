@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
     private Player player;
     private SpriteRenderer spriteRenderer;
     public Rigidbody2D Rb { get; private set; }
-    private bool isFacingRight;
+    public bool IsFacingRight;
 
     //Collision checks
     [SerializeField] private float groundDetectionRayLength = 0.02f;
@@ -96,10 +97,18 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, newAngle);
     }
 
-    private void FlipSprite()
+    private void FlipSprite(Vector2 moveDir)
     {
-        isFacingRight = !isFacingRight;
-        spriteRenderer.flipX = !isFacingRight;
+        if (IsFacingRight && moveDir.x < 0)
+        {
+            IsFacingRight = false;
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        }
+        else if (!IsFacingRight && moveDir.x > 0)
+        {
+            IsFacingRight = true;
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        }
     }
 
     public void Turn(Vector2 moveDir)
@@ -109,12 +118,12 @@ public class PlayerController : MonoBehaviour
         bool isMovingLeft = moveDir.x < -0.1f;
 
         //Only flip when changing horizontal direction significantly
-        if ((isMovingRight && !isFacingRight) || (isMovingLeft && isFacingRight))
+        if ((isMovingRight && !IsFacingRight) || (isMovingLeft && IsFacingRight))
         {
             //Only flip during substantial horizontal movement
             if (Mathf.Abs(moveDir.x) > 0.7f)
             {
-                FlipSprite();
+                FlipSprite(moveDir);
             }
         }
     }
