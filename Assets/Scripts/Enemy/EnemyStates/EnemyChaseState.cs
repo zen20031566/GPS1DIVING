@@ -33,26 +33,8 @@ public class EnemyChaseState : EnemyState
 
     public override void FixedUpdate()
     {
-        // Move towards player at chase speed, but respect depth boundaries
+        // Move towards player at chase speed
         Vector2 directionToPlayer = enemy.GetDirectionToPlayer();
-
-        // Check depth boundaries
-        float currentDepth = enemy.transform.position.y;
-        float minDepth = enemy.EnemyData.MinDepth;
-        float maxDepth = enemy.EnemyData.MaxDepth;
-
-        // If at boundary, stop chasing vertically in that direction
-        if (currentDepth >= maxDepth && directionToPlayer.y > 0)
-        {
-            // At shallow limit, can't chase upward - only horizontal
-            directionToPlayer.y = 0;
-        }
-        else if (currentDepth <= minDepth && directionToPlayer.y < 0)
-        {
-            // At deep limit, can't chase downward - only horizontal
-            directionToPlayer.y = 0;
-        }
-
         enemy.Move(directionToPlayer.normalized, enemy.EnemyData.ChaseSpeed);
     }
 
