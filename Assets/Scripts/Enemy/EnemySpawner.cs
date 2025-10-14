@@ -15,7 +15,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Vector2 maxSpawnBounds = new Vector2(100f, 10f);
 
     [Header("Collision Check")]
-    [SerializeField] private float spawnCheckRadius = 0.5f; // Radius to check for obstacles
+    [SerializeField] private float spawnCheckRadius = 1.5f; // Radius to check for obstacles
     [SerializeField] private LayerMask obstacleLayer; // Layer for tiles/ground
 
     [Header("Enemy Data by Depth")]
@@ -32,7 +32,7 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         playerTransform = GameManager.Instance.PlayerTransform;
-        spawnTimer = spawnCheckInterval;
+        spawnTimer = 1f; // Spawn quickly on game start
 
         // Initialize active enemies dictionary
         foreach (DepthLayer layer in System.Enum.GetValues(typeof(DepthLayer)))
@@ -122,16 +122,17 @@ public class EnemySpawner : MonoBehaviour
         (float minDepth, float maxDepth) = GetDepthRange(layer);
 
         // Try to find a valid position
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 20; i++) // Increased attempts
         {
-            // Random angle around player
+            // Random angle around player (full 360 degrees)
             float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
             float distance = Random.Range(minSpawnDistance, spawnRadius);
 
+            // Calculate position around player
             Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
             Vector2 spawnPos = (Vector2)playerTransform.position + offset;
 
-            // Clamp to depth layer
+            // Clamp to depth layer (min is deeper/lower, max is shallower/higher)
             spawnPos.y = Mathf.Clamp(spawnPos.y, minDepth, maxDepth);
 
             // Clamp to world bounds
@@ -139,18 +140,19 @@ public class EnemySpawner : MonoBehaviour
             spawnPos.y = Mathf.Clamp(spawnPos.y, minSpawnBounds.y, maxSpawnBounds.y);
 
             // Check if position is valid (not too close to player)
-            if (Vector2.Distance(spawnPos, playerTransform.position) >= minSpawnDistance)
-            {
-                // Check if position overlaps with obstacles (tiles/ground)
-                Collider2D hit = Physics2D.OverlapCircle(spawnPos, spawnCheckRadius, obstacleLayer);
-                if (hit == null) // No obstacle found, position is clear
-                {
-                    return spawnPos;
-                }
-            }
+            if (Vector2.Distance(spawnPos, playerTransform.position) < minSpawnDistance)
+                continue;
+
+            // Check if position overlaps with obstacles (tiles/ground)
+            Collider2D hit = Physics2D.OverlapCircle(spawnPos, spawnCheckRadius, obstacleLayer);
+            if (hit != null) // Obstacle found, try again
+                continue;
+
+            // Position is valid
+            return spawnPos;
         }
 
-        return Vector2.zero; // Failed to find valid position
+        return Vector2.zero; // Failed to find valid position after all attempts
     }
 
     private void SpawnEnemy(EnemyDataSO enemyData, Vector2 position, DepthLayer layer)
