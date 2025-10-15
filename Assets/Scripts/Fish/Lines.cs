@@ -5,6 +5,8 @@ using UnityEngine.UIElements;
 
 public class Lines : MonoBehaviour
 {
+    Rigidbody2D rb;
+
     [SerializeField] private int segments = 5;
     [SerializeField] private float fovCenterAngle = 90f;
     [SerializeField] private float fovAngle = 90f;
@@ -13,7 +15,7 @@ public class Lines : MonoBehaviour
 
     [SerializeField] private float speed = 5f;
     [SerializeField] private float repelForce = 5f;
-    Rigidbody2D rb;
+  
 
     [SerializeField] private float rotationSpeed = 5f;
     private Vector2 targetDirection;
@@ -29,9 +31,9 @@ public class Lines : MonoBehaviour
    
     private void FixedUpdate()
     {
-        rb.linearVelocity = transform.up * speed;
-        TurnTowardsTarget();
-        HandleObstacle();
+        //rb.linearVelocity = transform.up * speed;
+        //TurnTowardsTarget();
+        //HandleObstacle();
     }
 
     private void TurnTowardsTarget()
@@ -76,8 +78,8 @@ public class Lines : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        
-        //DrawFovLines();
+
+        DrawFovLines();
     }
 
 }
